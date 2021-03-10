@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/25 10:12:57 by epfennig          #+#    #+#             */
-/*   Updated: 2021/02/06 14:49:58 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/03/10 15:43:32 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ long int	ft_noneg(long int nb)
 	return (nb);
 }
 
-int			ft_intlen(long int nb)
+int	ft_intlen(long int nb)
 {
-	int		len;
+	int	len;
 
 	len = 0;
 	if (nb == 0)
@@ -41,15 +41,19 @@ int			ft_intlen(long int nb)
 	return (len);
 }
 
-char		*ft_itoa(int n)
+char	*ft_itoa(int n)
 {
 	int		len;
 	int		sign;
 	char	*str;
 
 	len = ft_intlen(n);
-	sign = (n < 0) ? -1 : 1;
-	if ((str = (char *)malloc(sizeof(char) * (len + 1))) == NULL)
+	if (n < 0)
+		sign = -1;
+	else
+		sign = 1;
+	str = (char *)malloc(sizeof(char) * (len + 1));
+	if (!(str))
 		return (NULL);
 	str[len] = '\0';
 	len--;

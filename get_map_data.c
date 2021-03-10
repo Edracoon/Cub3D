@@ -1,31 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcat.c                                        :+:      :+:    :+:   */
+/*   get_map_data.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/23 13:39:21 by epfennig          #+#    #+#             */
-/*   Updated: 2021/03/10 15:53:30 by epfennig         ###   ########.fr       */
+/*   Created: 2021/03/10 15:28:49 by epfennig          #+#    #+#             */
+/*   Updated: 2021/03/10 17:39:20 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "get_next_line/get_next_line.h"
+#include "cub3d.h"
 
-char	*ft_strcat(char *dest, char *src)
+void	parse_line(char *line, t_data data)
 {
-	int	i;
-	int	j;
+	(void)data;
+	printf("%s", line);
+}
 
-	i = 0;
-	j = 0;
-	while (dest[i] != '\0')
-		i++;
-	while (src[j] != '\0')
+void	get_map_data(char *cub, t_data data)
+{
+	int	fd;
+	int	gnl;
+	char *line;
+
+	gnl = 1;
+	fd = open(cub, O_RDONLY);
+	if (fd == -1)
 	{
-		dest[i + j] = src[j];
-		j++;
+		printf("Error: Can not open file");
+		return ;
 	}
-	dest[i + j] = '\0';
-	return (dest);
+	while (gnl > 0)
+	{
+		gnl = get_next_line(fd, &line);
+		parse_line(line, data);
+	}
 }

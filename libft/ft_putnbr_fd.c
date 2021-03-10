@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 10:21:56 by epfennig          #+#    #+#             */
-/*   Updated: 2021/02/06 14:56:28 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/03/10 15:47:51 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_putnbr_fd(int nb, int fd)
 {
-	unsigned int n;
+	unsigned int	n;
 
 	if (nb < 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 11:52:22 by epfennig          #+#    #+#             */
-/*   Updated: 2021/03/10 13:38:15 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/03/10 17:36:11 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 
-typedef struct	s_data
+typedef struct s_data
 {
 	int		rendu_x;
 	int		rendu_y;
@@ -31,6 +31,9 @@ typedef struct	s_data
 	int		floor_color_g;
 	int		floor_color_b;
 	int		arg_save;
-}				t_data;
+}	t_data;
+
+void	get_map_data(char *cub, t_data data);
+int		main(int ac, char *av[]);
 
 #endif

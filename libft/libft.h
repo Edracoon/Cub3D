@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 13:05:07 by epfennig          #+#    #+#             */
-/*   Updated: 2021/01/27 11:00:15 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/03/10 16:22:57 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-typedef struct		s_list
+typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
-}					t_list;
+}	t_list;
 
 void				ft_putchar(char c);
 void				ft_putstr(char *str);
@@ -36,8 +36,10 @@ size_t				ft_strlcpy(char *dest, const char *src, size_t n);
 size_t				ft_strlcat(char *dest, const char *src, size_t size);
 char				*ft_strchr(const char *s, int c);
 char				*ft_strrchr(const char *s, int c);
+
 char				*ft_strnstr(const char *haystack,
-								const char *needle, size_t len);
+						const char *needle, size_t len);
+
 int					ft_atoi(const char *str);
 int					ft_isalpha(int c);
 int					ft_isdigit(int c);
@@ -72,7 +74,8 @@ void				ft_lstadd_back(t_list **alst, t_list *new);
 void				ft_lstdelone(t_list *lst, void (*del)(void *));
 void				ft_lstclear(t_list **lst, void (*del)(void *));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
+
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
-											void (*del)(void *));
+						void (*del)(void *));
 
 #endif
