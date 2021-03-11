@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 16:53:36 by epfennig          #+#    #+#             */
-/*   Updated: 2021/03/10 17:40:26 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/03/11 11:37:31 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int				ft_strlen2(const char *str)
 	return (i);
 }
 
-char			*ft_strdup(char *src)
+char			*ft_strduplicate(char *src)
 {
 	int			i;
 	char		*dest;
@@ -44,7 +44,7 @@ char			*ft_strdup(char *src)
 	return (dest);
 }
 
-char			*ft_strchr(const char *s, int c)
+char			*ft_strcherche(const char *s, int c)
 {
 	char		*str;
 
@@ -58,7 +58,7 @@ char			*ft_strchr(const char *s, int c)
 	return (str);
 }
 
-char			*ft_substr(char const *s, unsigned int start, size_t len)
+char			*ft_sousstr(char const *s, unsigned int start, size_t len)
 {
 	size_t		i;
 	size_t		j;
@@ -66,7 +66,6 @@ char			*ft_substr(char const *s, unsigned int start, size_t len)
 
 	i = 0;
 	j = 0;
-	printf("%i, %zi", start, len);
 	if (!(dest = (char *)malloc(sizeof(char) * len + 1)))
 		return (NULL);
 	while (s[i] != '\0')
@@ -92,53 +91,21 @@ int				get_next_line(int fd, char **line)
 	if (fd < 0 || fd >= 256 || !line || BUFFER_SIZE <= 0)
 		return (-1);
 	str == NULL ? str = ft_memalloc(1 * sizeof(char)) : NULL;
-	while (!ft_strchr(str, '\n') && (ret = read(fd, buff, BUFFER_SIZE)) > 0)
+	while (!ft_strcherche(str, '\n') && (ret = read(fd, buff, BUFFER_SIZE)) > 0)
 	{
 		buff[ret] = '\0';
-		temp = ft_strjoin(str, buff);
+		temp = ft_stringjoin(str, buff);
 		ft_strfree(&str);
 		str = temp;
 	}
 	if (ret == 0)
-		*line = ft_strdup(str);
+		*line = ft_strduplicate(str);
 	else if (ret > 0)
-		*line = ft_substr(str, 0, (ft_strchr(str, '\n') - str));
+		*line = ft_sousstr(str, 0, (ft_strcherche(str, '\n') - str));
 	else
 		return (-1);
-	temp = ft_strdup(str + (ft_strlen2(*line) + ((ret > 0) ? +1 : +0)));
+	temp = ft_strduplicate(str + (ft_strlen2(*line) + ((ret > 0) ? +1 : +0)));
 	ft_strfree(&str);
 	str = temp;
 	return (ret == 0 ? 0 * ft_strfree(&str) : 1);
 }
-
-/*
-**int			main(int argc, char **argv)
-**{
-**	char	*line;
-**	int		fd;
-**	int		code;
-**	int		len;
-**	int		i;
-**
-**	i = 1;
-**	(void)argc;
-**	printf("BUFF_SIZE = %d\n", BUFFER_SIZE);
-**	printf("___Premier FD___ \n\n");
-**	while (i < argc)
-**	{
-**		if ((fd = open(argv[i], O_RDONLY)) == -1)
-**			write(1, "Erreur, ne peut pas ouvrir le fichier", 25);
-**		while ((code = get_next_line(fd, &line)) > 0)
-**		{
-**			len = ft_strlen(line);
-**			printf("%d - %d - |%s|\n", code, len, line);
-**			free(line);
-**		}
-**		i++;
-**		if (i < argc)
-**			printf("\n___Changement de FD___ \n\n");
-**	}
-**	printf("LAST %d - |%s|\n", code, line);
-**	return (0);
-**}
-*/

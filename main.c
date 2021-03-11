@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 11:46:54 by epfennig          #+#    #+#             */
-/*   Updated: 2021/03/10 17:37:23 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/03/11 16:48:08 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,32 @@ int	check_map_name(char *av)
 	return (0);
 }
 
+void	init_data_struct(t_data *data)
+{
+	data->rendu_x = 0;
+	data->rendu_y = 0;
+	data->floor_color_r = -1;
+	data->floor_color_g = -1;
+	data->floor_color_b = -1;
+	data->ceiling_color_r = -1;
+	data->ceiling_color_g = -1;
+	data->ceiling_color_b = -1;
+	data->arg_save = 0;
+	data->north_text = NULL;
+	data->south_text = NULL;
+	data->west_text = NULL;
+	data->east_text = NULL;
+	data->sprite_text = NULL;
+}
+
 int	main(int ac, char *av[])
 {
-	t_data	data;
+	t_data	*data;
 
+	data = malloc(sizeof(t_data));
+	if (!(data))
+		return (-1);
+	init_data_struct(data);
 	if (ac < 2)
 	{
 		printf("Error: too few arguments\n");
@@ -40,7 +62,7 @@ int	main(int ac, char *av[])
 		return (0);
 	}
 	if (ac == 3 && ft_strncmp(av[2], "--save", ft_strlen(av[2])) == 0)
-		data.arg_save = 1;
+		data->arg_save = 1;
 	else if (ac == 3 && av[2])
 	{
 		printf("Error: av[2] must be '--save'\n");

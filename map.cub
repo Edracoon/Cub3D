@@ -1,17 +1,17 @@
 R 1920 1080
 
-NO ./textures/stone_bricks_north.xpm
-SO ./textures/stone_bricks_south.xpm
-WE ./textures/stone_bricks_west.xpm
-EA ./textures/stone_bricks_east.xpm
+NO textures/stone_bricks_north.xpm
+SO textures/stone_bricks_south.xpm
+WE textures/stone_bricks_west.xpm
+EA textures/stone_bricks_east.xpm
 
-S ./textures/steve64x64.xpm
+S textures/steve64x64.xpm
 
 F 220,100,0
 C 225,30,0
 
 11111111111111111111111111
 10000000000110000000000001
-10010001000000000200000001
+10010001000000000000000001
 1001000000000N000000000001
 11111111111111111111111111

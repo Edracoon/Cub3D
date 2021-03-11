@@ -6,13 +6,13 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 10:56:45 by epfennig          #+#    #+#             */
-/*   Updated: 2021/03/10 17:40:03 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/03/11 11:32:45 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char			*ft_strjoin(char const *s1, char const *s2)
+char			*ft_stringjoin(char const *s1, char const *s2)
 {
 	int			i;
 	int			j;

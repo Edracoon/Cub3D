@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 11:52:22 by epfennig          #+#    #+#             */
-/*   Updated: 2021/03/10 17:36:11 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/03/11 16:51:07 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,18 @@ typedef struct s_data
 	int		floor_color_r;
 	int		floor_color_g;
 	int		floor_color_b;
+	int		ceiling_color_r;
+	int		ceiling_color_g;
+	int		ceiling_color_b;
 	int		arg_save;
 }	t_data;
 
-void	get_map_data(char *cub, t_data data);
+void	get_map_data(char *cub, t_data *data);
 int		main(int ac, char *av[]);
+void	resolution_data(char *line, t_data *data);
+void	north_text_data(char *line, t_data *data);
+void	east_text_data(char *line, t_data *data);
+void	west_text_data(char *line, t_data *data);
+void	south_text_data(char *line, t_data *data);
 
 #endif
