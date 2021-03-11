@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 11:52:22 by epfennig          #+#    #+#             */
-/*   Updated: 2021/03/11 16:51:07 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/03/11 18:11:02 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ typedef struct s_data
 
 void	get_map_data(char *cub, t_data *data);
 int		main(int ac, char *av[]);
-void	resolution_data(char *line, t_data *data);
-void	north_text_data(char *line, t_data *data);
-void	east_text_data(char *line, t_data *data);
-void	west_text_data(char *line, t_data *data);
-void	south_text_data(char *line, t_data *data);
+int		resolution_data(char *line, t_data *data);
+int		north_text_data(char *line, t_data *data);
+int		east_text_data(char *line, t_data *data);
+int		west_text_data(char *line, t_data *data);
+int		south_text_data(char *line, t_data *data);
 
 #endif

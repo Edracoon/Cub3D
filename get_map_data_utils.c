@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_map_data_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 16:05:45 by epfennig          #+#    #+#             */
-/*   Updated: 2021/03/11 16:52:42 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/03/11 18:13:45 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "cub3d.h"
 #include "libft/libft.h"
 
-void	resolution_data(char *line, t_data *data)
+int	resolution_data(char *line, t_data *data)
 {
 	char	**split;
 
@@ -23,10 +23,12 @@ void	resolution_data(char *line, t_data *data)
 	data->rendu_y = ft_atoi(split[2]);
 	free(split);
 	printf("x = %i | y = %i\n", data->rendu_x, data->rendu_y);
-	return ;
+	if (data->rendu_x > 0 && data->rendu_y > 0)
+		return (1);
+	return (0);
 }
 
-void	north_text_data(char *line, t_data *data)
+int	north_text_data(char *line, t_data *data)
 {
 	char	**split;
 
@@ -34,10 +36,12 @@ void	north_text_data(char *line, t_data *data)
 	data->north_text = split[1];
 	free(split);
 	printf("data->north_text = %s\n", data->north_text);
-	return ;
+	if (ft_strlen(data->north_text) > 0)
+		return (1);
+	return (0);
 }
 
-void	east_text_data(char *line, t_data *data)
+int	east_text_data(char *line, t_data *data)
 {
 	char	**split;
 
@@ -45,10 +49,12 @@ void	east_text_data(char *line, t_data *data)
 	data->east_text = split[1];
 	free(split);
 	printf("data->east_text = %s\n", data->east_text);
-	return ;
+	if (ft_strlen(data->east_text) > 0)
+		return (1);
+	return (0);
 }
 
-void	west_text_data(char *line, t_data *data)
+int	west_text_data(char *line, t_data *data)
 {
 	char	**split;
 
@@ -56,10 +62,12 @@ void	west_text_data(char *line, t_data *data)
 	data->west_text = split[1];
 	free(split);
 	printf("data->west_text = %s\n", data->west_text);
-	return ;
+	if (ft_strlen(data->west_text) > 0)
+		return (1);
+	return (0);
 }
 
-void	south_text_data(char *line, t_data *data)
+int	south_text_data(char *line, t_data *data)
 {
 	char	**split;
 
@@ -67,5 +75,7 @@ void	south_text_data(char *line, t_data *data)
 	data->south_text = split[1];
 	free(split);
 	printf("data->south_text = %s\n", data->south_text);
-	return ;
+	if (ft_strlen(data->south_text) > 0)
+		return (1);
+	return (0);
 }
