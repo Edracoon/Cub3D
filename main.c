@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 11:46:54 by epfennig          #+#    #+#             */
-/*   Updated: 2021/03/11 16:48:08 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/03/15 16:32:13 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,32 +25,32 @@ int	check_map_name(char *av)
 	return (0);
 }
 
-void	init_data_struct(t_data *data)
+void	init_parse_struct(t_parse *parse)
 {
-	data->rendu_x = 0;
-	data->rendu_y = 0;
-	data->floor_color_r = -1;
-	data->floor_color_g = -1;
-	data->floor_color_b = -1;
-	data->ceiling_color_r = -1;
-	data->ceiling_color_g = -1;
-	data->ceiling_color_b = -1;
-	data->arg_save = 0;
-	data->north_text = NULL;
-	data->south_text = NULL;
-	data->west_text = NULL;
-	data->east_text = NULL;
-	data->sprite_text = NULL;
+	parse->win_x = 0;
+	parse->win_y = 0;
+	parse->floor_r = -1;
+	parse->floor_g = -1;
+	parse->floor_b = -1;
+	parse->ceil_r = -1;
+	parse->ceil_g = -1;
+	parse->ceil_b = -1;
+	parse->arg_save = 0;
+	parse->north_text = NULL;
+	parse->south_text = NULL;
+	parse->west_text = NULL;
+	parse->east_text = NULL;
+	parse->sprite_text = NULL;
 }
 
 int	main(int ac, char *av[])
 {
-	t_data	*data;
+	t_parse	*parse;
 
-	data = malloc(sizeof(t_data));
-	if (!(data))
+	parse = malloc(sizeof(t_parse));
+	if (!(parse))
 		return (-1);
-	init_data_struct(data);
+	init_parse_struct(parse);
 	if (ac < 2)
 	{
 		printf("Error: too few arguments\n");
@@ -62,14 +62,14 @@ int	main(int ac, char *av[])
 		return (0);
 	}
 	if (ac == 3 && ft_strncmp(av[2], "--save", ft_strlen(av[2])) == 0)
-		data->arg_save = 1;
+		parse->arg_save = 1;
 	else if (ac == 3 && av[2])
 	{
 		printf("Error: av[2] must be '--save'\n");
 		return (0);
 	}
 	if (check_map_name(av[1]) == 1)
-		get_map_data(av[1], data);
+		get_map_parse(av[1], parse);
 	else
 		printf("Error: map name is invalid\n");
 	return (0);

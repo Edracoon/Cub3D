@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_map_data->c                                     :+:      :+:    :+:   */
+/*   get_map_parse.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 15:28:49 by epfennig          #+#    #+#             */
-/*   Updated: 2021/03/11 15:25:21 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/03/15 11:40:42 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,79 +14,111 @@
 #include "cub3d.h"
 #include "libft/libft.h"
 
-void	check_valid_map(char *line, t_data *data)
+int	get_fd(char *cub)
 {
-	(void)line;
-	(void)data;
-}
+	int	fd;
 
-int	parse_line(char *line, t_data *data)
-{
-	char **split;
-
-	printf("%s\n", line);
-	if (ft_strnstr(line, "R", ft_strlen(line)))
-		resolution_data(line, data);
-	else if (ft_strnstr(line, "NO", ft_strlen(line)))
-		north_text_data(line, data);
-	else if (ft_strnstr(line, "SO", ft_strlen(line)))
-		south_text_data(line, data);
-	else if (ft_strnstr(line, "WE", ft_strlen(line)))
-		south_text_data(line, data);
-	else if (ft_strnstr(line, "EA", ft_strlen(line)))
-		east_text_data(line, data);
-	else if (ft_strnstr(line, "S", ft_strlen(line)))
-	{
-		split = ft_split(line, ' ');
-		data->sprite_text = split[1];
-		free(split);
-		printf("data->sprite_text = %s\n", data->sprite_text);
-		return (1);
-	}
-	else if (ft_strnstr(line, "F", ft_strlen(line)))
-	{
-		split = ft_split(line, ' ');
-		split = ft_split(split[1], ',');
-		data->floor_color_r = ft_atoi(split[0]);
-		data->floor_color_g = ft_atoi(split[1]);
-		data->floor_color_b = ft_atoi(split[2]);
-		free(split);
-		printf("data->floor_color_r = %i | data->floor_color_g = %i | data->floor_color_b = %i\n", data->floor_color_r, data->floor_color_g, data->floor_color_b);
-		return (1);
-	}
-	else if (ft_strnstr(line, "C", ft_strlen(line)))
-	{
-		split = ft_split(line, ' ');
-		split = ft_split(split[1], ',');
-		data->ceiling_color_r = ft_atoi(split[0]);
-		data->ceiling_color_g = ft_atoi(split[1]);
-		data->ceiling_color_b = ft_atoi(split[2]);
-		free(split);
-		printf("data->ceiling_color_r = %i | data->ceiling_color_g = %i | data->ceiling_color_b = %i\n", data->ceiling_color_r, data->ceiling_color_g, data->ceiling_color_b);
-		return (1);
-	}
-	return (0);
-}
-
-void	get_map_data(char *cub, t_data *data)
-{
-	int		fd;
-	int		gnl;
-	char	*line;
-
-	gnl = 1;
 	fd = open(cub, O_RDONLY);
 	if (fd == -1)
 	{
 		printf("Error: Can not open file");
-		return ;
+		return (-1);
 	}
+	return (fd);
+}
+
+int	check_last_time_cub(t_parse *parse)
+{
+	if (!parse->west_text || !parse->north_text
+		|| !parse->south_text || !parse->east_text
+		|| !parse->sprite_text || parse->floor_r < 0
+		|| parse->floor_g < 0 || parse->floor_b < 0
+		|| parse->ceil_r < 0 || parse->ceil_g < 0
+		|| parse->ceil_b < 0)
+		return (0);
+	return (1);
+}
+
+void	stockage_map(char *line, t_parse *parse, int fd, int gnl)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (gnl > 0)
+	{
+		j = 0;
+		while (line[j] != '\n')
+		{
+			parse->map[i][j] = line[j];
+			j++;
+		}
+		parse->map[i][j] = '\0';
+		printf("%s\n", parse->map[i]);
+		gnl = get_next_line(fd,	&line);
+		i++;
+	}
+	return ;
+}
+
+int	parse_line(char *line, t_parse *parse)
+{
+	int	i;
+
+	i = 0;
+	if (ft_strnstr(line, "R", ft_strlen(line)))
+		i = resolution_parse(line, parse);
+	else if (ft_strnstr(line, "NO", ft_strlen(line)))
+		i = north_text_parse(line, parse);
+	else if (ft_strnstr(line, "SO", ft_strlen(line)))
+		i = south_text_parse(line, parse);
+	else if (ft_strnstr(line, "WE", ft_strlen(line)))
+		i = west_text_parse(line, parse);
+	else if (ft_strnstr(line, "EA", ft_strlen(line)))
+		i = east_text_parse(line, parse);
+	else if (ft_strnstr(line, "S", ft_strlen(line)))
+		i = sprite_text_parse(line, parse);
+	else if (ft_strnstr(line, "F", ft_strlen(line)))
+		i = floor_color_parse(line, parse);
+	else if (ft_strnstr(line, "C", ft_strlen(line)))
+		i = ceiling_color_parse(line, parse);
+	else if (line[i] == '\n' || !ft_strnstr(line, "1", ft_strlen(line)))
+		return (1);
+	else if (ft_strnstr(line, "1", ft_strlen(line)))
+		return (2);
+	return (i);
+}
+
+void	get_map_parse(char *cub, t_parse *parse)
+{
+	int		fd;
+	int		gnl;
+	int		retu;
+	char	*line;
+
+	gnl = 1;
+	fd = get_fd(cub);
+	if (fd == -1)
+		return ;
 	while (gnl > 0)
 	{
 		gnl = get_next_line(fd, &line);
-		parse_line(line, data);
-		if (gnl == 0)
-			printf("Error: data in .cub is invalid\n");
+		retu = parse_line(line, parse);
+		if (retu == 0)
+			break ;
+		if (retu == 2)
+			break ;
 	}
-	printf("%s", line);
+	if (gnl != 0 && retu != 2)
+	{
+		printf("Error: parse in .cub is invalid\n");
+		return ;
+	}
+	if (check_last_time_cub(parse) == 0)
+	{
+		printf("Error: parse in .cub is invalid\n");
+		return ;
+	}
+	stockage_map(line, parse, fd, gnl);
+	mlx_main(parse);
 }
