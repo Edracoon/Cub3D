@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 13:08:40 by epfennig          #+#    #+#             */
-/*   Updated: 2021/03/15 16:42:48 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/03/17 16:58:55 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "cub3d.h"
 #include "libft/libft.h"
 
-void            my_mlx_pixel_put(t_data *data, int x, int y, int color)
+void            my_mlx_pixel_put(t_parse *data, int x, int y, int color)
 {
     char    *dst;
 
@@ -22,69 +22,127 @@ void            my_mlx_pixel_put(t_data *data, int x, int y, int color)
     *(unsigned int*)dst = color;
 }
 
-//nt	key_hook(int keycode, void *key)
+int	ft_mouvement(t_parse *p)
+{
+	printf("x = %i | y = %i\n", p->per_x, p->per_y);
+	if (p->kill_win)
+		mlx_destroy_window(p->mlx, p->mlx_win);
+	if (p->forward)
+	{
+		p->per_y += -8;
+		if (p->map[p->per_y / 64][p->per_x / 64] == '1')
+			p->per_y += 8;
+	}
+	if (p->backward)
+	{
+		p->per_y += 8;
+		if (p->map[p->per_y / 64][p->per_x / 64] == '1')
+			p->per_y += -8;
+	}
+	if (p->rightward)
+	{
+		p->per_x += 8;
+		if (p->map[p->per_y / 64][p->per_x / 64] == '1')
+			p->per_x += -8;
+	}
+	if (p->leftward)
+	{
+		p->per_x += -8;
+		if (p->map[p->per_y / 64][p->per_x / 64] == '1')
+			p->per_x += 8;
+	}
+	return (1);
+}
 
-void	affiche_cube(t_data img, int x, int y, int couleur)
+void		affiche_perso(t_parse *p, int x, int y, int couleur)
 {
 	int max_y;
 	int max_x;
 	int temp;
 
 	temp = y;
-	max_y = y + 30;
-	max_x = x + 30;
+	max_y = y + 8;
+	max_x = x + 8;
 	while (x < max_x)
 	{
 		y = temp;
 		while (y < max_y)
-			my_mlx_pixel_put(&img, x, y++, couleur);
+			my_mlx_pixel_put(p, x, y++, couleur);
 		x++;
 	}
 }
 
-int     mlx_main(t_parse *parse)
+void		affiche_cube(t_parse *p, int x, int y, int couleur)
 {
-	int	x;
-	int y;
-	int	i;
-	int	j;
-	void	*mlx_win;
-	void    *mlx;
-	t_data	img;
+	int max_y;
+	int max_x;
+	int temp;
+	(void)couleur;
+
+	temp = y;
+	max_y = y + 64;
+	max_x = x + 64;
+	while (x < max_x)
+	{
+		y = temp;
+		while (y < max_y)
+		{
+			my_mlx_pixel_put(p, x, y, couleur);
+			if (y == max_y - 1)
+				my_mlx_pixel_put(p, x, y, 000000);
+			if (x == max_x - 1)
+				my_mlx_pixel_put(p, x, y, 000000);
+			y++;
+		}
+		x++;
+	}
+}
+
+int	ft_affiche_image(t_parse *p)
+{
+	int		x;
+	int 	y;
+	int		i;
+	int		j;
 
 	i = 0;
 	j = 0;
-	x = 100;
-	y = 100;
-	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, parse->win_x, parse->win_y, "Cub3D");
-	img.img = mlx_new_image(mlx, parse->win_x, parse->win_y);
-
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
-		&img.endian);
-//	affiche_mur(img, 0, 0);
-//	affiche_vide(img, 0, 50);
-	while (parse->map[i][j])
+	x = 0;
+	y = 0;
+	ft_mouvement(p);
+	while (p->map[i][j])
 	{
-		x = 200;
-		while (parse->map[i][j])
+		x = 0;
+		while (p->map[i][j])
 		{
-			if (parse->map[i][j] == '1')
-				affiche_cube(img, x, y, parse->ceil_color);
-			if (parse->map[i][j] == '0')
-				affiche_cube(img, x, y, parse->floor_color);
-			if (parse->map[i][j] == 'W' || parse->map[i][j] == 'S'
-				|| parse->map[i][j] == 'E' || parse->map[i][j] == 'N')
-				affiche_cube(img, x, y, 0x00ebfe00);
+			if (p->map[i][j] == '1')
+				affiche_cube(p, x, y, p->ceil_color);
+			if (p->map[i][j] == '0')
+				affiche_cube(p, x, y, p->floor_color);
+			affiche_perso(p, p->per_x, p->per_y, 0x00ebfe00);
 			j++;
-			x += 30;
+			x += 64;
 		}
 		j = 0;
-		y += 30;
+		y += 64;
 		i++;
 	}
-	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
-	//mlx_key_hook(mlx_win, key_hook);
-	mlx_loop(mlx);
+	mlx_put_image_to_window(p->mlx, p->mlx_win, p->img, 0, 0);
+	return (0);
+}
+
+int     mlx_main(t_parse *p)
+{
+	p->mlx = mlx_init();
+	p->mlx_win = mlx_new_window(p->mlx, p->win_x, p->win_y, "Cub3D");
+	p->img = mlx_new_image(p->mlx, p->win_x, p->win_y);
+	p->addr = mlx_get_data_addr(p->img, &p->bits_per_pixel, &p->line_length, &p->endian);
+	//mlx_key_hook(p->mlx_win, x_key_hook, p);
+	//mlx_key_hook(p->mlx_win, y_key_hook, p);
+	mlx_hook(p->mlx_win, 2, 1L<<0, key_pressed, p);
+	mlx_hook(p->mlx_win, 3, 1L<<1, key_released, p);
+	mlx_loop_hook(p->mlx, ft_affiche_image, p);
+	mlx_loop(p->mlx);
+	free(p);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 11:46:54 by epfennig          #+#    #+#             */
-/*   Updated: 2021/03/15 16:32:13 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/03/17 14:00:16 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void	init_parse_struct(t_parse *parse)
 {
 	parse->win_x = 0;
 	parse->win_y = 0;
+	parse->per_x = 0;
+	parse->per_y = 0;
 	parse->floor_r = -1;
 	parse->floor_g = -1;
 	parse->floor_b = -1;

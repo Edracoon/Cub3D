@@ -58,6 +58,7 @@ void	stockage_map(char *line, t_parse *parse, int fd, int gnl)
 		gnl = get_next_line(fd,	&line);
 		i++;
 	}
+	parse_map(parse);
 	return ;
 }
 
