@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_map.c                                        :+:      :+:    :+:   */
+/*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/16 11:48:08 by epfennig          #+#    #+#             */
-/*   Updated: 2021/03/23 14:10:27 by epfennig         ###   ########.fr       */
+/*   Created: 2021/03/23 10:40:28 by epfennig          #+#    #+#             */
+/*   Updated: 2021/03/23 17:36:08 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,36 +14,27 @@
 #include "cub3d.h"
 #include "libft/libft.h"
 
-int	find_player(t_parse *p)
+void	raycasting_main(t_parse *p)
 {
-	int	i;
-	int	j;
+	int	x;
+	int	w;
 
-	i = 0;
-	j = 0;
-	while (p->map[i][j])
+	x = 0;
+	w = 64;
+	p->dper_x = p->per_x;
+	p->dper_y = p->per_y;
+	while (x < w)
 	{
-		while (p->map[i][j])
-		{
-			if (p->map[i][j] == 'W' || p->map[i][j] == 'E'
-				|| p->map[i][j] == 'N' || p->map[i][j] == 'S')
-			{
-				p->map[i][j] = '0';
-				p->per_x = j * 8;
-				p->per_y = i * 8;
-				return (1);
-			}
-			j++;
-		}
-		i++;
-		j = 0;
+		p->camx = 2 * x / w - 1;
+		p->raydirx = p->dirx + p->planex * p->camx;
+		p->raydiry = p->diry + p->planey * p->camx;
+		p->mapx = (int)p->dper_x;
+		p->mapy = (int)p->dper_y;
+		p->deltadistx = fabs(1 / p->raydirx);
+		p->deltadisty = fabs(1 / p->raydiry);
+		p->hit = 0;
+		x++;
 	}
-	return (0);
-}
+	printf("raydirx = %f | raydiry = %f camx = %f\n", p->raydirx, p->raydiry, p->camx);
 
-int	parse_map(t_parse *p)
-{
-	if (!find_player(p))
-		return (0);
-	return (1);
 }

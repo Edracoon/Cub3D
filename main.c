@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 11:46:54 by epfennig          #+#    #+#             */
-/*   Updated: 2021/03/17 14:00:16 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/03/23 17:36:11 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,24 +25,31 @@ int	check_map_name(char *av)
 	return (0);
 }
 
-void	init_parse_struct(t_parse *parse)
+void	init_parse_struct(t_parse *p)
 {
-	parse->win_x = 0;
-	parse->win_y = 0;
-	parse->per_x = 0;
-	parse->per_y = 0;
-	parse->floor_r = -1;
-	parse->floor_g = -1;
-	parse->floor_b = -1;
-	parse->ceil_r = -1;
-	parse->ceil_g = -1;
-	parse->ceil_b = -1;
-	parse->arg_save = 0;
-	parse->north_text = NULL;
-	parse->south_text = NULL;
-	parse->west_text = NULL;
-	parse->east_text = NULL;
-	parse->sprite_text = NULL;
+	p->win_x = 0;
+	p->win_y = 0;
+	p->per_x = 0;
+	p->per_y = 0;
+	p->floor_r = -1;
+	p->floor_g = -1;
+	p->floor_b = -1;
+	p->ceil_r = -1;
+	p->ceil_g = -1;
+	p->ceil_b = -1;
+	p->arg_save = 0;
+	p->kill_win = 0;
+	p->forward = 0;
+	p->backward = 0;
+	p->leftward = 0;
+	p->rightward = 0;
+	p->dirx = -1;
+	p->diry = 0;
+	p->north_text = NULL;
+	p->south_text = NULL;
+	p->west_text = NULL;
+	p->east_text = NULL;
+	p->sprite_text = NULL;
 }
 
 int	main(int ac, char *av[])

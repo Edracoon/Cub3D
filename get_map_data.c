@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_map_parse.c                                     :+:      :+:    :+:   */
+/*   get_map_data.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 15:28:49 by epfennig          #+#    #+#             */
-/*   Updated: 2021/03/15 11:40:42 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/03/23 15:37:39 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	stockage_map(char *line, t_parse *parse, int fd, int gnl)
 	while (gnl > 0)
 	{
 		j = 0;
-		while (line[j] != '\n')
+		while (line[j] != '\0')
 		{
 			parse->map[i][j] = line[j];
 			j++;
