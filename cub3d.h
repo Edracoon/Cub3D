@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 11:52:22 by epfennig          #+#    #+#             */
-/*   Updated: 2021/03/23 17:33:52 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/03/24 17:21:11 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # define KEY_S 1
 # define KEY_D 2
 # define KEY_W 13
+# define minimap 16
+# define speed 2
 
 typedef struct s_parse
 {

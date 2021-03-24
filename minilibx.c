@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 13:08:40 by epfennig          #+#    #+#             */
-/*   Updated: 2021/03/23 17:36:10 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/03/24 17:46:54 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ int	ft_mouvement(t_parse *p)
 	int	x_max;
 	int	y_max;
 
-	x_max = p->per_x + 5;
-	y_max = p->per_y + 5;
+	x_max = p->per_x + (minimap / 2);
+	y_max = p->per_y + (minimap / 2);
 	printf("x = %i | y = %i\n", p->per_x, p->per_y);
 	if (p->kill_win)
 	{
@@ -37,30 +37,31 @@ int	ft_mouvement(t_parse *p)
 	}
 	if (p->forward)
 	{
-		p->per_y += -1;
-		if (p->map[p->per_y / 8][p->per_x / 8] == '1' || p->map[p->per_y / 8][(x_max - 1) / 8] == '1')
-			p->per_y += 1;
+		p->per_y += -speed;
+		if (p->map[p->per_y / minimap][p->per_x / minimap] == '1'
+			|| p->map[p->per_y / minimap][(x_max) / minimap] == '1')
+			p->per_y += speed;
 	}
 	if (p->backward)
 	{
-		p->per_y += 1;
-		if (p->map[y_max / 8][p->per_x / 8] == '1'
-			|| p->map[y_max / 8][x_max / 8] == '1')
-			p->per_y += -1;
+		p->per_y += speed;
+		if (p->map[(y_max + speed) / minimap][p->per_x / minimap] == '1'
+			|| p->map[(y_max + speed) / minimap][(x_max) / minimap] == '1')
+			p->per_y += -speed;
 	}
 	if (p->rightward)
 	{
-		p->per_x += 1;
-		if (p->map[p->per_y / 8][x_max / 8] == '1'
-			|| p->map[(y_max - 1) / 8][(x_max + 1) / 8] == '1')
-			p->per_x += -1;
+		p->per_x += speed;
+		if (p->map[p->per_y / minimap][(x_max + speed) / minimap] == '1'
+			|| p->map[y_max / minimap][(x_max + speed) / minimap] == '1')
+			p->per_x += -speed;
 	}
 	if (p->leftward)
 	{
-		p->per_x += -1;
-		if (p->map[p->per_y / 8][p->per_x / 8] == '1'
-			|| p->map[(y_max - 1) / 8][p->per_x / 8] == '1')
-			p->per_x += 1;
+		p->per_x += -speed;
+		if (p->map[p->per_y / minimap][p->per_x / minimap] == '1'
+			|| p->map[(y_max) / minimap][p->per_x / minimap] == '1')
+			p->per_x += speed;
 	}
 	return (1);
 }
@@ -72,12 +73,12 @@ void	affiche_perso(t_parse *p, int x, int y, int couleur)
 	int	temp;
 
 	temp = y;
-	max_y = y + 4;
-	max_x = x + 4;
-	while (x <= max_x)
+	max_y = y + (minimap / 2) + speed - 1;
+	max_x = x + (minimap / 2) + speed - 1;
+	while (x < max_x)
 	{
 		y = temp;
-		while (y <= max_y)
+		while (y < max_y)
 			my_mlx_pixel_put(p, x, y++, couleur);
 		x++;
 	}
@@ -90,17 +91,17 @@ void	affiche_cube(t_parse *p, int x, int y, int couleur)
 	int	temp;
 
 	temp = y;
-	max_y = y + 8;
-	max_x = x + 8;
-	while (x <= max_x)
+	max_y = y + minimap;
+	max_x = x + minimap;
+	while (x < max_x)
 	{
 		y = temp;
-		while (y <= max_y)
+		while (y < max_y)
 		{
 			my_mlx_pixel_put(p, x, y, couleur);
-			if (y == max_y)
+			if (y % (minimap) == 0)
 				my_mlx_pixel_put(p, x, y, 0x00000000);
-			if (x == max_x)
+			if (x % (minimap) == 0)
 				my_mlx_pixel_put(p, x, y, 0x00000000);
 			y++;
 		}
@@ -126,7 +127,27 @@ void	affiche_ray(t_parse *p)
 	x = p->per_x + 50;
 	y = p->per_y + 50;
 	ray_print(x, y, p);
-}*/
+}
+*/
+
+void	affiche_hud(t_parse *p)
+{
+	int y = p->win_y - 64;
+	int x = p->win_x / 3;
+	int c = 0;
+
+	while (x < p->win_x)
+	{
+		while (c <= 6)
+		{
+			my_mlx_pixel_put(p, x, y, 0x00a09c9c);
+			y++;
+			c++;
+		}
+		x += 64;
+		my_mlx_pixel_put(p, x, y, 0x00a09c9c);
+	}
+}
 
 int	ft_affiche_image(t_parse *p)
 {
@@ -149,16 +170,17 @@ int	ft_affiche_image(t_parse *p)
 				affiche_cube(p, x, y, p->ceil_color);
 			if (p->map[i][j] == '0')
 				affiche_cube(p, x, y, p->floor_color);
-			affiche_perso(p, p->per_x, p->per_y, 0x00ebfe00);
+			affiche_perso(p, p->per_x + 1, p->per_y + 1, 0x00ebfe00);
 			//affiche_ray(p);
 			j++;
-			x += 8;
+			x += minimap;
 		}
 		j = 0;
-		y += 8;
+		y += minimap;
 		i++;
 	}
 	raycasting_main(p);
+	affiche_hud(p);
 	mlx_put_image_to_window(p->mlx, p->mlx_win, p->img, 0, 0);
 	return (0);
 }

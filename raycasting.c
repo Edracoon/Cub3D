@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 10:40:28 by epfennig          #+#    #+#             */
-/*   Updated: 2021/03/23 17:36:08 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/03/24 16:20:17 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	raycasting_main(t_parse *p)
 	int	w;
 
 	x = 0;
-	w = 64;
+	w = p->win_x;
 	p->dper_x = p->per_x;
 	p->dper_y = p->per_y;
 	while (x < w)
@@ -35,6 +35,5 @@ void	raycasting_main(t_parse *p)
 		p->hit = 0;
 		x++;
 	}
-	printf("raydirx = %f | raydiry = %f camx = %f\n", p->raydirx, p->raydiry, p->camx);
-
+//	printf("raydirx = %f | raydiry = %f camx = %f\n", p->raydirx, p->raydiry, p->camx);
 }
