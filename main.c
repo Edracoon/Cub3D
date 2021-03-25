@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 11:46:54 by epfennig          #+#    #+#             */
-/*   Updated: 2021/03/24 16:16:15 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/03/25 16:50:28 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@ int	check_map_name(char *av)
 
 void	init_parse_struct(t_parse *p)
 {
+	p->dirx = -1;
+	p->diry = 0;
+	p->planex = 0;
+	p->planey = 0.66;
 	p->win_x = 0;
 	p->win_y = 0;
 	p->per_x = 0;
@@ -43,8 +47,6 @@ void	init_parse_struct(t_parse *p)
 	p->backward = 0;
 	p->leftward = 0;
 	p->rightward = 0;
-	p->dirx = -1;
-	p->diry = 0;
 	p->north_text = NULL;
 	p->south_text = NULL;
 	p->west_text = NULL;

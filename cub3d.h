@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 11:52:22 by epfennig          #+#    #+#             */
-/*   Updated: 2021/03/24 17:21:11 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/03/25 17:40:13 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,9 @@
 # define KEY_S 1
 # define KEY_D 2
 # define KEY_W 13
-# define minimap 16
-# define speed 2
+# define minimap 6
+# define speed 1
+# define rotspeed 3
 
 typedef struct s_parse
 {
@@ -41,7 +42,10 @@ typedef struct s_parse
 	int			backward;
 	int			leftward;
 	int			rightward;
+	int			rot_left;
+	int			rot_right;
 
+	int			raycastx;
 	double		dirx; // position x du vecteur de direction  |
 	double		diry; // position y du vecteur de direction  |--> ce qui fait la direction initiale du vecteur
 	double		planex; // 2D raycaster version de la camera plane
@@ -57,11 +61,14 @@ typedef struct s_parse
 	double		sidedisty; // la distance que le rayon a à parcourir de sa position de depart jusqu'au premier y-side
 	double		deltadistx; // la distance que le rayon a à parcourir depuis un x-side jusqu'au x-side suivant
 	double		deltadisty; // la distance que le rayon a à parcourir depuis un y-side jusqu'au y-side suivant
-	double		walldist; /* distance du mur / longueur du rayon . */
+	double		walldist; // distance du mur / longueur du rayon
 	int			stepx; // soit 1 soit - 1 en fonction de la direction du rayon (-x ou +x)
 	int			stepy; // soit 1 soit - 1 en fonction de la direction du rayon (-x ou +x)
 	int			hit; // un mur a etait touché ? peut on finir la boucle ?
 	int			side; // si un x-side ou un y-side d'un carré est touché. si x, side = 0, si y, side = 1,
+	int			lineheight; // hauteur de la ligne qu'on va dessiner (ligne d'un pixel du mur)
+	int			drawstart; // pos y du haut de la colone du mur qu'on va dessiner
+	int			drawend; // pos y du bas de la colone du mur qu'on va dessiner
 	char		*north_text;
 	char		*south_text;
 	char		*west_text;
@@ -103,6 +110,7 @@ int		ceiling_color_parse(char *line, t_parse *parse);
 
 void	raycasting_main(t_parse *p);
 int		mlx_main(t_parse *parse);
+void	my_mlx_pixel_put(t_parse *data, int x, int y, int color);
 int		parse_map(t_parse *p);
 
 int		key_pressed(int keycode, t_parse *p);

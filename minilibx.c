@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 13:08:40 by epfennig          #+#    #+#             */
-/*   Updated: 2021/03/24 17:46:54 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/03/25 17:40:28 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,13 @@ void	my_mlx_pixel_put(t_parse *data, int x, int y, int color)
 
 int	ft_mouvement(t_parse *p)
 {
-	int	x_max;
-	int	y_max;
+	int		x_max;
+	int		y_max;
+	double	temp;
 
 	x_max = p->per_x + (minimap / 2);
 	y_max = p->per_y + (minimap / 2);
-	printf("x = %i | y = %i\n", p->per_x, p->per_y);
+	printf("[x = %i | y = %i]  [dirx = %f | diry = %f] [planex = %f | planey = %f]\n", p->per_x, p->per_y, p->dirx, p->diry, p->planex, p->planey);
 	if (p->kill_win)
 	{
 		mlx_destroy_window(p->mlx, p->mlx_win);
@@ -62,6 +63,24 @@ int	ft_mouvement(t_parse *p)
 		if (p->map[p->per_y / minimap][p->per_x / minimap] == '1'
 			|| p->map[(y_max) / minimap][p->per_x / minimap] == '1')
 			p->per_x += speed;
+	}
+	if (p->rot_right)
+	{
+		temp = p->dirx;
+		p->dirx = p->dirx * cos(-rotspeed) - p->diry * sin(-rotspeed);
+		p->diry = temp * sin(-rotspeed) + p->diry * cos(-rotspeed);
+		temp = p->planex;
+		p->planex = p->planex * cos(-rotspeed) - p->planey * sin(-rotspeed);
+		p->planey = temp * sin(-rotspeed) + p->planey * cos(-rotspeed);
+	}
+	if (p->rot_left)
+	{
+		temp = p->dirx;
+		p->dirx = p->dirx * cos(rotspeed) - p->diry * sin(rotspeed);
+		p->diry = temp * sin(rotspeed) + p->diry * cos(rotspeed);
+		temp = p->planex;
+		p->planex = p->planex * cos(rotspeed) - p->planey * sin(rotspeed);
+		p->planey = temp * sin(rotspeed) + p->planey * cos(rotspeed);
 	}
 	return (1);
 }
@@ -108,7 +127,7 @@ void	affiche_cube(t_parse *p, int x, int y, int couleur)
 		x++;
 	}
 }
-/*
+
 void	ray_print(int x, int y, t_parse *p)
 {
 	while (x >= p->per_x && y >= p->per_y)
@@ -128,7 +147,8 @@ void	affiche_ray(t_parse *p)
 	y = p->per_y + 50;
 	ray_print(x, y, p);
 }
-*/
+
+
 
 void	affiche_hud(t_parse *p)
 {
@@ -149,18 +169,18 @@ void	affiche_hud(t_parse *p)
 	}
 }
 
+
 int	ft_affiche_image(t_parse *p)
 {
-	int		x;
-	int 	y;
-	int		i;
-	int		j;
+	int	x;
+	int	y;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
 	x = 0;
 	y = 0;
-	ft_mouvement(p);
 	while (p->map[i][j])
 	{
 		x = 0;
@@ -180,7 +200,8 @@ int	ft_affiche_image(t_parse *p)
 		i++;
 	}
 	raycasting_main(p);
-	affiche_hud(p);
+	ft_mouvement(p);
+	//affiche_hud(p);
 	mlx_put_image_to_window(p->mlx, p->mlx_win, p->img, 0, 0);
 	return (0);
 }

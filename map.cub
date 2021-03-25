@@ -1,23 +1,20 @@
 R  1500 800
 
-NO textures/stone_bricks_north.xpm
-SO textures/stone_bricks_south.xpm
-WE textures/stone_bricks_west.xpm
-EA textures/stone_bricks_east.xpm
+NO ./textures/stone_bricks_north.xpm
+SO ./textures/stone_bricks_south.xpm
+WE ./textures/stone_bricks_west.xpm
+EA ./textures/stone_bricks_east.xpm
 
-S textures/steve64x64.xpm
+S ./textures/steve64x64.xpm
 
 C 17,120,100
 F 72,201,176
 
-11111111111111111111
-10000000001000000001
-100000000010000001001
-100011000010001111101
-100011000010000001001
-10000000000111100101
-100100S0000000000101
-10000000000000000001
-1000000010000000001
-100000000000000001
-111111111111111111
+111111111
+100000001
+100000001
+100E00001
+100000001
+100000011
+111111111
+

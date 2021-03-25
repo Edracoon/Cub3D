@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 18:13:16 by marvin            #+#    #+#             */
-/*   Updated: 2021/03/24 17:47:54 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/03/25 16:25:31 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ int	ceiling_color_parse(char *line, t_parse *parse)
 	if (parse->ceil_r >= 0 && parse->ceil_g >= 0
 		&& parse->ceil_b >= 0)
 	{
-		parse->ceil_color = (parse->ceil_r << 16) | (parse->ceil_g << 8) | (parse->ceil_b);
+		parse->ceil_color
+			= (parse->ceil_r << 16) | (parse->ceil_g << 8) | (parse->ceil_b);
 		printf("%x\n", parse->ceil_color);
 		return (1);
 	}
