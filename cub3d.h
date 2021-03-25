@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 11:52:22 by epfennig          #+#    #+#             */
-/*   Updated: 2021/03/25 17:40:13 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/03/25 17:55:31 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # define KEY_S 1
 # define KEY_D 2
 # define KEY_W 13
-# define minimap 6
-# define speed 1
+# define minimap 16
+# define speed 2
 # define rotspeed 3
 
 typedef struct s_parse
