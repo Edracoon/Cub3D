@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 11:52:22 by epfennig          #+#    #+#             */
-/*   Updated: 2021/03/25 17:55:31 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/03/26 16:52:25 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # define KEY_D 2
 # define KEY_W 13
 # define minimap 16
-# define speed 2
-# define rotspeed 3
+# define speed 1
+# define rotspeed 2 * 0.03
 
 typedef struct s_parse
 {
@@ -112,6 +112,7 @@ void	raycasting_main(t_parse *p);
 int		mlx_main(t_parse *parse);
 void	my_mlx_pixel_put(t_parse *data, int x, int y, int color);
 int		parse_map(t_parse *p);
+int	ft_mouvement(t_parse *p);
 
 int		key_pressed(int keycode, t_parse *p);
 int		key_released(int keycode, t_parse *p);

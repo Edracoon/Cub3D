@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 15:48:47 by epfennig          #+#    #+#             */
-/*   Updated: 2021/03/25 17:00:54 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/03/26 17:03:52 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ int	key_pressed(int keycode, t_parse *p)
 		p->rightward = 1;
 	if (keycode == 0)
 		p->leftward = 1;
-	if (keycode == 37)
+	if (keycode == 123)
 		p->rot_left = 1;
-	if (keycode == 39)
+	if (keycode == 124)
 		p->rot_right = 1;
 	return (0);
 }
@@ -45,9 +45,9 @@ int	key_released(int keycode, t_parse *p)
 		p->rightward = 0;
 	if (keycode == 0)
 		p->leftward = 0;
-	if (keycode == 37)
+	if (keycode == 123)
 		p->rot_left = 0;
-	if (keycode == 39)
+	if (keycode == 124)
 		p->rot_right = 0;
 	return (0);
 }

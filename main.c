@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 11:46:54 by epfennig          #+#    #+#             */
-/*   Updated: 2021/03/25 16:50:28 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/03/26 17:03:50 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,12 @@ int	main(int ac, char *av[])
 		parse->arg_save = 1;
 	else if (ac == 3 && av[2])
 	{
-		printf("Error: av[2] must be '--save'\n");
+		printf("Error\n-> arg[2] must be '--save'\n");
 		return (0);
 	}
 	if (check_map_name(av[1]) == 1)
 		get_map_parse(av[1], parse);
 	else
-		printf("Error: map name is invalid\n");
+		printf("Error\n-> map name is invalid\n");
 	return (0);
 }

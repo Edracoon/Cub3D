@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 13:08:40 by epfennig          #+#    #+#             */
-/*   Updated: 2021/03/25 17:54:27 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/03/26 17:03:39 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	ft_mouvement(t_parse *p)
 
 	x_max = p->per_x + (minimap / 2);
 	y_max = p->per_y + (minimap / 2);
+	//p->dper_x = (double)p->per_x;
+	//p->dper_x = (double)p->per_x;
 	printf("[x = %i | y = %i]  [dirx = %f | diry = %f] [planex = %f | planey = %f]\n", p->per_x, p->per_y, p->dirx, p->diry, p->planex, p->planey);
 	if (p->kill_win)
 	{
@@ -38,49 +40,69 @@ int	ft_mouvement(t_parse *p)
 	}
 	if (p->forward)
 	{
-		p->per_y += -speed;
-		if (p->map[p->per_y / minimap][p->per_x / minimap] == '1'
-			|| p->map[p->per_y / minimap][(x_max) / minimap] == '1')
-			p->per_y += speed;
+		if (p->map[((int)p->dper_y) / minimap][((int)(p->dper_x + p->dirx * speed)) / minimap] == '0')
+		{
+			p->per_x += -speed;
+			p->dper_x += p->dirx * speed;
+		}
+		if (p->map[((int)(p->dper_y + p->diry * speed)) / minimap][((int)p->dper_x) / minimap] == '0')
+		{
+			p->per_y += -speed;
+			p->dper_y += p->diry * speed;
+		}
+		//p->per_y += -speed;
+		//if (p->map[p->per_y / minimap][p->per_x / minimap] == '1'
+		//	|| p->map[p->per_y / minimap][(x_max) / minimap] == '1')
+		//	p->per_y += speed;
 	}
 	if (p->backward)
 	{
-		p->per_y += speed;
-		if (p->map[(y_max + speed) / minimap][p->per_x / minimap] == '1'
-			|| p->map[(y_max + speed) / minimap][(x_max) / minimap] == '1')
-			p->per_y += -speed;
-	}
-	if (p->rightward)
-	{
-		p->per_x += speed;
-		if (p->map[p->per_y / minimap][(x_max + speed) / minimap] == '1'
-			|| p->map[y_max / minimap][(x_max + speed) / minimap] == '1')
-			p->per_x += -speed;
-	}
-	if (p->leftward)
-	{
-		p->per_x += -speed;
-		if (p->map[p->per_y / minimap][p->per_x / minimap] == '1'
-			|| p->map[(y_max) / minimap][p->per_x / minimap] == '1')
+		if (p->map[((int)p->dper_y) / minimap][((int)(p->dper_x + p->dirx * speed)) / minimap] == '0')
+		{
 			p->per_x += speed;
+			p->dper_x -= p->dirx * speed;
+		}
+		if (p->map[((int)(p->dper_y + p->diry * speed)) / minimap][((int)p->dper_x) / minimap] == '0')
+		{
+			p->per_y += speed;
+			p->dper_y -= p->diry * speed;
+		}
+		//p->per_y += speed;
+		//if (p->map[(y_max + speed) / minimap][p->per_x / minimap] == '1'
+		//	|| p->map[(y_max + speed) / minimap][(x_max) / minimap] == '1')
+		//	p->per_y += -speed;
 	}
+	//if (p->rightward)
+	//{
+	//	p->per_x += speed;
+	//	if (p->map[p->per_y / minimap][(x_max + speed) / minimap] == '1'
+	//		|| p->map[y_max / minimap][(x_max + speed) / minimap] == '1')
+	//		p->per_x += -speed;
+	//}
+	//if (p->leftward)
+	//{
+	//	p->per_x += -speed;
+	//	if (p->map[p->per_y / minimap][p->per_x / minimap] == '1'
+	//		|| p->map[(y_max) / minimap][p->per_x / minimap] == '1')
+	//		p->per_x += speed;
+	//}
 	if (p->rot_right)
 	{
 		temp = p->dirx;
-		p->dirx = p->dirx * cos(-rotspeed) - p->diry * sin(-rotspeed);
-		p->diry = temp * sin(-rotspeed) + p->diry * cos(-rotspeed);
+		p->dirx = p->dirx * cos(-rotspeed / 2) - p->diry * sin(-rotspeed / 2);
+		p->diry = temp * sin(-rotspeed / 2) + p->diry * cos(-rotspeed / 2);
 		temp = p->planex;
-		p->planex = p->planex * cos(-rotspeed) - p->planey * sin(-rotspeed);
-		p->planey = temp * sin(-rotspeed) + p->planey * cos(-rotspeed);
+		p->planex = p->planex * cos(-rotspeed / 2) - p->planey * sin(-rotspeed / 2);
+		p->planey = temp * sin(-rotspeed / 2) + p->planey * cos(-rotspeed / 2);
 	}
 	if (p->rot_left)
 	{
 		temp = p->dirx;
-		p->dirx = p->dirx * cos(rotspeed) - p->diry * sin(rotspeed);
-		p->diry = temp * sin(rotspeed) + p->diry * cos(rotspeed);
+		p->dirx = p->dirx * cos(rotspeed / 2) - p->diry * sin(rotspeed / 2);
+		p->diry = temp * sin(rotspeed / 2) + p->diry * cos(rotspeed / 2);
 		temp = p->planex;
-		p->planex = p->planex * cos(rotspeed) - p->planey * sin(rotspeed);
-		p->planey = temp * sin(rotspeed) + p->planey * cos(rotspeed);
+		p->planex = p->planex * cos(rotspeed / 2) - p->planey * sin(rotspeed / 2);
+		p->planey = temp * sin(rotspeed / 2) + p->planey * cos(rotspeed / 2);
 	}
 	return (1);
 }
@@ -148,8 +170,6 @@ void	affiche_ray(t_parse *p)
 	ray_print(x, y, p);
 }
 
-
-
 void	affiche_hud(t_parse *p)
 {
 	int y = p->win_y - 64;
@@ -181,6 +201,7 @@ int	ft_affiche_image(t_parse *p)
 	j = 0;
 	x = 0;
 	y = 0;
+	raycasting_main(p);
 	while (p->map[i][j])
 	{
 		x = 0;
@@ -199,8 +220,6 @@ int	ft_affiche_image(t_parse *p)
 		y += minimap;
 		i++;
 	}
-	raycasting_main(p);
-	ft_mouvement(p);
 	//affiche_hud(p);
 	mlx_put_image_to_window(p->mlx, p->mlx_win, p->img, 0, 0);
 	return (0);

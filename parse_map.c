@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 11:48:08 by epfennig          #+#    #+#             */
-/*   Updated: 2021/03/25 16:39:16 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/03/26 17:03:37 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ int	find_player(t_parse *p)
 				|| p->map[i][j] == 'N' || p->map[i][j] == 'S')
 			{
 				p->map[i][j] = '0';
-				p->per_x = j * minimap;
-				p->per_y = i * minimap;
+				p->per_x = j * minimap + minimap / 2;
+				p->per_y = i * minimap + minimap / 2;
 				return (1);
 			}
 			j++;

@@ -1,26 +1,46 @@
 /* ************************************************************************** */
-/*																																						*/
-/*																												:::		  ::::::::   */
-/*   raycasting.c																		   :+:		  :+:		:+:   */
-/*																										+:+ +:+				 +:+		 */
-/*   By: epfennig <epfennig@student.42.fr>				  +#+  +:+		   +#+				*/
-/*																								+#+#+#+#+#+   +#+				   */
-/*   Created: 2021/03/23 10:40:28 by epfennig				  #+#		#+#						 */
-/*   Updated: 2021/03/25 12:50:01 by epfennig				 ###   ########.fr		   */
-/*																																						*/
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   raycasting.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/26 17:03:22 by epfennig          #+#    #+#             */
+/*   Updated: 2021/03/26 17:03:31 by epfennig         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line/get_next_line.h"
 #include "cub3d.h"
 #include "libft/libft.h"
 
+void	draw_ceiling(t_parse *p)
+{
+	int y = 0;
+
+	while (y < p->drawstart)
+	{
+		my_mlx_pixel_put(p, p->raycastx, y++, 0x0091c1ff);
+	}
+}
+
+void	draw_floor(t_parse *p)
+{
+	int y = p->win_y;
+
+	while (y > p->drawend)
+	{
+		my_mlx_pixel_put(p, p->raycastx, y--, 0x00787878);
+	}
+}
+
 void	draw_line(t_parse *p)
 {
-	int color = 240;
-
+	draw_ceiling(p);
+	draw_floor(p);
 	while (p->drawend >= p->drawstart)
 	{
-		my_mlx_pixel_put(p, p->raycastx, p->drawend--, color);
+		my_mlx_pixel_put(p, p->raycastx, p->drawend--, 0x00303030);
 	}
 }
 
@@ -30,10 +50,10 @@ void	calculate_wall_dist(t_parse *p)
 	// fisheye si on prends la distance euclidienne entre la position du joueur et le mur
 	// on calcule donc la distance perpendiculaire
 	if (p->side == 0)
-		p->walldist = (p->mapx - p->dper_x + (1 - p->stepx) / 2) / p->raydirx;
+		p->walldist = ((double)p->mapx - p->dper_x + (1 - (double)p->stepx) / 2) / p->raydirx;
 	else
-		p->walldist = (p->mapy - p->dper_y + (1 - p->stepy) / 2) / p->raydiry;
-	p->lineheight = (p->win_y / p->walldist);
+		p->walldist = ((double)p->mapy - p->dper_y + (1 - (double)p->stepy) / 2) / p->raydiry;
+	p->lineheight = (int)(p->win_y / p->walldist);
 	p->drawstart = -p->lineheight / 2 + p->win_y / 2;
 	if (p->drawstart < 0)
 		p->drawstart = 0;
@@ -59,9 +79,11 @@ void	ft_hit_wall(t_parse *p)
 		{
 			p->sidedisty += p->deltadisty;
 			p->mapy += p->stepy;
+			//p->side = 1;
 		}
 		// on check si le rayon a touché un mur de la map
-		if (p->map[p->mapx][p->mapy] > '0')
+		// printf("mapx = %i | mapy = %i", p->mapx, p->mapy);
+		if (p->map[p->mapy][p->mapx] == '1')
 			p->hit = 1;
 	}
 	calculate_wall_dist(p);
@@ -82,8 +104,9 @@ void	init_var1(t_parse *p)
 void	raycasting_main(t_parse *p)
 {
 	p->raycastx = 0;
-	p->dper_x = (double)(p->per_x / minimap);
-	p->dper_y = (double)(p->per_y / minimap);
+	p->dper_x = (double)(p->per_x);
+	p->dper_y = (double)(p->per_y);
+	ft_mouvement(p);
 	while (p->raycastx < p->win_x)
 	{
 		init_var1(p);
