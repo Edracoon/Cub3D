@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 11:52:22 by epfennig          #+#    #+#             */
-/*   Updated: 2021/03/30 17:28:29 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/03/30 18:03:22 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # define KEY_S 1
 # define KEY_D 2
 # define KEY_W 13
-# define minimap 16
+# define minimap 10
 # define speed 0.04
 # define rotspeed 0.06
 
