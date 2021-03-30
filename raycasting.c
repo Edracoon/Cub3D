@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 17:03:22 by epfennig          #+#    #+#             */
-/*   Updated: 2021/03/26 17:03:31 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/03/30 17:06:05 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	calculate_wall_dist(t_parse *p)
 		p->walldist = ((double)p->mapx - p->dper_x + (1 - (double)p->stepx) / 2) / p->raydirx;
 	else
 		p->walldist = ((double)p->mapy - p->dper_y + (1 - (double)p->stepy) / 2) / p->raydiry;
-	p->lineheight = (int)(p->win_y / p->walldist);
+	p->lineheight = (int)(p->win_y / (p->walldist));
 	p->drawstart = -p->lineheight / 2 + p->win_y / 2;
 	if (p->drawstart < 0)
 		p->drawstart = 0;
@@ -79,7 +79,7 @@ void	ft_hit_wall(t_parse *p)
 		{
 			p->sidedisty += p->deltadisty;
 			p->mapy += p->stepy;
-			//p->side = 1;
+			p->side = 1;
 		}
 		// on check si le rayon a touché un mur de la map
 		// printf("mapx = %i | mapy = %i", p->mapx, p->mapy);
@@ -89,27 +89,44 @@ void	ft_hit_wall(t_parse *p)
 	calculate_wall_dist(p);
 }
 
-void	init_var1(t_parse *p)
+void	init_delta(t_parse *p)
+{
+	if (p->raydiry == 0)
+		p->deltadistx = 0;
+	else if (p->raydiry == 1)
+		p->deltadistx = 1;
+	else
+		p->deltadistx = sqrt(1 + (p->raydiry * p->raydiry) / (p->raydirx * p->raydirx));
+	if (p->raydirx == 0)
+		p->deltadisty = 0;
+	else if (p->raydirx == 1)
+		p->deltadisty = 1;
+	else
+		p->deltadisty =  sqrt(1 + (p->raydirx * p->raydirx) / (p->raydiry * p->raydiry));
+}
+
+void	ft_init2(t_parse *p)
 {
 	p->camx = 2 * p->raycastx / (double)p->win_x - 1;
 	p->raydirx = p->dirx + p->planex * p->camx;
 	p->raydiry = p->diry + p->planey * p->camx;
-	p->mapx = (int)(p->dper_x / minimap);
-	p->mapy = (int)(p->dper_y / minimap);
-	p->deltadistx = sqrt(1 + (p->raydiry * p->raydiry) / (p->raydirx * p->raydirx));
-	p->deltadisty =  sqrt(1 + (p->raydirx * p->raydirx) / (p->raydiry * p->raydiry));
+	p->mapx = (int)(p->dper_x);
+	p->mapy = (int)(p->dper_y);
 	p->hit = 0;
+	init_delta(p);
 }
 
 void	raycasting_main(t_parse *p)
 {
 	p->raycastx = 0;
-	p->dper_x = (double)(p->per_x);
-	p->dper_y = (double)(p->per_y);
-	ft_mouvement(p);
 	while (p->raycastx < p->win_x)
 	{
-		init_var1(p);
+		ft_init2(p);
+		//printf("delx %f\n", p->deltadistx);
+		//printf("dely %f\n", p->deltadisty);
+		//printf("wall dist %f\n", p->walldist);
+		//printf("sidedistx %f\n", p->sidedistx);
+		//printf("sidedisty %f\n", p->sidedisty);
 		if (p->raydirx < 0)
 		{
 			p->stepx = -1;

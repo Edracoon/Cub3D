@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 13:08:40 by epfennig          #+#    #+#             */
-/*   Updated: 2021/03/26 17:03:39 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/03/30 17:33:02 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ int	ft_mouvement(t_parse *p)
 	int		y_max;
 	double	temp;
 
-	x_max = p->per_x + (minimap / 2);
-	y_max = p->per_y + (minimap / 2);
+	x_max = p->dper_x + (minimap / 2);
+	y_max = p->dper_y + (minimap / 2);
 	//p->dper_x = (double)p->per_x;
 	//p->dper_x = (double)p->per_x;
-	printf("[x = %i | y = %i]  [dirx = %f | diry = %f] [planex = %f | planey = %f]\n", p->per_x, p->per_y, p->dirx, p->diry, p->planex, p->planey);
+	//printf("[x = %i | y = %i]  [dirx = %f | diry = %f] [planex = %f | planey = %f]\n", p->per_x, p->per_y, p->dirx, p->diry, p->planex, p->planey);
 	if (p->kill_win)
 	{
 		mlx_destroy_window(p->mlx, p->mlx_win);
@@ -40,62 +40,34 @@ int	ft_mouvement(t_parse *p)
 	}
 	if (p->forward)
 	{
-		if (p->map[((int)p->dper_y) / minimap][((int)(p->dper_x + p->dirx * speed)) / minimap] == '0')
+		if (p->map[((int)p->dper_y)][((int)(p->dper_x + p->dirx * speed))] == '0')
 		{
-			p->per_x += -speed;
 			p->dper_x += p->dirx * speed;
 		}
-		if (p->map[((int)(p->dper_y + p->diry * speed)) / minimap][((int)p->dper_x) / minimap] == '0')
+		if (p->map[((int)(p->dper_y + p->diry * speed))][((int)p->dper_x)] == '0')
 		{
-			p->per_y += -speed;
 			p->dper_y += p->diry * speed;
 		}
-		//p->per_y += -speed;
-		//if (p->map[p->per_y / minimap][p->per_x / minimap] == '1'
-		//	|| p->map[p->per_y / minimap][(x_max) / minimap] == '1')
-		//	p->per_y += speed;
 	}
 	if (p->backward)
 	{
-		if (p->map[((int)p->dper_y) / minimap][((int)(p->dper_x + p->dirx * speed)) / minimap] == '0')
+		if (p->map[((int)p->dper_y)][((int)(p->dper_x + p->dirx * speed))] == '0')
 		{
-			p->per_x += speed;
 			p->dper_x -= p->dirx * speed;
 		}
-		if (p->map[((int)(p->dper_y + p->diry * speed)) / minimap][((int)p->dper_x) / minimap] == '0')
+		if (p->map[((int)(p->dper_y + p->diry * speed))][((int)p->dper_x)] == '0')
 		{
-			p->per_y += speed;
 			p->dper_y -= p->diry * speed;
 		}
-		//p->per_y += speed;
-		//if (p->map[(y_max + speed) / minimap][p->per_x / minimap] == '1'
-		//	|| p->map[(y_max + speed) / minimap][(x_max) / minimap] == '1')
-		//	p->per_y += -speed;
+
 	}
 	//if (p->rightward)
 	//{
-	//	p->per_x += speed;
-	//	if (p->map[p->per_y / minimap][(x_max + speed) / minimap] == '1'
-	//		|| p->map[y_max / minimap][(x_max + speed) / minimap] == '1')
-	//		p->per_x += -speed;
 	//}
 	//if (p->leftward)
 	//{
-	//	p->per_x += -speed;
-	//	if (p->map[p->per_y / minimap][p->per_x / minimap] == '1'
-	//		|| p->map[(y_max) / minimap][p->per_x / minimap] == '1')
-	//		p->per_x += speed;
 	//}
 	if (p->rot_right)
-	{
-		temp = p->dirx;
-		p->dirx = p->dirx * cos(-rotspeed / 2) - p->diry * sin(-rotspeed / 2);
-		p->diry = temp * sin(-rotspeed / 2) + p->diry * cos(-rotspeed / 2);
-		temp = p->planex;
-		p->planex = p->planex * cos(-rotspeed / 2) - p->planey * sin(-rotspeed / 2);
-		p->planey = temp * sin(-rotspeed / 2) + p->planey * cos(-rotspeed / 2);
-	}
-	if (p->rot_left)
 	{
 		temp = p->dirx;
 		p->dirx = p->dirx * cos(rotspeed / 2) - p->diry * sin(rotspeed / 2);
@@ -103,6 +75,15 @@ int	ft_mouvement(t_parse *p)
 		temp = p->planex;
 		p->planex = p->planex * cos(rotspeed / 2) - p->planey * sin(rotspeed / 2);
 		p->planey = temp * sin(rotspeed / 2) + p->planey * cos(rotspeed / 2);
+	}
+	if (p->rot_left)
+	{
+		temp = p->dirx;
+		p->dirx = p->dirx * cos(-rotspeed / 2) - p->diry * sin(-rotspeed / 2);
+		p->diry = temp * sin(-rotspeed / 2) + p->diry * cos(-rotspeed / 2);
+		temp = p->planex;
+		p->planex = p->planex * cos(-rotspeed / 2) - p->planey * sin(-rotspeed / 2);
+		p->planey = temp * sin(-rotspeed / 2) + p->planey * cos(-rotspeed / 2);
 	}
 	return (1);
 }
@@ -189,7 +170,6 @@ void	affiche_hud(t_parse *p)
 	}
 }
 
-
 int	ft_affiche_image(t_parse *p)
 {
 	int	x;
@@ -211,7 +191,7 @@ int	ft_affiche_image(t_parse *p)
 				affiche_cube(p, x, y, p->ceil_color);
 			if (p->map[i][j] == '0')
 				affiche_cube(p, x, y, p->floor_color);
-			affiche_perso(p, p->per_x + 1, p->per_y + 1, 0x00ebfe00);
+			affiche_perso(p, p->dper_x * minimap, p->dper_y * minimap + 1, 0x00ebfe00);
 			//affiche_ray(p);
 			j++;
 			x += minimap;
@@ -221,12 +201,45 @@ int	ft_affiche_image(t_parse *p)
 		i++;
 	}
 	//affiche_hud(p);
+	ft_mouvement(p);
 	mlx_put_image_to_window(p->mlx, p->mlx_win, p->img, 0, 0);
 	return (0);
 }
 
+void	ft_init_dir(t_parse *p)
+{
+	if (p->dir == 'N')
+	{
+		p->diry = -1;
+		p->planey = -0.66;
+	}
+	if (p->dir == 'S')
+	{
+		p->diry = 1;
+		p->planey = 0.66;
+	}
+	if (p->dir == 'W')
+	{
+		p->dirx = -1;
+		p->planex = -0.66;
+	}
+	if (p->dir == 'E')
+	{
+		p->dirx = 1;
+		p->planex = 0.66;
+	}
+}
+
+void	ft_init1(t_parse *p)
+{
+	p->dper_x = (double)p->per_x / minimap;
+	p->dper_y = (double)p->per_y / minimap;
+	ft_init_dir(p);
+}
+
 int	mlx_main(t_parse *p)
 {
+	ft_init1(p);
 	p->mlx = mlx_init();
 	p->mlx_win = mlx_new_window(p->mlx, p->win_x, p->win_y, "Cub3D");
 	p->img = mlx_new_image(p->mlx, p->win_x, p->win_y);

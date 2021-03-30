@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 11:52:22 by epfennig          #+#    #+#             */
-/*   Updated: 2021/03/26 16:52:25 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/03/30 17:28:29 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # define KEY_D 2
 # define KEY_W 13
 # define minimap 16
-# define speed 1
-# define rotspeed 2 * 0.03
+# define speed 0.04
+# define rotspeed 0.06
 
 typedef struct s_parse
 {
@@ -79,6 +79,8 @@ typedef struct s_parse
 	int			floor_g;
 	int			floor_b;
 	int			floor_color;
+
+	char		dir;
 
 	int			ceil_r;
 	int			ceil_g;
