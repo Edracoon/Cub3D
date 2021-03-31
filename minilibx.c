@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 13:08:40 by epfennig          #+#    #+#             */
-/*   Updated: 2021/03/30 18:00:41 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/03/31 17:37:26 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ int	ft_mouvement(t_parse *p)
 	int		y_max;
 	double	temp;
 
-	x_max = p->dper_x + (minimap / 2);
-	y_max = p->dper_y + (minimap / 2);
+	x_max = p->dper_x + (p->minimap / 2);
+	y_max = p->dper_y + (p->minimap / 2);
 	//p->dper_x = (double)p->per_x;
 	//p->dper_x = (double)p->per_x;
 	//printf("[x = %i | y = %i]  [dirx = %f | diry = %f] [planex = %f | planey = %f]\n", p->per_x, p->per_y, p->dirx, p->diry, p->planex, p->planey);
@@ -40,33 +40,40 @@ int	ft_mouvement(t_parse *p)
 	}
 	if (p->forward)
 	{
-		if (p->map[((int)p->dper_y)][((int)(p->dper_x + p->dirx * speed))] == '0')
-		{
-			p->dper_x += p->dirx * speed;
-		}
-		if (p->map[((int)(p->dper_y + p->diry * speed))][((int)p->dper_x)] == '0')
-		{
-			p->dper_y += p->diry * speed;
-		}
+		p->dper_x += p->dirx * speed;
+		p->dper_y += p->diry * speed;
+		if (p->map[((int)p->dper_y)][((int)(p->dper_x + p->dirx * speed))] == '1')
+			p->dper_x -= p->dirx * speed;
+		if (p->map[((int)(p->dper_y + p->diry * speed))][((int)p->dper_x)] == '1')
+			p->dper_y -= p->diry * speed;
 	}
 	if (p->backward)
 	{
-		if (p->map[((int)p->dper_y)][((int)(p->dper_x + p->dirx * speed))] == '0')
-		{
-			p->dper_x -= p->dirx * speed;
-		}
-		if (p->map[((int)(p->dper_y + p->diry * speed))][((int)p->dper_x)] == '0')
-		{
-			p->dper_y -= p->diry * speed;
-		}
-
+		p->dper_x -= p->dirx * speed;
+		p->dper_y -= p->diry * speed;
+		if (p->map[((int)p->dper_y)][((int)(p->dper_x + p->dirx * speed))] == '1')
+			p->dper_x += p->dirx * speed;
+		if (p->map[((int)(p->dper_y + p->diry * speed))][((int)p->dper_x)] == '1')
+			p->dper_y += p->diry * speed;
 	}
-	//if (p->rightward)
-	//{
-	//}
-	//if (p->leftward)
-	//{
-	//}
+	if (p->rightward)
+	{
+		p->dper_x -= p->diry * speed / 2;
+		p->dper_y += p->dirx * speed / 2;
+		if (p->map[(int)p->dper_y][(int)(p->dper_x + p->diry * speed)] == '1')
+			p->dper_x += p->diry * speed / 2;
+		if (p->map[(int)(p->dper_y - p->dirx * speed)][(int)p->dper_x] == '1')
+			p->dper_y -= p->dirx * speed / 2;
+	}
+	if (p->leftward)
+	{
+		p->dper_x += p->diry * speed / 2;
+		p->dper_y -= p->dirx * speed / 2;
+		if (p->map[(int)p->dper_y][(int)(p->dper_x - p->diry * speed)] == '1')
+			p->dper_x -= p->diry * speed / 2;
+		if (p->map[(int)(p->dper_y + p->dirx * speed)][(int)p->dper_x] == '1')
+			p->dper_y += p->dirx * speed / 2;
+	}
 	if (p->rot_right)
 	{
 		temp = p->dirx;
@@ -95,8 +102,8 @@ void	affiche_perso(t_parse *p, int x, int y, int couleur)
 	int	temp;
 
 	temp = y;
-	max_y = y + (minimap / 2) + speed - 1;
-	max_x = x + (minimap / 2) + speed - 1;
+	max_y = y + (p->minimap) + speed - 1;
+	max_x = x + (p->minimap) + speed - 1;
 	while (x < max_x)
 	{
 		y = temp;
@@ -113,17 +120,17 @@ void	affiche_cube(t_parse *p, int x, int y, int couleur)
 	int	temp;
 
 	temp = y;
-	max_y = y + minimap;
-	max_x = x + minimap;
+	max_y = y + p->minimap;
+	max_x = x + p->minimap;
 	while (x < max_x)
 	{
 		y = temp;
 		while (y < max_y)
 		{
 			my_mlx_pixel_put(p, x, y, couleur);
-			if (y % (minimap) == 0)
+			if (y % (p->minimap) == 0)
 				my_mlx_pixel_put(p, x, y, 0x00000000);
-			if (x % (minimap) == 0)
+			if (x % (p->minimap) == 0)
 				my_mlx_pixel_put(p, x, y, 0x00000000);
 			y++;
 		}
@@ -131,15 +138,16 @@ void	affiche_cube(t_parse *p, int x, int y, int couleur)
 	}
 }
 
+/*
 void	ray_print(int x, int y, t_parse *p)
 {
 	while (x >= p->per_x && y >= p->per_y)
 	{
 		my_mlx_pixel_put(p, x + 3.5, y + 3.5, 0x00fc0000);
-		x--;
-		y--;
+		x;
+		y;
 	}
-}
+}*/
 
 void	affiche_ray(t_parse *p)
 {
@@ -148,7 +156,7 @@ void	affiche_ray(t_parse *p)
 
 	x = p->per_x + 50;
 	y = p->per_y + 50;
-	ray_print(x, y, p);
+	//ray_print(x, y, p);
 }
 
 void	affiche_hud(t_parse *p)
@@ -188,16 +196,16 @@ int	ft_affiche_image(t_parse *p)
 		while (p->map[i][j])
 		{
 			if (p->map[i][j] == '1')
-				affiche_cube(p, x, y, p->ceil_color);
+				affiche_cube(p, x, y, 0x00117864);
 			if (p->map[i][j] == '0')
-				affiche_cube(p, x, y, p->floor_color);
-			affiche_perso(p, p->dper_x * minimap, p->dper_y * minimap + 1, 0x00ebfe00);
+				affiche_cube(p, x, y, 0x0048c9b0);
+			affiche_perso(p, p->dper_x * p->minimap, p->dper_y * p->minimap + 1, 0x00ebfe00);
 			//affiche_ray(p);
 			j++;
-			x += minimap;
+			x += p->minimap;
 		}
 		j = 0;
-		y += minimap;
+		y += p->minimap;
 		i++;
 	}
 	//affiche_hud(p);
@@ -211,29 +219,33 @@ void	ft_init_dir(t_parse *p)
 	if (p->dir == 'N')
 	{
 		p->diry = -1;
-		p->planey = -0.66;
+		p->planex = 0.66;
 	}
 	if (p->dir == 'S')
 	{
 		p->diry = 1;
-		p->planey = 0.66;
+		p->planex = -0.66;
 	}
 	if (p->dir == 'W')
 	{
 		p->dirx = -1;
-		p->planex = -0.66;
+		p->planey = -0.66;
 	}
 	if (p->dir == 'E')
 	{
 		p->dirx = 1;
-		p->planex = 0.66;
+		p->planey = 0.66;
 	}
 }
 
 void	ft_init1(t_parse *p)
 {
-	p->dper_x = (double)p->per_x / minimap;
-	p->dper_y = (double)p->per_y / minimap;
+	p->dper_x = (double)p->per_x / p->minimap;
+	p->dper_y = (double)p->per_y / p->minimap;
+	p->dirx = 0;
+	p->diry =  0;
+	p->planex = 0.000000001;
+	p->planey = 0.000000001;
 	ft_init_dir(p);
 }
 

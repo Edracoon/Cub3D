@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 17:03:22 by epfennig          #+#    #+#             */
-/*   Updated: 2021/03/30 17:06:05 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/03/31 16:57:49 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	draw_ceiling(t_parse *p)
 
 	while (y < p->drawstart)
 	{
-		my_mlx_pixel_put(p, p->raycastx, y++, 0x0091c1ff);
+		my_mlx_pixel_put(p, p->raycastx, y++, p->ceil_color);
 	}
 }
 
@@ -30,18 +30,22 @@ void	draw_floor(t_parse *p)
 
 	while (y > p->drawend)
 	{
-		my_mlx_pixel_put(p, p->raycastx, y--, 0x00787878);
+		my_mlx_pixel_put(p, p->raycastx, y--, p->floor_color);
 	}
 }
 
 void	draw_line(t_parse *p)
 {
 	draw_ceiling(p);
-	draw_floor(p);
-	while (p->drawend >= p->drawstart)
+	int y = p->drawend;
+	int color = 0x00303030;
+	if (p->side == 1)
+		color = color / 2;
+	while (y >= p->drawstart)
 	{
-		my_mlx_pixel_put(p, p->raycastx, p->drawend--, 0x00303030);
+		my_mlx_pixel_put(p, p->raycastx, y--, color);
 	}
+	draw_floor(p);
 }
 
 void	calculate_wall_dist(t_parse *p)
