@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 11:52:22 by epfennig          #+#    #+#             */
-/*   Updated: 2021/03/31 17:24:29 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/02 16:58:52 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,6 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <math.h>
-# define KEY_A 0
-# define KEY_S 1
-# define KEY_D 2
-# define KEY_W 13
-# define speed 0.05
 # define rotspeed 0.07
 
 typedef struct s_parse
@@ -32,6 +27,7 @@ typedef struct s_parse
 	int			win_x;
 	int			win_y;
 	int			minimap;
+	double		speed;
 
 	int			per_x;
 	int			per_y;
@@ -69,11 +65,14 @@ typedef struct s_parse
 	int			lineheight; // hauteur de la ligne qu'on va dessiner (ligne d'un pixel du mur)
 	int			drawstart; // pos y du haut de la colone du mur qu'on va dessiner
 	int			drawend; // pos y du bas de la colone du mur qu'on va dessiner
+
 	char		*north_text;
 	char		*south_text;
 	char		*west_text;
 	char		*east_text;
 	char		*sprite_text;
+	int			imgsiz;
+	void		*textu[5];
 
 	int			floor_r;
 	int			floor_g;

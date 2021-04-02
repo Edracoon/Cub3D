@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 17:03:22 by epfennig          #+#    #+#             */
-/*   Updated: 2021/03/31 16:57:49 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/02 17:53:18 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	draw_ceiling(t_parse *p)
 
 void	draw_floor(t_parse *p)
 {
-	int y = p->win_y;
+	int y = p->win_y - 1;
 
 	while (y > p->drawend)
 	{
@@ -47,7 +47,22 @@ void	draw_line(t_parse *p)
 	}
 	draw_floor(p);
 }
+/*
+void	color_chooser(t_parse *p)
+{
+	int texnum = p->map[p->mapy][p->mapx] - 1;
+	double wallx;
+	if (p->side = 0)
+		wallx = p->dper_y + p->walldist * p->raydiry;
+	else
+		wallx = p->dper_x + p->walldist * p->raydiry;
+	wallx -= floor((wallx));
 
+	int texX = (int)(wallx * (double)(texwidth));
+	if (side == 0 && p->raydirx > 0)
+		texX =
+}
+*/
 void	calculate_wall_dist(t_parse *p)
 {
 	// ici on va prendre la distance entre le plan de camera du joueur et du mur pour eviter l'effet
@@ -64,6 +79,7 @@ void	calculate_wall_dist(t_parse *p)
 	p->drawend = p->lineheight / 2 + p->win_y / 2;
 	if (p->drawend >= p->win_y)
 		p->drawend = p->win_y - 1;
+	//color_chooser(p);
 	draw_line(p);
 }
 

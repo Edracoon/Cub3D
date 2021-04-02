@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 11:48:08 by epfennig          #+#    #+#             */
-/*   Updated: 2021/03/31 17:44:50 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/02 17:33:40 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ int	parse_map(t_parse *p)
 	int i = 0;
 	while (p->map[0][i])
 		i++;
-	p->minimap = (p->win_x / 3.4) / i;
-	printf(" minimap = %i", p->minimap);
+	p->minimap = (p->win_x / 4) / i;
+	printf("minimap = %i", p->minimap);
 	if (!find_player(p))
 		return (0);
 	return (1);

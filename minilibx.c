@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 13:08:40 by epfennig          #+#    #+#             */
-/*   Updated: 2021/03/31 17:37:26 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/02 17:38:05 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ int	ft_mouvement(t_parse *p)
 
 	x_max = p->dper_x + (p->minimap / 2);
 	y_max = p->dper_y + (p->minimap / 2);
-	//p->dper_x = (double)p->per_x;
-	//p->dper_x = (double)p->per_x;
 	//printf("[x = %i | y = %i]  [dirx = %f | diry = %f] [planex = %f | planey = %f]\n", p->per_x, p->per_y, p->dirx, p->diry, p->planex, p->planey);
 	if (p->kill_win)
 	{
@@ -40,39 +38,35 @@ int	ft_mouvement(t_parse *p)
 	}
 	if (p->forward)
 	{
-		p->dper_x += p->dirx * speed;
-		p->dper_y += p->diry * speed;
-		if (p->map[((int)p->dper_y)][((int)(p->dper_x + p->dirx * speed))] == '1')
-			p->dper_x -= p->dirx * speed;
-		if (p->map[((int)(p->dper_y + p->diry * speed))][((int)p->dper_x)] == '1')
-			p->dper_y -= p->diry * speed;
+		p->dper_x += p->dirx * p->speed;
+		p->dper_y += p->diry * p->speed;
+		if (p->map[((int)floor(p->dper_y))][((int)floor((p->dper_x + p->dirx * p->speed)))] == '1')
+			p->dper_x -= p->dirx * p->speed;
+		if (p->map[((int)floor((p->dper_y + p->diry * p->speed)))][((int)floor(p->dper_x))] == '1')
+			p->dper_y -= p->diry * p->speed;
 	}
 	if (p->backward)
 	{
-		p->dper_x -= p->dirx * speed;
-		p->dper_y -= p->diry * speed;
-		if (p->map[((int)p->dper_y)][((int)(p->dper_x + p->dirx * speed))] == '1')
-			p->dper_x += p->dirx * speed;
-		if (p->map[((int)(p->dper_y + p->diry * speed))][((int)p->dper_x)] == '1')
-			p->dper_y += p->diry * speed;
+		p->dper_x -= p->dirx * p->speed;
+		p->dper_y -= p->diry * p->speed;
+		if (p->map[((int)floor(p->dper_y))][((int)floor((p->dper_x + p->dirx * p->speed)))] == '1')
+			p->dper_x += p->dirx * p->speed;
+		if (p->map[((int)floor((p->dper_y + p->diry * p->speed)))][((int)floor(p->dper_x))] == '1')
+			p->dper_y += p->diry * p->speed;
 	}
 	if (p->rightward)
 	{
-		p->dper_x -= p->diry * speed / 2;
-		p->dper_y += p->dirx * speed / 2;
-		if (p->map[(int)p->dper_y][(int)(p->dper_x + p->diry * speed)] == '1')
-			p->dper_x += p->diry * speed / 2;
-		if (p->map[(int)(p->dper_y - p->dirx * speed)][(int)p->dper_x] == '1')
-			p->dper_y -= p->dirx * speed / 2;
+		if (p->map[(int)(floor(p->dper_y))][(int)(floor((p->dper_x - p->diry * p->speed)))] == '0')
+			p->dper_x -= p->diry * p->speed / 2;
+		if (p->map[(int)(floor((p->dper_y + p->dirx * p->speed)))][(int)(floor(p->dper_x))] == '0')
+			p->dper_y += p->dirx * p->speed / 2;
 	}
 	if (p->leftward)
 	{
-		p->dper_x += p->diry * speed / 2;
-		p->dper_y -= p->dirx * speed / 2;
-		if (p->map[(int)p->dper_y][(int)(p->dper_x - p->diry * speed)] == '1')
-			p->dper_x -= p->diry * speed / 2;
-		if (p->map[(int)(p->dper_y + p->dirx * speed)][(int)p->dper_x] == '1')
-			p->dper_y += p->dirx * speed / 2;
+		if (p->map[(int)floor(p->dper_y)][(int)floor((p->dper_x + p->diry * p->speed))] == '0')
+			p->dper_x += p->diry * p->speed / 2;
+		if (p->map[(int)floor((p->dper_y - p->dirx * p->speed))][(int)floor(p->dper_x)] == '0')
+			p->dper_y -= p->dirx * p->speed / 2;
 	}
 	if (p->rot_right)
 	{
@@ -102,8 +96,8 @@ void	affiche_perso(t_parse *p, int x, int y, int couleur)
 	int	temp;
 
 	temp = y;
-	max_y = y + (p->minimap) + speed - 1;
-	max_x = x + (p->minimap) + speed - 1;
+	max_y = y + (p->minimap) + p->speed - 1;
+	max_x = x + (p->minimap) + p->speed - 1;
 	while (x < max_x)
 	{
 		y = temp;
@@ -139,44 +133,14 @@ void	affiche_cube(t_parse *p, int x, int y, int couleur)
 }
 
 /*
-void	ray_print(int x, int y, t_parse *p)
+void	print_viseur(t_parse *p)
 {
-	while (x >= p->per_x && y >= p->per_y)
-	{
-		my_mlx_pixel_put(p, x + 3.5, y + 3.5, 0x00fc0000);
-		x;
-		y;
-	}
-}*/
-
-void	affiche_ray(t_parse *p)
-{
-	int	x;
-	int y;
-
-	x = p->per_x + 50;
-	y = p->per_y + 50;
-	//ray_print(x, y, p);
+	int x = p->win_x / 2 - 10;
+	int y = p->win_y / 2 - 10;
+	while (y <= (p->win_y / 2 + 10))
+		my_mlx_pixel_put(p, y++, x, 0x00dadada);
 }
-
-void	affiche_hud(t_parse *p)
-{
-	int y = p->win_y - 64;
-	int x = p->win_x / 3;
-	int c = 0;
-
-	while (x < p->win_x)
-	{
-		while (c <= 6)
-		{
-			my_mlx_pixel_put(p, x, y, 0x00a09c9c);
-			y++;
-			c++;
-		}
-		x += 64;
-		my_mlx_pixel_put(p, x, y, 0x00a09c9c);
-	}
-}
+*/
 
 int	ft_affiche_image(t_parse *p)
 {
@@ -189,6 +153,7 @@ int	ft_affiche_image(t_parse *p)
 	j = 0;
 	x = 0;
 	y = 0;
+	ft_mouvement(p);
 	raycasting_main(p);
 	while (p->map[i][j])
 	{
@@ -200,7 +165,6 @@ int	ft_affiche_image(t_parse *p)
 			if (p->map[i][j] == '0')
 				affiche_cube(p, x, y, 0x0048c9b0);
 			affiche_perso(p, p->dper_x * p->minimap, p->dper_y * p->minimap + 1, 0x00ebfe00);
-			//affiche_ray(p);
 			j++;
 			x += p->minimap;
 		}
@@ -208,8 +172,7 @@ int	ft_affiche_image(t_parse *p)
 		y += p->minimap;
 		i++;
 	}
-	//affiche_hud(p);
-	ft_mouvement(p);
+	//print_viseur(p);
 	mlx_put_image_to_window(p->mlx, p->mlx_win, p->img, 0, 0);
 	return (0);
 }
@@ -244,9 +207,27 @@ void	ft_init1(t_parse *p)
 	p->dper_y = (double)p->per_y / p->minimap;
 	p->dirx = 0;
 	p->diry =  0;
-	p->planex = 0.000000001;
-	p->planey = 0.000000001;
+	p->planex = 0.000000000001;
+	p->planey = 0.000000000001;
+	p->speed = 0.05;
 	ft_init_dir(p);
+}
+
+int	get_textu_data(t_parse *p)
+{
+	p->imgsiz = 64;
+	p->textu[0] = mlx_xpm_file_to_image(p->mlx, p->south_text, &p->imgsiz, &p->imgsiz);
+	p->textu[1] = mlx_xpm_file_to_image(p->mlx, p->north_text, &p->imgsiz, &p->imgsiz);
+	p->textu[2] = mlx_xpm_file_to_image(p->mlx, p->west_text, &p->imgsiz, &p->imgsiz);
+	p->textu[3] = mlx_xpm_file_to_image(p->mlx, p->east_text, &p->imgsiz, &p->imgsiz);
+	p->textu[4] = mlx_xpm_file_to_image(p->mlx, p->sprite_text, &p->imgsiz, &p->imgsiz);
+	if (p->textu[0] == NULL || p->textu[1] == NULL || p->textu[2] == NULL ||
+		p->textu[3] == NULL || p->textu[4] == NULL)
+	{
+		printf("Error\nTextures path error\n");
+		return (-1);
+	}
+	return (0);
 }
 
 int	mlx_main(t_parse *p)
@@ -256,6 +237,8 @@ int	mlx_main(t_parse *p)
 	p->mlx_win = mlx_new_window(p->mlx, p->win_x, p->win_y, "Cub3D");
 	p->img = mlx_new_image(p->mlx, p->win_x, p->win_y);
 	p->addr = mlx_get_data_addr(p->img, &p->bits_per_pixel,&p->line_length, &p->endian);
+	if (get_textu_data(p) == -1)
+		return (-1);
 	mlx_hook(p->mlx_win, 2, 1L << 0, key_pressed, p);
 	mlx_hook(p->mlx_win, 3, 1L << 1, key_released, p);
 	mlx_loop_hook(p->mlx, ft_affiche_image, p);
