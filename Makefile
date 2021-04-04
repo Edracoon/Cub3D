@@ -12,7 +12,8 @@ SRCS =	main.c get_map_data.c get_map_data_utils.c get_map_data_utils_two.c \
 		libft/ft_strcat.c libft/ft_strcpy.c libft/ft_strtrim.c libft/ft_strmapi.c \
 
 compile:
-			gcc $(CFLAGS) $(LIB_DIR) $(SRCS) -L minilibx -lmlx -framework OpenGL -framework Appkit
+			gcc -Wall -Wextra -Werror -L/usr/lib $(SRCS) -Iminilibx_linux -lm
+			# gcc $(CFLAGS) $(LIB_DIR) $(SRCS) -L minilibx -lmlx -framework OpenGL -framework Appkit
 
 all:		compile
 
@@ -20,6 +21,6 @@ clean:
 			rm -f a.out
 
 norme:
-			norminetteV3 $(SRCS)
+			norminette $(SRCS)
 
 re:			clean all
