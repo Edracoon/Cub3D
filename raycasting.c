@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 17:03:22 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/02 17:53:18 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/05 16:29:07 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,42 @@ void	draw_floor(t_parse *p)
 	}
 }
 
+unsigned int	get_color_textu(t_parse *p, int x, int y, int nb)
+{
+	char	*dst;
+
+	dst = p->textu[nb].addr + (y * p->textu[nb].line_length + x * (p->textu[nb].bits_per_pixel / 8));
+	return (*(unsigned int *)dst);
+}
+
 void	draw_line(t_parse *p)
 {
 	draw_ceiling(p);
-	int y = p->drawend;
-	int color = 0x00303030;
-	if (p->side == 1)
-		color = color / 2;
-	while (y >= p->drawstart)
+	int y = p->drawstart;
+	double	wallx;
+	int		texx;
+	int		texy;
+	double	texpos;
+	double	step;
+
+	if (p->side == 0)
+		wallx = p->dper_y + p->walldist * p->raydiry;
+	else
+		wallx = p->dper_x + p->walldist * p->raydirx;
+	wallx -= floor((wallx));
+	texx = (int)(wallx * (double)(64));
+	if (p->side == 0 && p->raydirx > 0)
+		texx = 64 - texx - 1;
+	if (p->side == 1 && p->raydiry < 0)
+		texx = 64 - texx -1;
+	step = 1.0 * 64 / p->lineheight;
+	texpos = (p->drawstart - p->win_y / 2 + p->lineheight / 2) * step;
+	while (y <= p->drawend)
 	{
-		my_mlx_pixel_put(p, p->raycastx, y--, color);
+		texy = (int)texpos & (64 - 1);
+		texpos += step;
+		my_mlx_pixel_put(p, p->raycastx, y, get_color_textu(p, texx, texy, 0));
+		y++;
 	}
 	draw_floor(p);
 }

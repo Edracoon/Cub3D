@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 11:52:22 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/02 16:58:52 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/05 13:33:20 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,17 @@
 # include <stdio.h>
 # include <math.h>
 # define rotspeed 0.07
+
+typedef struct s_textu
+{
+	void		*mlx_win;
+	void		*mlx;
+	void		*img;
+	char		*addr;
+	int			bits_per_pixel;
+	int			line_length;
+	int			endian;
+}	t_textu;
 
 typedef struct s_parse
 {
@@ -72,7 +83,7 @@ typedef struct s_parse
 	char		*east_text;
 	char		*sprite_text;
 	int			imgsiz;
-	void		*textu[5];
+	t_textu		textu[5];
 
 	int			floor_r;
 	int			floor_g;
