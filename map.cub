@@ -1,9 +1,9 @@
-R 1080 900
+R 1500 900
 
-NO ./textures/stone_bricks_north.xpm
-SO ./textures/stone_bricks_south.xpm
-WE ./textures/stone_bricks_west.xpm
-EA ./textures/stone_bricks_east.xpm
+NO ./textures/stone.xpm
+SO ./textures/stonebrick_cracked.xpm
+WE ./textures/stonebrick_mossy.xpm
+EA ./textures/stonebrick.xpm
 
 S ./textures/steve64x64.xpm
 

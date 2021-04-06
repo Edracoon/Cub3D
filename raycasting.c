@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 17:03:22 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/05 16:29:07 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/06 17:41:27 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,31 @@ unsigned int	get_color_textu(t_parse *p, int x, int y, int nb)
 	return (*(unsigned int *)dst);
 }
 
+void	init_dir_textu(t_parse *p)
+{
+	if (p->side == 0 && p->raydirx < 0)
+		p->textdir = 0;
+	if (p->side == 0 && p->raydirx >= 0)
+		p->textdir = 1;
+	if (p->side == 1 && p->raydiry < 0)
+		p->textdir = 2;
+	if (p->side == 1 && p->raydiry >= 0)
+		p->textdir = 3;
+}
+
 void	draw_line(t_parse *p)
 {
-	draw_ceiling(p);
-	int y = p->drawstart;
+	int y;
 	double	wallx;
 	int		texx;
 	int		texy;
 	double	texpos;
 	double	step;
+	unsigned int color;
 
+	draw_ceiling(p);
+	init_dir_textu(p);
+	y = p->drawstart;
 	if (p->side == 0)
 		wallx = p->dper_y + p->walldist * p->raydiry;
 	else
@@ -68,7 +83,10 @@ void	draw_line(t_parse *p)
 	{
 		texy = (int)texpos & (64 - 1);
 		texpos += step;
-		my_mlx_pixel_put(p, p->raycastx, y, get_color_textu(p, texx, texy, 0));
+		color = get_color_textu(p, texx, texy, p->textdir);
+		if (p->side == 1)
+			color = color - 5;
+		my_mlx_pixel_put(p, p->raycastx, y, color);
 		y++;
 	}
 	draw_floor(p);

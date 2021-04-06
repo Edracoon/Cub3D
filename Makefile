@@ -2,7 +2,7 @@ CFLAGS = -Wall -Wextra -Werror -g -I
 
 LIB_DIR = /usr/local/include
 
-SRCS =	main.c get_map_data.c get_map_data_utils.c get_map_data_utils_two.c \
+SRCSBNS =	main.c get_map_data.c get_map_data_utils.c get_map_data_utils_two.c \
 		parse_map.c minilibx.c key_management.c raycasting.c \
 		get_next_line/get_next_line.c get_next_line/get_next_line_utils.c \
 		libft/ft_atoi.c libft/ft_isalpha.c libft/ft_isascii.c libft/ft_isdigit.c libft/ft_isprint.c libft/ft_isalnum.c libft/ft_strchr.c libft/ft_strdup.c libft/ft_strlcat.c \
@@ -12,8 +12,10 @@ SRCS =	main.c get_map_data.c get_map_data_utils.c get_map_data_utils_two.c \
 		libft/ft_strcat.c libft/ft_strcpy.c libft/ft_strtrim.c libft/ft_strmapi.c \
 
 compile:
-			#gcc -Wall -Wextra -Werror -L/usr/lib $(SRCS) -Iminilibx_linux -lm
 			gcc $(CFLAGS) $(LIB_DIR) $(SRCS) -L minilibx -lmlx -framework OpenGL -framework Appkit
+
+bonus:
+			gcc $(CFLAGS) $(LIB_DIR) $(SRCSBNS) -L minilibx -lmlx -framework OpenGL -framework Appkit
 
 all:		compile
 

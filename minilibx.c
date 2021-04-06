@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 13:08:40 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/05 15:09:26 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/06 17:43:45 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ int	ft_mouvement(t_parse *p)
 	{
 		p->dper_x -= p->dirx * p->speed;
 		p->dper_y -= p->diry * p->speed;
-		if (p->map[((int)floor(p->dper_y))][((int)floor((p->dper_x + p->dirx * p->speed)))] == '1')
+		if (p->map[((int)floor(p->dper_y))][((int)floor((p->dper_x - p->dirx * p->speed)))] == '1')
 			p->dper_x += p->dirx * p->speed;
-		if (p->map[((int)floor((p->dper_y + p->diry * p->speed)))][((int)floor(p->dper_x))] == '1')
+		if (p->map[((int)floor((p->dper_y - p->diry * p->speed)))][((int)floor(p->dper_x))] == '1')
 			p->dper_y += p->diry * p->speed;
 	}
 	if (p->rightward)
@@ -132,15 +132,10 @@ void	affiche_cube(t_parse *p, int x, int y, int couleur)
 	}
 }
 
-/*
-void	print_viseur(t_parse *p)
+void	ft_affiche_hud(t_parse *p)
 {
-	int x = p->win_x / 2 - 10;
-	int y = p->win_y / 2 - 10;
-	while (y <= (p->win_y / 2 + 10))
-		my_mlx_pixel_put(p, y++, x, 0x00dadada);
+	mlx_put_image_to_window(p->mlx, p->mlx_win, p->textu[5].img, 100, (p->win_y - 400));
 }
-*/
 
 int	ft_affiche_image(t_parse *p)
 {
@@ -153,7 +148,6 @@ int	ft_affiche_image(t_parse *p)
 	j = 0;
 	x = 0;
 	y = 0;
-	ft_mouvement(p);
 	raycasting_main(p);
 	while (p->map[i][j])
 	{
@@ -172,8 +166,10 @@ int	ft_affiche_image(t_parse *p)
 		y += p->minimap;
 		i++;
 	}
+	ft_mouvement(p);
 	//print_viseur(p);
 	mlx_put_image_to_window(p->mlx, p->mlx_win, p->img, 0, 0);
+	ft_affiche_hud(p);
 	return (0);
 }
 
@@ -219,17 +215,23 @@ void	get_textu_addr(t_parse *p)
 
 	x = -1;
 	while (++x <= 4)
-		p->textu[x].addr = mlx_get_data_addr(p->textu[x].img, &p->textu[x].bits_per_pixel, &p->textu[x].line_length, &p->textu[x].endian);
+		p->textu[x].addr = mlx_get_data_addr(p->textu[x].img, &p->textu[x].bits_per_pixel,
+			&p->textu[x].line_length, &p->textu[x].endian);
+	//p->textu[5].addr = mlx_get_data_addr(p->textu[5].img, &p->textu[5].bits_per_pixel,
+	//	&p->textu[5].line_length, &p->textu[5].endian);
 }
 
 int	get_textu_data(t_parse *p)
 {
 	p->imgsiz = 64;
+	int y = p->win_y / 5;
+	int x = p->win_x / 5;
 	p->textu[0].img = mlx_xpm_file_to_image(p->mlx, p->south_text, &p->imgsiz, &p->imgsiz);
 	p->textu[1].img = mlx_xpm_file_to_image(p->mlx, p->north_text, &p->imgsiz, &p->imgsiz);
 	p->textu[2].img = mlx_xpm_file_to_image(p->mlx, p->west_text, &p->imgsiz, &p->imgsiz);
 	p->textu[3].img = mlx_xpm_file_to_image(p->mlx, p->east_text, &p->imgsiz, &p->imgsiz);
 	p->textu[4].img = mlx_xpm_file_to_image(p->mlx, p->sprite_text, &p->imgsiz, &p->imgsiz);
+	p->textu[5].img = mlx_xpm_file_to_image(p->mlx, "./textures/barre__pioche.xpm", &y, &x);
 	if (p->textu[0].img == NULL || p->textu[1].img == NULL || p->textu[2].img == NULL ||
 		p->textu[3].img == NULL || p->textu[4].img == NULL)
 	{

@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 11:52:22 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/05 13:33:20 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/06 17:31:52 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,16 @@
 # include <stdio.h>
 # include <math.h>
 # define rotspeed 0.07
+
+typedef struct s_sprite
+{
+	double	x;
+	double	y;
+	int		texture;
+	double	*zbuffer;
+	int		spriteorder;
+	int		spritedistance;
+}	t_sprite;
 
 typedef struct s_textu
 {
@@ -83,7 +93,8 @@ typedef struct s_parse
 	char		*east_text;
 	char		*sprite_text;
 	int			imgsiz;
-	t_textu		textu[5];
+	t_textu		textu[7];
+	int			textdir;
 
 	int			floor_r;
 	int			floor_g;
@@ -108,25 +119,24 @@ typedef struct s_parse
 	int			endian;
 }	t_parse;
 
-int		main(int ac, char *av[]);
+int				main(int ac, char *av[]);
+void			get_map_parse(char *cub, t_parse *parse);
+int				resolution_parse(char *line, t_parse *parse);
+int				north_text_parse(char *line, t_parse *parse);
+int				east_text_parse(char *line, t_parse *parse);
+int				west_text_parse(char *line, t_parse *parse);
+int				south_text_parse(char *line, t_parse *parse);
+int				sprite_text_parse(char *line, t_parse *parse);
+int				floor_color_parse(char *line, t_parse *parse);
+int				ceiling_color_parse(char *line, t_parse *parse);
+unsigned int	get_color_textu(t_parse *p, int x, int y, int nb);
+void			raycasting_main(t_parse *p);
+int				mlx_main(t_parse *parse);
+void			my_mlx_pixel_put(t_parse *data, int x, int y, int color);
+int				parse_map(t_parse *p);
+int				ft_mouvement(t_parse *p);
 
-void	get_map_parse(char *cub, t_parse *parse);
-int		resolution_parse(char *line, t_parse *parse);
-int		north_text_parse(char *line, t_parse *parse);
-int		east_text_parse(char *line, t_parse *parse);
-int		west_text_parse(char *line, t_parse *parse);
-int		south_text_parse(char *line, t_parse *parse);
-int		sprite_text_parse(char *line, t_parse *parse);
-int		floor_color_parse(char *line, t_parse *parse);
-int		ceiling_color_parse(char *line, t_parse *parse);
-
-void	raycasting_main(t_parse *p);
-int		mlx_main(t_parse *parse);
-void	my_mlx_pixel_put(t_parse *data, int x, int y, int color);
-int		parse_map(t_parse *p);
-int	ft_mouvement(t_parse *p);
-
-int		key_pressed(int keycode, t_parse *p);
-int		key_released(int keycode, t_parse *p);
+int				key_pressed(int keycode, t_parse *p);
+int				key_released(int keycode, t_parse *p);
 
 #endif
