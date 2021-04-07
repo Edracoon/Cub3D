@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   raycasting.c                                       :+:      :+:    :+:   */
+/*   raycasting_b.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 17:03:22 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/07 17:26:17 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/07 18:03:18 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line/get_next_line.h"
-#include "cub3d.h"
-#include "libft/libft.h"
+#include "../get_next_line/get_next_line.h"
+#include "../cub3d.h"
+#include "../libft/libft.h"
 
 void	draw_ceiling(t_parse *p)
 {
@@ -64,6 +64,7 @@ void	draw_line(t_parse *p)
 	double	step;
 	unsigned int color;
 
+	draw_ceiling(p);
 	init_dir_textu(p);
 	y = p->drawstart;
 	if (p->side == 0)
@@ -88,6 +89,7 @@ void	draw_line(t_parse *p)
 		my_mlx_pixel_put(p, p->raycastx, y, color);
 		y++;
 	}
+	draw_floor(p);
 }
 
 void	calculate_wall_dist(t_parse *p)
@@ -103,6 +105,7 @@ void	calculate_wall_dist(t_parse *p)
 	p->drawend = p->lineheight / 2 + p->win_y / 2;
 	if (p->drawend >= p->win_y)
 		p->drawend = p->win_y - 1;
+	draw_line(p);
 }
 
 void	ft_hit_wall(t_parse *p)
@@ -123,10 +126,10 @@ void	ft_hit_wall(t_parse *p)
 			p->mapy += p->stepy;
 			p->side = 1;
 		}
-		// on check si le rayon a touché un mur de la map
 		if (p->map[p->mapy][p->mapx] == '1')
 			p->hit = 1;
 	}
+	calculate_wall_dist(p);
 }
 
 void	init_delta(t_parse *p)
@@ -156,42 +159,33 @@ void	ft_init2(t_parse *p)
 	init_delta(p);
 }
 
-void	ft_initstepxysidexy(t_parse *p)
-{
-	if (p->raydirx < 0)
-	{
-		p->stepx = -1;
-		p->sidedistx = (p->dper_x - p->mapx) * p->deltadistx;
-	}
-	else
-	{
-		p->stepx = 1;
-		p->sidedistx = (p->mapx + 1.0 - p->dper_x) * p->deltadistx;
-	}
-	if (p->raydiry < 0)
-	{
-		p->stepy = -1;
-		p->sidedisty = (p->dper_y - p->mapy) * p->deltadisty;
-	}
-	else
-	{
-		p->stepy = 1;
-		p->sidedisty = (p->mapy + 1.0 - p->dper_y) * p->deltadisty;
-	}
-}
-
 void	raycasting_main(t_parse *p)
 {
 	p->raycastx = 0;
 	while (p->raycastx < p->win_x)
 	{
 		ft_init2(p);
-		ft_initstepxysidexy(p);
+		if (p->raydirx < 0)
+		{
+			p->stepx = -1;
+			p->sidedistx = (p->dper_x - p->mapx) * p->deltadistx;
+		}
+		else
+		{
+			p->stepx = 1;
+			p->sidedistx = (p->mapx + 1.0 - p->dper_x) * p->deltadistx;
+		}
+		if (p->raydiry < 0)
+		{
+			p->stepy = -1;
+			p->sidedisty = (p->dper_y - p->mapy) * p->deltadisty;
+		}
+		else
+		{
+			p->stepy = 1;
+			p->sidedisty = (p->mapy + 1.0 - p->dper_y) * p->deltadisty;
+		}
 		ft_hit_wall(p);
-		calculate_wall_dist(p);
-		draw_ceiling(p);
-		draw_line(p);
-		draw_floor(p);
 		p->raycastx++;
 	}
 }

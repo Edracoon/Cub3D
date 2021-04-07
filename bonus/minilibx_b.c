@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minilibx.c                                         :+:      :+:    :+:   */
+/*   minilibx_b.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 13:08:40 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/06 17:43:45 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/07 18:28:28 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line/get_next_line.h"
-#include "cub3d.h"
-#include "libft/libft.h"
+#include "../get_next_line/get_next_line.h"
+#include "../cub3d.h"
+#include "../libft/libft.h"
 
 void	my_mlx_pixel_put(t_parse *data, int x, int y, int color)
 {
@@ -24,13 +24,8 @@ void	my_mlx_pixel_put(t_parse *data, int x, int y, int color)
 
 int	ft_mouvement(t_parse *p)
 {
-//	int		x_max;
-//	int		y_max;
 	double	temp;
 
-//	x_max = p->dper_x + (p->minimap / 2);
-//	y_max = p->dper_y + (p->minimap / 2);
-//	printf("[x = %i | y = %i]  [dirx = %f | diry = %f] [planex = %f | planey = %f]\n", p->per_x, p->per_y, p->dirx, p->diry, p->planex, p->planey);
 	if (p->kill_win)
 	{
 		mlx_destroy_window(p->mlx, p->mlx_win);
@@ -86,6 +81,13 @@ int	ft_mouvement(t_parse *p)
 		p->planex = p->planex * cos(-rotspeed / 2) - p->planey * sin(-rotspeed / 2);
 		p->planey = temp * sin(-rotspeed / 2) + p->planey * cos(-rotspeed / 2);
 	}
+	if (p->mine)
+	{
+		if (p->map[((int)floor(p->dper_y))][((int)floor((p->dper_x + p->dirx)))] == '1')
+			p->map[((int)floor(p->dper_y))][((int)floor((p->dper_x + p->dirx)))] = '0';
+		if (p->map[((int)floor((p->dper_y + p->diry)))][((int)floor(p->dper_x))] == '1')
+			p->map[((int)floor((p->dper_y + p->diry)))][((int)floor(p->dper_x))] = '0';
+	}
 	return (1);
 }
 
@@ -132,24 +134,18 @@ void	affiche_cube(t_parse *p, int x, int y, int couleur)
 	}
 }
 
-void	ft_affiche_hud(t_parse *p)
-{
-	mlx_put_image_to_window(p->mlx, p->mlx_win, p->textu[5].img, 100, (p->win_y - 400));
-}
-
-int	ft_affiche_image(t_parse *p)
+void	affiche_minimap(t_parse *p)
 {
 	int	x;
 	int	y;
 	int	i;
 	int	j;
 
-	i = 0;
+	i = -1;
 	j = 0;
 	x = 0;
 	y = 0;
-	raycasting_main(p);
-	while (p->map[i][j])
+	while (p->map[++i][j])
 	{
 		x = 0;
 		while (p->map[i][j])
@@ -159,17 +155,21 @@ int	ft_affiche_image(t_parse *p)
 			if (p->map[i][j] == '0')
 				affiche_cube(p, x, y, 0x0048c9b0);
 			affiche_perso(p, p->dper_x * p->minimap, p->dper_y * p->minimap + 1, 0x00ebfe00);
-			j++;
 			x += p->minimap;
+			j++;
 		}
 		j = 0;
 		y += p->minimap;
-		i++;
 	}
+}
+
+int	ft_affiche_image(t_parse *p)
+{
+	raycasting_main(p);
+	affiche_minimap(p);
 	ft_mouvement(p);
-	//print_viseur(p);
 	mlx_put_image_to_window(p->mlx, p->mlx_win, p->img, 0, 0);
-	ft_affiche_hud(p);
+	mlx_put_image_to_window(p->mlx, p->mlx_win, p->textu[5].img, 0, (p->win_y - 400));
 	return (0);
 }
 
@@ -217,8 +217,6 @@ void	get_textu_addr(t_parse *p)
 	while (++x <= 4)
 		p->textu[x].addr = mlx_get_data_addr(p->textu[x].img, &p->textu[x].bits_per_pixel,
 			&p->textu[x].line_length, &p->textu[x].endian);
-	//p->textu[5].addr = mlx_get_data_addr(p->textu[5].img, &p->textu[5].bits_per_pixel,
-	//	&p->textu[5].line_length, &p->textu[5].endian);
 }
 
 int	get_textu_data(t_parse *p)

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   key_management.c                                   :+:      :+:    :+:   */
+/*   key_management_b.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 15:48:47 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/07 17:41:05 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/07 17:47:03 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line/get_next_line.h"
-#include "cub3d.h"
-#include "libft/libft.h"
+#include "../get_next_line/get_next_line.h"
+#include "../cub3d.h"
+#include "../libft/libft.h"
 
 int	key_pressed(int keycode, t_parse *p)
 {
@@ -32,6 +32,8 @@ int	key_pressed(int keycode, t_parse *p)
 		p->rot_left = 1;
 	if (keycode == 124)
 		p->rot_right = 1;
+	if (keycode == 126)
+		p->mine = 1;
 	return (0);
 }
 
@@ -53,5 +55,7 @@ int	key_released(int keycode, t_parse *p)
 		p->rot_left = 0;
 	if (keycode == 124)
 		p->rot_right = 0;
+	if (keycode == 126)
+		p->mine = 0;
 	return (0);
 }

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_map.c                                        :+:      :+:    :+:   */
+/*   parse_map_b.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 11:48:08 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/07 12:12:32 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/07 17:45:01 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line/get_next_line.h"
-#include "cub3d.h"
-#include "libft/libft.h"
+#include "../get_next_line/get_next_line.h"
+#include "../cub3d.h"
+#include "../libft/libft.h"
 
 int	find_player(t_parse *p)
 {
@@ -48,7 +48,6 @@ int	parse_map(t_parse *p)
 	while (p->map[0][i])
 		i++;
 	p->minimap = (p->win_x / 4) / i;
-	printf("minimap = %i", p->minimap);
 	if (!find_player(p))
 		return (0);
 	return (1);

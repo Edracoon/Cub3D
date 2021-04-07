@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 11:52:22 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/06 17:31:52 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/07 17:46:39 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_parse
 	int			rightward;
 	int			rot_left;
 	int			rot_right;
+	int			mine;
 
 	int			raycastx;
 	double		dirx; // position x du vecteur de direction  |
