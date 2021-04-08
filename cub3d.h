@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 11:52:22 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/07 17:46:39 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/08 15:37:10 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,26 @@
 
 typedef struct s_sprite
 {
-	double	x;
-	double	y;
-	int		texture;
-	double	*zbuffer;
-	int		spriteorder;
-	int		spritedistance;
+	double		x;
+	double		y;
+	double		spritex;
+	double		spritey;
+	int			texture;
+	double		*zbuffer;
+	int			*spriteord;
+	int			*spritedist;
+	int			nbspr;
+	double		invdet;
+	double		transformx;
+	double		transformy;
+	int			spritescreenx;
+	int			spriteheight;
+	int			spritewidht;
+	int			drawstarty;
+	int			drawendy;
+	int			drawstartx;
+	int			drawendx;
+
 }	t_sprite;
 
 typedef struct s_textu
@@ -118,6 +132,9 @@ typedef struct s_parse
 	int			bits_per_pixel;
 	int			line_length;
 	int			endian;
+
+	t_sprite	spr;
+	t_sprite	*sprite;
 }	t_parse;
 
 int				main(int ac, char *av[]);
@@ -132,10 +149,12 @@ int				floor_color_parse(char *line, t_parse *parse);
 int				ceiling_color_parse(char *line, t_parse *parse);
 unsigned int	get_color_textu(t_parse *p, int x, int y, int nb);
 void			raycasting_main(t_parse *p);
+void			sprite_casting(t_parse *p);
 int				mlx_main(t_parse *parse);
 void			my_mlx_pixel_put(t_parse *data, int x, int y, int color);
 int				parse_map(t_parse *p);
 int				ft_mouvement(t_parse *p);
+unsigned int	get_color_textu(t_parse *p, int x, int y, int nb);
 
 int				key_pressed(int keycode, t_parse *p);
 int				key_released(int keycode, t_parse *p);

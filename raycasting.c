@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 17:03:22 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/07 17:26:17 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/08 15:38:30 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	draw_line(t_parse *p)
 		texpos += step;
 		color = get_color_textu(p, texx, texy, p->textdir);
 		if (p->side == 1)
-			color = color - 5;
+			color = (color >> 1) & 8355711;
 		my_mlx_pixel_put(p, p->raycastx, y, color);
 		y++;
 	}
@@ -145,17 +145,6 @@ void	init_delta(t_parse *p)
 		p->deltadisty =  sqrt(1 + (p->raydirx * p->raydirx) / (p->raydiry * p->raydiry));
 }
 
-void	ft_init2(t_parse *p)
-{
-	p->camx = 2 * p->raycastx / (double)p->win_x - 1;
-	p->raydirx = p->dirx + p->planex * p->camx;
-	p->raydiry = p->diry + p->planey * p->camx;
-	p->mapx = (int)(p->dper_x);
-	p->mapy = (int)(p->dper_y);
-	p->hit = 0;
-	init_delta(p);
-}
-
 void	ft_initstepxysidexy(t_parse *p)
 {
 	if (p->raydirx < 0)
@@ -180,6 +169,20 @@ void	ft_initstepxysidexy(t_parse *p)
 	}
 }
 
+void	ft_init2(t_parse *p)
+{
+	p->camx = 2 * p->raycastx / (double)p->win_x - 1;
+	p->raydirx = p->dirx + p->planex * p->camx;
+	p->raydiry = p->diry + p->planey * p->camx;
+	p->mapx = (int)(p->dper_x);
+	p->mapy = (int)(p->dper_y);
+	p->hit = 0;
+	p->spr.zbuffer = malloc(sizeof(int) * p->win_x - 1);
+	if (!(p->spr.zbuffer))
+		return (exit(0));
+	init_delta(p);
+}
+
 void	raycasting_main(t_parse *p)
 {
 	p->raycastx = 0;
@@ -192,6 +195,7 @@ void	raycasting_main(t_parse *p)
 		draw_ceiling(p);
 		draw_line(p);
 		draw_floor(p);
+		p->spr.zbuffer[p->raycastx] = p->walldist;
 		p->raycastx++;
 	}
 }

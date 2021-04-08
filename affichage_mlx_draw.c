@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minilibx.c                                         :+:      :+:    :+:   */
+/*   affichage_mlx_draw.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 13:08:40 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/07 17:27:11 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/08 15:59:43 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,8 @@ void	my_mlx_pixel_put(t_parse *data, int x, int y, int color)
 
 int	ft_mouvement(t_parse *p)
 {
-//	int		x_max;
-//	int		y_max;
 	double	temp;
 
-//	x_max = p->dper_x + (p->minimap / 2);
-//	y_max = p->dper_y + (p->minimap / 2);
-//	printf("[x = %i | y = %i]  [dirx = %f | diry = %f] [planex = %f | planey = %f]\n", p->per_x, p->per_y, p->dirx, p->diry, p->planex, p->planey);
 	if (p->kill_win)
 	{
 		mlx_destroy_window(p->mlx, p->mlx_win);
