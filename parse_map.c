@@ -6,38 +6,13 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 11:48:08 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/08 15:49:05 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/09 13:19:47 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line/get_next_line.h"
 #include "cub3d.h"
 #include "libft/libft.h"
-
-void	sprite_handler(t_parse *p)
-{
-	int	i;
-	int	j;
-	int	nb;
-
-	nb = 0;
-	i = 0;
-	j = 0;
-	while (p->map[i][j])
-	{
-		j= 0;
-		while (p->map[i][j])
-		{
-			if (p->map[i][j] == '2' && nb <= p->spr.nbspr)
-			{
-				p->sprite[p->spr.nbspr].x = j + 0.5;
-				p->sprite[p->spr.nbspr].y = i + 0.5;
-			}
-			j++;
-		}
-		i++;
-	}
-}
 
 int	find_player(t_parse *p)
 {
@@ -80,6 +55,5 @@ int	parse_map(t_parse *p)
 	p->sprite = malloc(sizeof(t_sprite) * p->spr.nbspr);
 	if (!p->sprite)
 		exit(0);
-	sprite_handler(p);
 	return (1);
 }
