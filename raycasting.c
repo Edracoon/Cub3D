@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 17:03:22 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/09 11:24:31 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/22 15:05:42 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,9 +177,6 @@ void	ft_init2(t_parse *p)
 	p->mapx = (int)(p->dper_x);
 	p->mapy = (int)(p->dper_y);
 	p->hit = 0;
-	p->spr.zbuffer = malloc(sizeof(int) * p->win_x - 1);
-	if (!(p->spr.zbuffer))
-		return (exit(0));
 	init_delta(p);
 }
 

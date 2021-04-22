@@ -1,4 +1,6 @@
-CFLAGS = -Wall -Wextra -Werror -g -I
+NAME = cub3d
+
+CFLAGS = -Wall -Wextra -Werror -g
 
 LIB_DIR = /usr/local/include
 
@@ -30,23 +32,29 @@ SRCSBONUS =	bonus/main.c bonus/get_map_data_b.c bonus/get_map_data_utils_b.c bon
 		libft/ft_strjoin.c libft/ft_itoa.c libft/ft_split.c libft/ft_strcat.c \
 		libft/ft_strcpy.c libft/ft_strtrim.c libft/ft_strmapi.c
 
-compile:
-			gcc $(CFLAGS) $(LIB_DIR) $(SRCS) -L minilibx -lmlx -framework OpenGL -framework Appkit -o cub3d
+OBJS = $(SRCS:.c=.o)
 
-bonus:
-			gcc $(CFLAGS) $(LIB_DIR) $(SRCSBONUS) -L minilibx -lmlx -framework OpenGL -framework Appkit -o cub3d-bonus
+OBJSB = $(SRCSBONUS:.c=.o)
 
-all:		compile
+all:		$(NAME)
+
+$(NAME):	$(OBJS)
+			gcc $(CFLAGS) $(OBJS) -I $(LIB_DIR) -L minilibx -lmlx -framework OpenGL -framework Appkit -o $(NAME)
+
+bonus:		$(OBJSB)
+			gcc $(CFLAGS) $(OBJSB) -I $(LIB_DIR) -L minilibx -lmlx -framework OpenGL -framework Appkit -o cub3d-bonus
 
 clean:
+			rm -f $(OBJS)
+			rm -f $(OBJSB)
+
+fclean:		clean
 			rm -f cub3d
 			rm -f cub3d-bonus
-			rm -rf cub3d.dSYM
-			rm -rf cub3d-bonus.dSYM
 
 norme:
 			norminette $(SRCS)
 
-re:			clean all
+re:			fclean all
 
 .PHONY : all bonus clean re

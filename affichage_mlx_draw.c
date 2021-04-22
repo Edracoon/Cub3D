@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 13:08:40 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/09 11:16:18 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/22 14:55:32 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,8 @@ void	affiche_minimap(t_parse *p)
 				affiche_cube(p, x, y, 0x00117864);
 			if (p->map[i][j] == '0')
 				affiche_cube(p, x, y, 0x0048c9b0);
+			if (p->map[i][j] == '2')
+				affiche_cube(p,x ,y, 0x00e18080);
 			affiche_perso(p, p->dper_x * p->minimap, p->dper_y * p->minimap + 1, 0x00ebfe00);
 			x += p->minimap;
 			j++;
@@ -198,6 +200,10 @@ void	ft_init1(t_parse *p)
 	p->planex = 0.000000000001;
 	p->planey = 0.000000000001;
 	p->speed = 0.05;
+	p->spr.zbuffer = (double *)malloc(sizeof(double) * p->win_x);
+	p->sprite = (t_sprite *)malloc(sizeof(t_sprite) * p->spr.nbspr);
+	if (!(p->spr.zbuffer) || !(p->sprite))
+		return (exit(0));
 	ft_init_dir(p);
 }
 

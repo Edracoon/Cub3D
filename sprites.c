@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 14:03:46 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/09 13:33:50 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/22 15:14:52 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,29 +22,28 @@ void	init_sprite(t_parse *p)
 
 void	sprite_handler(t_parse *p)
 {
-	p->sprite[0].x = 19 + 0.5;
-	p->sprite[0].y = 19 + 0.5;
-	// int	i;
-	// int	j;
-	// int	nb;
+	int	i;
+	int	j;
+	int	nb;
 
-	// nb = 0;
-	// i = 0;
-	// j = 0;
-	// while (p->map[i][j])
-	// {
-	// 	j= 0;
-	// 	while (p->map[i][j])
-	// 	{
-	// 		if (p->map[i][j] == '2' && nb < p->spr.nbspr)
-	// 		{
-
-	// 			nb++;
-	// 		}
-	// 		j++;
-	// 	}
-	// 	i++;
-	// }
+	nb = 0;
+	i = 0;
+	j = 0;
+	while (p->map[i][j])
+	{
+		j= 0;
+	 	while (p->map[i][j])
+	 	{
+	 		if (p->map[i][j] == '2' && nb < p->spr.nbspr)
+	 		{
+				p->sprite[nb].x = j + 0.5;
+				p->sprite[nb].y = i + 0.5;
+	 			nb++;
+	 		}
+	 		j++;
+	 	}
+		i++;
+	}
 }
 
 void	init_var_spr(t_parse *p)
@@ -67,30 +66,42 @@ void	init_var_spr(t_parse *p)
 void	sprite_casting(t_parse *p)
 {
 	int		i;
-	int	stripe;
-	int	texx;
-	int	texy;
-	int	y;
-	int	d;
-	int	color;
+	//int		stripe;
+	//int		texx;
+	//int		texy;
+	//int		y;
+	//int		d;
+	//int		color;
+	int		j;
+	double	tmp;
 
-	i = 0;
-	printf("%i\n", p->spr.nbspr);
 	init_sprite(p);
 	init_var_spr(p);
 	sprite_handler(p);
-
 	// boucle qui trie les sprites par ordre d'appartition
-	while (i < p->spr.nbspr)
-	{
-		p->spr.spriteord[i] = i;
-		p->spr.spritedist[i] = ((p->dper_x - p->sprite[i].x) * \
-			(p->dper_x - p->sprite[i].x) + (p->dper_y - p->sprite[i].y) * \
-			(p->dper_y - p->sprite[i].y));
-		i++;
-	}
 	i = -1;
 	while (++i < p->spr.nbspr)
+	{
+		p->spr.spriteord[i] = i;
+		p->spr.spritedist[i] = ((p->dper_x - p->sprite[i].x)
+				* (p->per_x - p->sprite[i].x) + (p->dper_y
+					- p->sprite[i].y) * (p->dper_y - p->sprite[i].y));
+		j = -1;
+		while (++j < p->spr.nbspr - 1)
+		{
+			if (p->spr.spritedist[j] < p->spr.spritedist[j + 1])
+			{
+				tmp = p->spr.spritedist[j];
+				p->spr.spritedist[j] = p->spr.spritedist[j + 1];
+				p->spr.spritedist[j + 1] = tmp;
+				tmp = p->spr.spriteord[j];
+				p->spr.spriteord[j] = p->spr.spriteord[j + 1];
+				p->spr.spriteord[j + 1] = (int)tmp;
+			}
+		}
+	}
+	i = -1;
+	/*while (++i < p->spr.nbspr)
 	{
 		// calcul de la relativité de la postion du sprite par rapport a la position du joueur
 		p->spr.spritex = p->sprite[p->spr.spriteord[i]].x - p->dper_x;
@@ -141,5 +152,8 @@ void	sprite_casting(t_parse *p)
 			}
 			stripe++;
 		}
-	}
+	}*/
+	free(p->spr.spriteord);
+	free(p->spr.spritedist);
 }
+

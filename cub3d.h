@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 11:52:22 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/09 11:48:04 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/22 14:31:38 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@
 # define rotspeed 0.07
 
 typedef struct s_sprite
+{
+	double x;
+	double y;
+}	t_sprite;
+
+typedef struct s_spr
 {
 	double		x;
 	double		y;
@@ -42,8 +48,7 @@ typedef struct s_sprite
 	int			drawendy;
 	int			drawstartx;
 	int			drawendx;
-
-}	t_sprite;
+}	t_spr;
 
 typedef struct s_textu
 {
@@ -133,7 +138,7 @@ typedef struct s_parse
 	int			line_length;
 	int			endian;
 
-	t_sprite	spr;
+	t_spr		spr;
 	t_sprite	*sprite;
 }	t_parse;
 
