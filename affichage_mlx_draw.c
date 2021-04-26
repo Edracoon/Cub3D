@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 13:08:40 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/22 14:55:32 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/26 12:24:02 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,7 @@ void	affiche_minimap(t_parse *p)
 int	ft_affiche_image(t_parse *p)
 {
 	raycasting_main(p);
+	sprite_casting(p);
 	affiche_minimap(p);
 	ft_mouvement(p);
 	mlx_put_image_to_window(p->mlx, p->mlx_win, p->img, 0, 0);
@@ -200,10 +201,6 @@ void	ft_init1(t_parse *p)
 	p->planex = 0.000000000001;
 	p->planey = 0.000000000001;
 	p->speed = 0.05;
-	p->spr.zbuffer = (double *)malloc(sizeof(double) * p->win_x);
-	p->sprite = (t_sprite *)malloc(sizeof(t_sprite) * p->spr.nbspr);
-	if (!(p->spr.zbuffer) || !(p->sprite))
-		return (exit(0));
 	ft_init_dir(p);
 }
 
@@ -215,21 +212,16 @@ void	get_textu_addr(t_parse *p)
 	while (++x <= 4)
 		p->textu[x].addr = mlx_get_data_addr(p->textu[x].img, &p->textu[x].bits_per_pixel,
 			&p->textu[x].line_length, &p->textu[x].endian);
-	//p->textu[5].addr = mlx_get_data_addr(p->textu[5].img, &p->textu[5].bits_per_pixel,
-	//	&p->textu[5].line_length, &p->textu[5].endian);
 }
 
 int	get_textu_data(t_parse *p)
 {
 	p->imgsiz = 64;
-	int y = p->win_y / 5;
-	int x = p->win_x / 5;
 	p->textu[0].img = mlx_xpm_file_to_image(p->mlx, p->south_text, &p->imgsiz, &p->imgsiz);
 	p->textu[1].img = mlx_xpm_file_to_image(p->mlx, p->north_text, &p->imgsiz, &p->imgsiz);
 	p->textu[2].img = mlx_xpm_file_to_image(p->mlx, p->west_text, &p->imgsiz, &p->imgsiz);
 	p->textu[3].img = mlx_xpm_file_to_image(p->mlx, p->east_text, &p->imgsiz, &p->imgsiz);
 	p->textu[4].img = mlx_xpm_file_to_image(p->mlx, p->sprite_text, &p->imgsiz, &p->imgsiz);
-	p->textu[5].img = mlx_xpm_file_to_image(p->mlx, "./textures/barre__pioche.xpm", &y, &x);
 	if (p->textu[0].img == NULL || p->textu[1].img == NULL || p->textu[2].img == NULL ||
 		p->textu[3].img == NULL || p->textu[4].img == NULL)
 	{
@@ -254,6 +246,6 @@ int	mlx_main(t_parse *p)
 	mlx_hook(p->mlx_win, 3, 1L << 1, key_released, p);
 	mlx_loop_hook(p->mlx, ft_affiche_image, p);
 	mlx_loop(p->mlx);
-	free(p);
+	//free(p);
 	return (0);
 }

@@ -6,14 +6,14 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 11:52:22 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/22 14:31:38 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/26 12:13:06 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include <mlx.h>
+# include "mlx.h"
 # include <stdarg.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -36,7 +36,7 @@ typedef struct s_spr
 	int			texture;
 	double		*zbuffer;
 	int			*spriteord;
-	int			*spritedist;
+	double		*spritedist;
 	int			nbspr;
 	double		invdet;
 	double		transformx;

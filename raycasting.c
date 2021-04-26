@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 17:03:22 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/22 15:05:42 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/26 12:27:15 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,6 @@ void	raycasting_main(t_parse *p)
 		draw_line(p);
 		draw_floor(p);
 		p->spr.zbuffer[p->raycastx] = p->walldist;
-		sprite_casting(p);
 		p->raycastx++;
 	}
 }
