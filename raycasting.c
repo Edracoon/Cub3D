@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 17:03:22 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/26 12:27:15 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/26 16:06:17 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,13 @@ void	init_dir_textu(t_parse *p)
 
 void	draw_line(t_parse *p)
 {
-	int y;
-	double	wallx;
-	int		texx;
-	int		texy;
-	double	texpos;
-	double	step;
-	unsigned int color;
+	int				y;
+	double			wallx;
+	int				texx;
+	int				texy;
+	double			texpos;
+	double			step;
+	unsigned int	color;
 
 	init_dir_textu(p);
 	y = p->drawstart;
@@ -195,4 +195,5 @@ void	raycasting_main(t_parse *p)
 		p->spr.zbuffer[p->raycastx] = p->walldist;
 		p->raycastx++;
 	}
+	sprite_casting(p);
 }

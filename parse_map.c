@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 11:48:08 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/26 12:18:12 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/26 16:01:32 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,11 @@ void	sprite_handler(t_parse *p)
 	nb = 0;
 	i = 0;
 	j = 0;
+
 	while (i <= p->spr.nbspr)
 	{
-		p->sprite[i].x = 0;
-		p->sprite[i].x = 0;
+		p->sprite[i].x = 0.0;
+		p->sprite[i].y = 0.0;
 		i++;
 	}
 	i = 0;
@@ -99,14 +100,14 @@ void	init_var_spr(t_parse *p)
 
 void	init_sprite(t_parse *p)
 {
-	p->spr.spriteord = malloc(sizeof(int) * p->spr.nbspr);
-	p->spr.spritedist = (double *)malloc(sizeof(double) * p->spr.nbspr);
+	p->spr.spriteord = (int *)malloc(10000);
+	p->spr.spritedist = (double *)malloc(10000);
 	if (!(p->spr.spriteord) || !(p->spr.spritedist))
 		exit(0);
-	p->spr.zbuffer = (double *)malloc(sizeof(double) * p->win_x);
+	p->spr.zbuffer = (double *)malloc(10000);
 	if (!(p->spr.zbuffer))
 		exit(0);
-	p->sprite = (t_sprite *)malloc(sizeof(t_sprite) * (p->spr.nbspr + 1));
+	p->sprite = (t_sprite *)malloc(10000);
 	if (!p->sprite)
 		exit(0);
 	init_var_spr(p);

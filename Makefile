@@ -39,10 +39,10 @@ OBJSB = $(SRCSBONUS:.c=.o)
 all:		$(NAME)
 
 $(NAME):	$(OBJS)
-			gcc $(CFLAGS) $(OBJS) -I $(LIB_DIR) -L minilibx -lmlx -framework OpenGL -framework Appkit -o $(NAME)
+			gcc $(CFLAGS) $(OBJS) -I $(LIB_DIR) -lmlx -framework OpenGL -framework Appkit -o $(NAME)
 
 bonus:		$(OBJSB)
-			gcc $(CFLAGS) $(OBJSB) -I $(LIB_DIR) -L minilibx -lmlx -framework OpenGL -framework Appkit -o cub3d-bonus
+			gcc $(CFLAGS) $(OBJSB) -I $(LIB_DIR) -lmlx -framework OpenGL -framework Appkit -o cub3d-bonus
 
 clean:
 			rm -f $(OBJS)

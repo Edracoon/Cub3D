@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 14:03:46 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/26 12:05:02 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/26 17:10:03 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	sprite_casting(t_parse *p)
 	int		texy;
 	int		y;
 	int		d;
-	int		color;
+	unsigned int		color;
 	int		j;
 	double	tmp;
 
@@ -30,22 +30,20 @@ void	sprite_casting(t_parse *p)
 	{
 		p->spr.spriteord[i] = i;
 		p->spr.spritedist[i] = ((p->dper_x - p->sprite[i].x)
-				* (p->per_x - p->sprite[i].x) + (p->dper_y
+				* (p->dper_x - p->sprite[i].x) + (p->dper_y
 					- p->sprite[i].y) * (p->dper_y - p->sprite[i].y));
 		j = -1;
-		//printf("spriteord %i : %d\n", i, p->spr.spriteord[i]);
-		//printf("spritedist %i : %f\n", i, p->spr.spritedist[i]);
-	}
-	while (++j < p->spr.nbspr - 1)
-	{
-		if (p->spr.spritedist[j] < p->spr.spritedist[j + 1])
+		while (++j < p->spr.nbspr - 1)
 		{
-			tmp = p->spr.spritedist[j];
-			p->spr.spritedist[j] = p->spr.spritedist[j + 1];
-			p->spr.spritedist[j + 1] = tmp;
-			tmp = p->spr.spriteord[j];
-			p->spr.spriteord[j] = p->spr.spriteord[j + 1];
-			p->spr.spriteord[j + 1] = (int)tmp;
+			if (p->spr.spritedist[j] < p->spr.spritedist[j + 1])
+			{
+				tmp = p->spr.spritedist[j];
+				p->spr.spritedist[j] = p->spr.spritedist[j + 1];
+				p->spr.spritedist[j + 1] = tmp;
+				tmp = p->spr.spriteord[j];
+				p->spr.spriteord[j] = p->spr.spriteord[j + 1];
+				p->spr.spriteord[j + 1] = (int)tmp;
+			}
 		}
 	}
 	i = -1;
@@ -60,7 +58,7 @@ void	sprite_casting(t_parse *p)
 		p->spr.spritescreenx = (int)((p->win_x / 2) * (1 + p->spr.transformx / p->spr.transformy));
 		p->spr.spriteheight = abs((int)(p->win_y / p->spr.transformy));
 
-	// Calcul lowest and highest pixel to fill in current stripe
+		// Calcul lowest and highest pixel to fill in current stripe
 		p->spr.drawstarty = -p->spr.spriteheight / 2 + p->win_y / 2;
 		if (p->spr.drawstarty < 0)
 			p->spr.drawstarty = 0;
@@ -68,7 +66,7 @@ void	sprite_casting(t_parse *p)
 		if (p->spr.drawendy >= p->win_y)
 			p->spr.drawendy = p->win_y - 1;
 
-//	Calcul width of the sprite
+		//	Calcul width of the sprite
 		p->spr.spritewidht = abs((int)(p->win_y / (p->spr.transformy)));
 		p->spr.drawstartx = -p->spr.spritewidht / 2 + p->spr.spritescreenx;
 		if (p->spr.drawstartx < 0)
@@ -77,7 +75,7 @@ void	sprite_casting(t_parse *p)
 		if (p->spr.drawendx >= p->win_x)
 			p->spr.drawendx = p->win_x - 1;
 
-//	on regarde toutes les colonnes x du sprites a l'ecran pour les draw
+		//	on regarde toutes les colonnes x du sprites a l'ecran pour les draw
 		d = 0;
 		y = p->spr.drawstarty;
 		stripe = p->spr.drawstartx;
@@ -88,12 +86,14 @@ void	sprite_casting(t_parse *p)
 			if (p->spr.transformy > 0 && stripe >= 0
 				&& stripe < p->win_x && p->spr.transformy < p->spr.zbuffer[stripe])
 			{
+				y = p->spr.drawstarty;
 				while (y < p->spr.drawendy)
 				{
 					d = y * 256 - p->win_y * 128 + p->spr.spriteheight * 128;
 					texy = ((d * 64) / p->spr.spriteheight) / 256;
 					color = get_color_textu(p, texx, texy, 4);
-					my_mlx_pixel_put(p, stripe, y, 0x00100000);
+					if (color != 0xff000000)
+						my_mlx_pixel_put(p, stripe, y, color);
 					y++;
 				}
 			}

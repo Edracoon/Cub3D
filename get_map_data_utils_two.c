@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 18:13:16 by marvin            #+#    #+#             */
-/*   Updated: 2021/04/26 12:27:08 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/26 15:05:08 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	sprite_text_parse(char *line, t_parse *parse)
 	if (!split[1])
 		return (0);
 	parse->sprite_text = split[1];
-	//free(split);
+//	free(split);
 	printf("parse->sprite_text = %s\n", parse->sprite_text);
 	if (ft_strlen(parse->sprite_text) > 0)
 		return (1);
