@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 14:03:46 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/27 11:58:24 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/27 17:18:18 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ void	sprite_casting(t_parse *p)
 		p->spr.transformx = p->spr.invdet * (p->diry * p->spr.spritex - p->dirx * p->spr.spritey);
 		p->spr.transformy = p->spr.invdet * (-p->planey * p->spr.spritex + p->planex * p->spr.spritey);
 		p->spr.spritescreenx = (int)((p->win_x / 2) * (1 + p->spr.transformx / p->spr.transformy));
-		p->spr.spriteheight = abs((int)(p->win_y / p->spr.transformy));
+		//int vmove = (int)(64 / p->spr.transformy);
+		p->spr.spriteheight = (double)p->ratio * ((int)(p->win_y / p->spr.transformy));
 
 		// Calcul lowest and highest pixel to fill in current stripe
 		p->spr.drawstarty = -p->spr.spriteheight / 2 + p->win_y / 2;
@@ -71,7 +72,7 @@ void	sprite_casting(t_parse *p)
 			p->spr.drawendy = p->win_y;
 
 		//	Calcul width of the sprite
-		p->spr.spritewidht = abs((int)(p->win_y / (p->spr.transformy)));
+		p->spr.spritewidht = (double)p->ratio *((int)(p->win_y / (p->spr.transformy)));
 		p->spr.drawstartx = -p->spr.spritewidht / 2 + p->spr.spritescreenx;
 		if (p->spr.drawstartx < 0)
 			p->spr.drawstartx = 0;

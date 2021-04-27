@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 13:08:40 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/27 11:23:09 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/27 16:41:15 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,10 +117,6 @@ void	affiche_cube(t_parse *p, int x, int y, int couleur)
 		while (y < max_y)
 		{
 			my_mlx_pixel_put(p, x, y, couleur);
-			if (y % (p->minimap) == 0)
-				my_mlx_pixel_put(p, x, y, 0x00000000);
-			if (x % (p->minimap) == 0)
-				my_mlx_pixel_put(p, x, y, 0x00000000);
 			y++;
 		}
 		x++;
@@ -148,7 +144,7 @@ void	affiche_minimap(t_parse *p)
 			if (p->map[i][j] == '0')
 				affiche_cube(p, x, y, 0x0048c9b0);
 			if (p->map[i][j] == '2')
-				affiche_cube(p,x ,y, 0x00e18080);
+				affiche_cube(p, x, y, 0x00ff0000);
 			affiche_perso(p, p->dper_x * p->minimap, p->dper_y * p->minimap + 1, 0x00ebfe00);
 			x += p->minimap;
 			j++;
@@ -194,8 +190,9 @@ void	ft_init_dir(t_parse *p)
 
 void	ft_init1(t_parse *p)
 {
-	p->dper_x = (double)p->per_x / p->minimap;
-	p->dper_y = (double)p->per_y / p->minimap;
+	p->ratio = ((double)p->win_x / (double)p->win_y) / (4.0 / 3.0);
+	p->dper_x = (double)(p->per_x + 0.5);
+	p->dper_y = (double)(p->per_y + 0.5);
 	p->dirx = 0;
 	p->diry =  0;
 	p->planex = 0.000000000001;
@@ -234,8 +231,11 @@ int	get_textu_data(t_parse *p)
 
 int	mlx_main(t_parse *p)
 {
+	if (p->win_x > 1920)
+		p->win_x = 1920;
+	if (p->win_y > 1080)
+		p->win_y = 1080;
 	ft_init1(p);
-
 	p->mlx = mlx_init();
 	p->mlx_win = mlx_new_window(p->mlx, p->win_x, p->win_y, "Cub3D");
 	p->img = mlx_new_image(p->mlx, p->win_x, p->win_y);

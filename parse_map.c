@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 11:48:08 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/26 16:01:32 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/27 15:25:52 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ int	find_player(t_parse *p)
 			{
 				p->dir = p->map[i][j];
 				p->map[i][j] = '0';
-				p->per_x = j * p->minimap + p->minimap / 2;
-				p->per_y = i * p->minimap + p->minimap / 2;
+				p->per_x = j;
+				p->per_y = i;
 			}
 			if (p->map[i][j] == '2')
 				p->spr.nbspr += 1;
@@ -118,10 +118,10 @@ int	parse_map(t_parse *p)
 	int i;
 
 	i = 0;
-	init_sprite(p);
 	while (p->map[0][i])
 		i++;
 	p->minimap = (p->win_x / 4) / i;
+	init_sprite(p);
 	find_player(p);
 	sprite_handler(p);
 	return (1);

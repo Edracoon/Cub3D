@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 18:13:16 by marvin            #+#    #+#             */
-/*   Updated: 2021/04/27 11:40:01 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/27 13:16:55 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	sprite_text_parse(char *line, t_parse *parse)
 	if (!split[1])
 		return (0);
 	parse->sprite_text = split[1];
+	free(split[0]);
 	free(split);
 	printf("parse->sprite_text = %s\n", parse->sprite_text);
 	if (ft_strlen(parse->sprite_text) > 0)
@@ -32,10 +33,13 @@ int	sprite_text_parse(char *line, t_parse *parse)
 int	floor_color_parse(char *line, t_parse *parse)
 {
 	char	**split;
+	char	**split2;
 	int		i;
 
-	split = ft_split(line, ' ');
-	split = ft_split(split[1], ',');
+	split2 = ft_split(line, ' ');
+	free(split2[0]);
+	split = ft_split(split2[1], ',');
+	free(split2[1]);
 	if (!split[0] || !split[1] || !split[2])
 		return (0);
 	parse->floor_r = ft_atoi(split[0]);
@@ -58,9 +62,13 @@ int	floor_color_parse(char *line, t_parse *parse)
 int	ceiling_color_parse(char *line, t_parse *parse)
 {
 	char	**split;
+	char	**split2;
 	int		i;
-	split = ft_split(line, ' ');
-	split = ft_split(split[1], ',');
+
+	split2 = ft_split(line, ' ');
+	free(split2[0]);
+	split = ft_split(split2[1], ',');
+	free(split2[1]);
 	if (!split[0] || !split[1] || !split[2])
 		return (0);
 	parse->ceil_r = ft_atoi(split[0]);

@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 16:05:45 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/27 10:55:36 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/27 15:22:16 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ int	resolution_parse(char *line, t_parse *parse)
 		return (0);
 	parse->win_x = ft_atoi(split[1]);
 	parse->win_y = ft_atoi(split[2]);
-	free(split);
+	free(split[0]);
+	free(split[1]);
+	free(split[2]);
 	printf("x = %i | y = %i\n", parse->win_x, parse->win_y);
 	if (parse->win_x > 0 && parse->win_y > 0)
 		return (1);
@@ -35,6 +37,7 @@ int	north_text_parse(char *line, t_parse *parse)
 	char	**split;
 
 	split = ft_split(line, ' ');
+	free(split[0]);
 	if (!split[1])
 		return (0);
 	parse->north_text = split[1];
@@ -50,6 +53,7 @@ int	east_text_parse(char *line, t_parse *parse)
 	char	**split;
 
 	split = ft_split(line, ' ');
+	free(split[0]);
 	if (!split[1])
 		return (0);
 	parse->east_text = split[1];
@@ -65,6 +69,7 @@ int	west_text_parse(char *line, t_parse *parse)
 	char	**split;
 
 	split = ft_split(line, ' ');
+	free(split[0]);
 	if (!split[1])
 		return (0);
 	parse->west_text = split[1];
@@ -80,6 +85,7 @@ int	south_text_parse(char *line, t_parse *parse)
 	char	**split;
 
 	split = ft_split(line, ' ');
+	free(split[0]);
 	if (!split[1])
 		return (0);
 	parse->south_text = split[1];

@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 17:03:22 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/27 11:14:11 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/27 16:41:33 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ void	draw_line(t_parse *p)
 		texx = 64 - texx - 1;
 	if (p->side == 1 && p->raydiry < 0)
 		texx = 64 - texx -1;
-	step = 1.0 * 64 / p->lineheight;
-	texpos = (p->drawstart - p->win_y / 2 + p->lineheight / 2) * step;
+	step = 64.0 / p->lineheight;
+	texpos = (p->drawstart + p->lineheight / 2 - p->win_y / 2) * step;
 	while (y <= p->drawend)
 	{
 		texy = (int)texpos & (64 - 1);
@@ -96,7 +96,7 @@ void	calculate_wall_dist(t_parse *p)
 		p->walldist = ((double)p->mapx - p->dper_x + (1 - (double)p->stepx) / 2) / p->raydirx;
 	else
 		p->walldist = ((double)p->mapy - p->dper_y + (1 - (double)p->stepy) / 2) / p->raydiry;
-	p->lineheight = (int)(p->win_y / (p->walldist));
+	p->lineheight = ((double)p->win_y * p->ratio) / (p->walldist);
 	p->drawstart = -p->lineheight / 2 + p->win_y / 2;
 	if (p->drawstart < 0)
 		p->drawstart = 0;
@@ -195,5 +195,4 @@ void	raycasting_main(t_parse *p)
 		p->spr.zbuffer[p->raycastx] = p->walldist;
 		p->raycastx++;
 	}
-	sprite_casting(p);
 }
