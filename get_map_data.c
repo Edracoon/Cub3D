@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 15:28:49 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/26 16:18:16 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/27 11:35:04 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ void	get_map_parse(char *cub, t_parse *parse)
 			break ;
 		if (retu == 2)
 			break ;
+		free(line);
+		line = NULL;
 	}
 	if (gnl != 0 && retu != 2)
 	{

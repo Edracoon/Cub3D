@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   affichage_mlx_draw.c                               :+:      :+:    :+:   */
+/*   minilibx_init_draw.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 13:08:40 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/26 16:38:18 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/27 11:23:09 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,7 @@ void	affiche_minimap(t_parse *p)
 int	ft_affiche_image(t_parse *p)
 {
 	raycasting_main(p);
+	sprite_casting(p);
 	affiche_minimap(p);
 	ft_mouvement(p);
 	mlx_put_image_to_window(p->mlx, p->mlx_win, p->img, 0, 0);

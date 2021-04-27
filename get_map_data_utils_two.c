@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 18:13:16 by marvin            #+#    #+#             */
-/*   Updated: 2021/04/26 15:05:08 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/27 11:40:01 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	sprite_text_parse(char *line, t_parse *parse)
 	if (!split[1])
 		return (0);
 	parse->sprite_text = split[1];
-//	free(split);
+	free(split);
 	printf("parse->sprite_text = %s\n", parse->sprite_text);
 	if (ft_strlen(parse->sprite_text) > 0)
 		return (1);
@@ -32,6 +32,7 @@ int	sprite_text_parse(char *line, t_parse *parse)
 int	floor_color_parse(char *line, t_parse *parse)
 {
 	char	**split;
+	int		i;
 
 	split = ft_split(line, ' ');
 	split = ft_split(split[1], ',');
@@ -40,7 +41,10 @@ int	floor_color_parse(char *line, t_parse *parse)
 	parse->floor_r = ft_atoi(split[0]);
 	parse->floor_g = ft_atoi(split[1]);
 	parse->floor_b = ft_atoi(split[2]);
-	//free(split);
+	i = -1;
+	while (++i <= 3)
+		free(split[i]);
+	free(split);
 	if (parse->floor_r >= 0 && parse->floor_g >= 0
 		&& parse->floor_b >= 0)
 	{
@@ -54,7 +58,7 @@ int	floor_color_parse(char *line, t_parse *parse)
 int	ceiling_color_parse(char *line, t_parse *parse)
 {
 	char	**split;
-
+	int		i;
 	split = ft_split(line, ' ');
 	split = ft_split(split[1], ',');
 	if (!split[0] || !split[1] || !split[2])
@@ -62,7 +66,10 @@ int	ceiling_color_parse(char *line, t_parse *parse)
 	parse->ceil_r = ft_atoi(split[0]);
 	parse->ceil_g = ft_atoi(split[1]);
 	parse->ceil_b = ft_atoi(split[2]);
-	//free(split);
+	i = -1;
+	while (++i <= 3)
+		free(split[i]);
+	free(split);
 	if (parse->ceil_r >= 0 && parse->ceil_g >= 0
 		&& parse->ceil_b >= 0)
 	{

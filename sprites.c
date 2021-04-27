@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 14:03:46 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/26 17:10:03 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/27 11:58:24 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,10 @@ void	sprite_casting(t_parse *p)
 		p->spr.spritedist[i] = ((p->dper_x - p->sprite[i].x)
 				* (p->dper_x - p->sprite[i].x) + (p->dper_y
 					- p->sprite[i].y) * (p->dper_y - p->sprite[i].y));
+	}
+	i = -1;
+	while (++i < p->spr.nbspr)
+	{
 		j = -1;
 		while (++j < p->spr.nbspr - 1)
 		{
@@ -64,7 +68,7 @@ void	sprite_casting(t_parse *p)
 			p->spr.drawstarty = 0;
 		p->spr.drawendy = p->spr.spriteheight / 2 + p->win_y / 2;
 		if (p->spr.drawendy >= p->win_y)
-			p->spr.drawendy = p->win_y - 1;
+			p->spr.drawendy = p->win_y;
 
 		//	Calcul width of the sprite
 		p->spr.spritewidht = abs((int)(p->win_y / (p->spr.transformy)));
@@ -73,7 +77,7 @@ void	sprite_casting(t_parse *p)
 			p->spr.drawstartx = 0;
 		p->spr.drawendx = p->spr.spritewidht / 2 + p->spr.spritescreenx;
 		if (p->spr.drawendx >= p->win_x)
-			p->spr.drawendx = p->win_x - 1;
+			p->spr.drawendx = p->win_x;
 
 		//	on regarde toutes les colonnes x du sprites a l'ecran pour les draw
 		d = 0;
