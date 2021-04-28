@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 14:03:46 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/27 17:18:18 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/28 12:57:42 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 void	sprite_casting(t_parse *p)
 {
-	int		i;
-	int		stripe;
-	int		texx;
-	int		texy;
-	int		y;
-	int		d;
+	int					i;
+	int					stripe;
+	int					texx;
+	int					texy;
+	int					y;
+	int					d;
 	unsigned int		color;
-	int		j;
-	double	tmp;
+	int					j;
+	double				tmp;
 
 	// boucle qui trie les sprites par ordre d'appartition
 	i = -1;
@@ -60,7 +60,7 @@ void	sprite_casting(t_parse *p)
 		p->spr.transformx = p->spr.invdet * (p->diry * p->spr.spritex - p->dirx * p->spr.spritey);
 		p->spr.transformy = p->spr.invdet * (-p->planey * p->spr.spritex + p->planex * p->spr.spritey);
 		p->spr.spritescreenx = (int)((p->win_x / 2) * (1 + p->spr.transformx / p->spr.transformy));
-		//int vmove = (int)(64 / p->spr.transformy);
+		//int vmove = (int)(16 / p->spr.transformy);
 		p->spr.spriteheight = (double)p->ratio * ((int)(p->win_y / p->spr.transformy));
 
 		// Calcul lowest and highest pixel to fill in current stripe
@@ -97,7 +97,7 @@ void	sprite_casting(t_parse *p)
 					d = y * 256 - p->win_y * 128 + p->spr.spriteheight * 128;
 					texy = ((d * 64) / p->spr.spriteheight) / 256;
 					color = get_color_textu(p, texx, texy, 4);
-					if (color != 0xff000000)
+					if (color != 0x00000000 && color != 0xff000000)
 						my_mlx_pixel_put(p, stripe, y, color);
 					y++;
 				}

@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 15:28:49 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/27 13:28:45 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/28 18:21:59 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,52 +14,59 @@
 #include "cub3d.h"
 #include "libft/libft.h"
 
-int	get_fd(char *cub)
+void	ft_error(char *str, t_parse *p)
 {
-	int	fd;
+	(void)p;
+	printf("%s", str);
+	exit(0);
+}
 
-	fd = open(cub, O_RDONLY);
-	if (fd == -1)
+void	stockage_map2(t_parse *p, int i, char *line)
+{
+	int		j;
+
+	j = 0;
+	p->map[i] = (char *)malloc(sizeof(char) * (p->sizeline + 1));
+	if (!(p->map[i]))
+		ft_error("Error\nmap malloc error\n", p);
+	while (line[j] != '\0')
 	{
-		printf("Error: Can not open file");
-		return (-1);
+		p->map[i][j] = line[j];
+		j++;
 	}
-	return (fd);
+	p->map[i][j] = '\0';
+	printf("%s\n", p->map[i]);
+	free(line);
+	line = NULL;
 }
 
-int	check_last_time_cub(t_parse *parse)
+void	stockage_map(char *cub, t_parse *p, int fd)
 {
-	if (!parse->west_text || !parse->north_text
-		|| !parse->south_text || !parse->east_text
-		|| !parse->sprite_text || parse->floor_r < 0
-		|| parse->floor_g < 0 || parse->floor_b < 0
-		|| parse->ceil_r < 0 || parse->ceil_g < 0
-		|| parse->ceil_b < 0)
-		return (0);
-	return (1);
-}
+	int		i;
+	char	*line;
+	int		gnl;
+	int		retu;
 
-void	stockage_map(char *line, t_parse *parse, int fd, int gnl)
-{
-	int	i;
-	int	j;
-
-	i = 0;
+	fd = get_fd(cub, p);
+	gnl = 1;
 	while (gnl > 0)
 	{
-		j = 0;
-		while (line[j] != '\0')
-		{
-			parse->map[i][j] = line[j];
-			j++;
-		}
-		parse->map[i][j] = '\0';
-		printf("%s\n", parse->map[i]);
-		gnl = get_next_line(fd,	&line);
-		i++;
+		gnl = get_next_line(fd, &line);
+		retu = go_to_map(line);
+		if (retu == 0)
+			break ;
+		if (retu == 2)
+			break ;
+		free(line);
+		line = NULL;
 	}
-	parse_map(parse);
-	return ;
+	i = -1;
+	while (gnl > 0)
+	{
+		stockage_map2(p, ++i, line);
+		gnl = get_next_line(fd, &line);
+	}
+	parse_map(p);
 }
 
 int	parse_line(char *line, t_parse *parse)
@@ -90,7 +97,7 @@ int	parse_line(char *line, t_parse *parse)
 	return (i);
 }
 
-void	get_map_parse(char *cub, t_parse *parse)
+void	get_map_parse(char *cub, t_parse *p)
 {
 	int		fd;
 	int		gnl;
@@ -98,13 +105,11 @@ void	get_map_parse(char *cub, t_parse *parse)
 	char	*line;
 
 	gnl = 1;
-	fd = get_fd(cub);
-	if (fd == -1)
-		return ;
+	fd = get_fd(cub, p);
 	while (gnl > 0)
 	{
 		gnl = get_next_line(fd, &line);
-		retu = parse_line(line, parse);
+		retu = parse_line(line, p);
 		if (retu == 0)
 			break ;
 		if (retu == 2)
@@ -113,15 +118,10 @@ void	get_map_parse(char *cub, t_parse *parse)
 		line = NULL;
 	}
 	if (gnl != 0 && retu != 2)
-	{
-		printf("Error: parse in .cub is invalid\n");
-		return ;
-	}
-	if (check_last_time_cub(parse) == 0)
-	{
-		printf("Error: parse in .cub is invalid\n");
-		return ;
-	}
-	stockage_map(line, parse, fd, gnl);
-	mlx_main(parse);
+		ft_error("Error\nParse in .cub is invalid\n", p);
+	if (check_last_time_cub(p) == 0)
+		ft_error("Error\nParse in .cub is invalid\n", p);
+	size_map_malloc(line, p, fd, gnl);
+	stockage_map(cub, p, fd);
+	mlx_main(p);
 }

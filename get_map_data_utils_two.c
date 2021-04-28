@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 18:13:16 by marvin            #+#    #+#             */
-/*   Updated: 2021/04/27 13:16:55 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/28 18:26:58 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ int	floor_color_parse(char *line, t_parse *parse)
 	if (parse->floor_r >= 0 && parse->floor_g >= 0
 		&& parse->floor_b >= 0)
 	{
-		parse->floor_color = (parse->floor_r << 16) | (parse->floor_g << 8) | (parse->floor_b);
-		printf("%x\n", parse->floor_color);
+		parse->floor_color = (parse->floor_r << 16) \
+			| (parse->floor_g << 8) | (parse->floor_b);
 		return (1);
 	}
 	return (0);
@@ -83,7 +83,6 @@ int	ceiling_color_parse(char *line, t_parse *parse)
 	{
 		parse->ceil_color
 			= (parse->ceil_r << 16) | (parse->ceil_g << 8) | (parse->ceil_b);
-		printf("%x\n", parse->ceil_color);
 		return (1);
 	}
 	return (0);

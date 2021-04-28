@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 11:52:22 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/27 13:52:38 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/28 18:48:20 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,16 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <math.h>
-# define rotspeed 0.07
+# define ROTSPEED 0.07
 
 typedef struct s_sprite
 {
-	double x;
-	double y;
+	double	x;
+	double	y;
 }	t_sprite;
 
 typedef struct s_spr
 {
-	double		x;
-	double		y;
 	double		spritex;
 	double		spritey;
 	int			texture;
@@ -63,7 +61,9 @@ typedef struct s_textu
 
 typedef struct s_parse
 {
-	char		map[255][255];
+	char		**map;
+	int			sizeline;
+	int			sizecollum;
 	int			win_x;
 	int			win_y;
 	int			minimap;
@@ -71,8 +71,8 @@ typedef struct s_parse
 
 	int			per_x;
 	int			per_y;
-	double		dper_x; // pos x du perso avec un double pour les decimaux
-	double		dper_y; // pos y du perso avec un double pour les decimaux
+	double		dper_x;
+	double		dper_y;
 	int			kill_win;
 	int			forward;
 	int			backward;
@@ -81,6 +81,15 @@ typedef struct s_parse
 	int			rot_left;
 	int			rot_right;
 	int			mine;
+
+	// wall textures
+
+	double		wallx;
+	double		step;
+	double		texpos;
+	int			texx;
+	int			texy;
+	int			ty;
 
 	double		ratio;
 	int			raycastx;
@@ -145,6 +154,7 @@ typedef struct s_parse
 
 int				main(int ac, char *av[]);
 void			get_map_parse(char *cub, t_parse *parse);
+int				parse_line(char *line, t_parse *parse);
 int				resolution_parse(char *line, t_parse *parse);
 int				north_text_parse(char *line, t_parse *parse);
 int				east_text_parse(char *line, t_parse *parse);
@@ -164,5 +174,27 @@ unsigned int	get_color_textu(t_parse *p, int x, int y, int nb);
 
 int				key_pressed(int keycode, t_parse *p);
 int				key_released(int keycode, t_parse *p);
+int				ft_mouvement(t_parse *p);
+void			ft_backward(t_parse *p);
+void			ft_forward(t_parse *p);
+void			ft_destroy_windows(t_parse *p);
+void			ft_rotleft(t_parse *p);
+void			ft_rotright(t_parse *p);
+void			ft_leftward(t_parse *p);
+void			ft_rightward(t_parse *p);
+
+void			init_dir_textu(t_parse *p);
+unsigned int	get_color_textu(t_parse *p, int x, int y, int nb);
+void			draw_floor(t_parse *p);
+void			draw_ceiling(t_parse *p);
+void			calculate_wall_dist(t_parse *p);
+void			draw_line(t_parse *p);
+void			draw_line2(t_parse *p);
+
+int				go_to_map(char *line);
+void			size_map_malloc(char *line, t_parse *p, int fd, int gnl);
+int				get_fd(char *cub, t_parse *p);
+int				check_last_time_cub(t_parse *parse);
+void			ft_error(char *str, t_parse *p);
 
 #endif

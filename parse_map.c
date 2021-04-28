@@ -6,13 +6,21 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 11:48:08 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/27 15:25:52 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/28 18:40:49 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line/get_next_line.h"
 #include "cub3d.h"
 #include "libft/libft.h"
+
+void	ft_setup_dir(t_parse *p, int i, int j)
+{
+	p->dir = p->map[i][j];
+	p->map[i][j] = '0';
+	p->dper_x = j + 0.5;
+	p->dper_y = i + 0.5;
+}
 
 int	find_player(t_parse *p)
 {
@@ -22,18 +30,13 @@ int	find_player(t_parse *p)
 	i = 0;
 	j = 0;
 	p->spr.nbspr = 0;
-	while (p->map[i][j])
+	while (p->sizecollum > i && p->map[i][j])
 	{
-		while (p->map[i][j])
+		while (p->map[i][j] && p->sizeline > j)
 		{
 			if (p->map[i][j] == 'W' || p->map[i][j] == 'E'
 				|| p->map[i][j] == 'N' || p->map[i][j] == 'S')
-			{
-				p->dir = p->map[i][j];
-				p->map[i][j] = '0';
-				p->per_x = j;
-				p->per_y = i;
-			}
+				ft_setup_dir(p, i, j);
 			if (p->map[i][j] == '2')
 				p->spr.nbspr += 1;
 			j++;
@@ -54,35 +57,35 @@ void	sprite_handler(t_parse *p)
 	nb = 0;
 	i = 0;
 	j = 0;
-
-	while (i <= p->spr.nbspr)
+	while (p->sizecollum > i && p->map[i][j])
 	{
-		p->sprite[i].x = 0.0;
-		p->sprite[i].y = 0.0;
-		i++;
-	}
-	i = 0;
-	while (p->map[i][j])
-	{
-	 	while (p->map[i][j])
-	 	{
-	 		if (p->map[i][j] == '2' && nb < p->spr.nbspr)
-	 		{
+		while (p->map[i][j] && p->sizeline > j)
+		{
+			if (p->map[i][j] == '2' && nb < p->spr.nbspr)
+			{
 				p->sprite[nb].x = (double)j + 0.5;
 				p->sprite[nb].y = (double)i + 0.5;
-				printf("posx %i = %f\n", nb, p->sprite[nb].x);
-				printf("posy %i = %f\n", nb, p->sprite[nb].y);
-	 			nb++;
-	 		}
-	 		j++;
-	 	}
+				nb++;
+			}
+			j++;
+		}
 		i++;
 		j = 0;
 	}
 }
 
-void	init_var_spr(t_parse *p)
+void	init_sprite(t_parse *p)
 {
+	p->spr.spriteord = (int *)malloc(sizeof(int) * p->spr.nbspr);
+	p->spr.spritedist = (double *)malloc(sizeof(double) * p->spr.nbspr);
+	if (!(p->spr.spriteord) || !(p->spr.spritedist))
+		exit(0);
+	p->spr.zbuffer = (double *)malloc(sizeof(double) * p->win_x);
+	if (!(p->spr.zbuffer))
+		exit(0);
+	p->sprite = (t_sprite *)malloc(sizeof(t_sprite) * p->spr.nbspr);
+	if (!p->sprite)
+		exit(0);
 	p->spr.spritex = 0;
 	p->spr.spritey = 0;
 	p->spr.texture = 0;
@@ -98,31 +101,24 @@ void	init_var_spr(t_parse *p)
 	p->spr.drawendy = 0;
 }
 
-void	init_sprite(t_parse *p)
-{
-	p->spr.spriteord = (int *)malloc(10000);
-	p->spr.spritedist = (double *)malloc(10000);
-	if (!(p->spr.spriteord) || !(p->spr.spritedist))
-		exit(0);
-	p->spr.zbuffer = (double *)malloc(10000);
-	if (!(p->spr.zbuffer))
-		exit(0);
-	p->sprite = (t_sprite *)malloc(10000);
-	if (!p->sprite)
-		exit(0);
-	init_var_spr(p);
-}
-
 int	parse_map(t_parse *p)
 {
-	int i;
+	int	i;
 
 	i = 0;
+	if (p->win_x > 1920)
+		p->win_x = 1920;
+	if (p->win_y > 1080)
+		p->win_y = 1080;
+	if (p->win_x < 320)
+		p->win_x = 320;
+	if (p->win_y < 200)
+		p->win_y = 200;
 	while (p->map[0][i])
 		i++;
-	p->minimap = (p->win_x / 4) / i;
-	init_sprite(p);
+	p->minimap = (p->win_x / 5) / i;
 	find_player(p);
+	init_sprite(p);
 	sprite_handler(p);
 	return (1);
 }
