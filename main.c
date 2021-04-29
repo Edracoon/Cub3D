@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 11:46:54 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/28 18:28:25 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/29 17:42:59 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	init_struc2(t_parse *p)
 	p->sprite_text = NULL;
 	p->sizeline = 0;
 	p->sizecollum = 0;
+	p->nbplayer = 0;
 }
 
 void	init_parse_struct(t_parse *p)
@@ -55,14 +56,20 @@ void	init_parse_struct(t_parse *p)
 	p->planey = 0.66;
 	p->win_x = 0;
 	p->win_y = 0;
-	p->per_x = 0;
-	p->per_y = 0;
 	p->floor_r = -1;
 	p->floor_g = -1;
 	p->floor_b = -1;
 	p->ceil_r = -1;
 	p->ceil_g = -1;
 	p->ceil_b = -1;
+	p->reso = 0;
+	p->no = 0;
+	p->so = 0;
+	p->we = 0;
+	p->ea = 0;
+	p->s = 0;
+	p->f = 0;
+	p->c = 0;
 	init_struc2(p);
 }
 

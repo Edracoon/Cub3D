@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/28 18:18:39 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/28 18:38:57 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/29 16:39:30 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	check_last_time_cub(t_parse *parse)
 		|| !parse->sprite_text || parse->floor_r < 0
 		|| parse->floor_g < 0 || parse->floor_b < 0
 		|| parse->ceil_r < 0 || parse->ceil_g < 0
-		|| parse->ceil_b < 0)
+		|| parse->ceil_b < 0 || parse->win_x <= 0 || parse->win_y <= 0)
 		return (0);
 	return (1);
 }

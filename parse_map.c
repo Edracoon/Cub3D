@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 11:48:08 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/28 18:40:49 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/29 16:03:44 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int	find_player(t_parse *p)
 		i++;
 		j = 0;
 	}
-	printf("p->spr.nbspr = %i\n", p->spr.nbspr);
 	return (0);
 }
 
@@ -106,6 +105,7 @@ int	parse_map(t_parse *p)
 	int	i;
 
 	i = 0;
+	check_map_valid(p);
 	if (p->win_x > 1920)
 		p->win_x = 1920;
 	if (p->win_y > 1080)

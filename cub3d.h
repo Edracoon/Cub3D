@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 11:52:22 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/28 18:48:20 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/29 17:38:09 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,20 @@ typedef struct s_parse
 	char		**map;
 	int			sizeline;
 	int			sizecollum;
+	int			nbplayer;
 	int			win_x;
 	int			win_y;
 	int			minimap;
 	double		speed;
+	int			reso;
+	int			no;
+	int			so;
+	int			we;
+	int			ea;
+	int			s;
+	int			f;
+	int			c;
 
-	int			per_x;
-	int			per_y;
 	double		dper_x;
 	double		dper_y;
 	int			kill_win;
@@ -190,11 +197,18 @@ void			draw_ceiling(t_parse *p);
 void			calculate_wall_dist(t_parse *p);
 void			draw_line(t_parse *p);
 void			draw_line2(t_parse *p);
+void			my_mlx_pixel_put(t_parse *data, int x, int y, int color);
+void			affiche_perso(t_parse *p, int x, int y, int couleur);
+void			affiche_cube(t_parse *p, int x, int y, int couleur);
+void			map_type_to_draw(t_parse *p, int i, int j, int x, int y);
+void			affiche_minimap(t_parse *p);
 
 int				go_to_map(char *line);
 void			size_map_malloc(char *line, t_parse *p, int fd, int gnl);
 int				get_fd(char *cub, t_parse *p);
 int				check_last_time_cub(t_parse *parse);
+void			check_map_valid(t_parse *p);
+int				is_num_boucle(char *str);
 void			ft_error(char *str, t_parse *p);
 
 #endif

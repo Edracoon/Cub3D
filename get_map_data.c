@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 15:28:49 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/28 18:21:59 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/29 18:38:20 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	stockage_map2(t_parse *p, int i, char *line)
 		j++;
 	}
 	p->map[i][j] = '\0';
-	printf("%s\n", p->map[i]);
 	free(line);
 	line = NULL;
 }
@@ -74,21 +73,21 @@ int	parse_line(char *line, t_parse *parse)
 	int	i;
 
 	i = 0;
-	if (ft_strnstr(line, "R", ft_strlen(line)))
+	if (ft_strnstr(line, "R ", 2))
 		i = resolution_parse(line, parse);
-	else if (ft_strnstr(line, "NO", ft_strlen(line)))
+	else if (ft_strnstr(line, "NO ", 3))
 		i = north_text_parse(line, parse);
-	else if (ft_strnstr(line, "SO", ft_strlen(line)))
+	else if (ft_strnstr(line, "SO ", 3))
 		i = south_text_parse(line, parse);
-	else if (ft_strnstr(line, "WE", ft_strlen(line)))
+	else if (ft_strnstr(line, "WE ", 3))
 		i = west_text_parse(line, parse);
-	else if (ft_strnstr(line, "EA", ft_strlen(line)))
+	else if (ft_strnstr(line, "EA ", 3))
 		i = east_text_parse(line, parse);
-	else if (ft_strnstr(line, "S", ft_strlen(line)))
+	else if (ft_strnstr(line, "S ", 2))
 		i = sprite_text_parse(line, parse);
-	else if (ft_strnstr(line, "F", ft_strlen(line)))
+	else if (ft_strnstr(line, "F ", 2))
 		i = floor_color_parse(line, parse);
-	else if (ft_strnstr(line, "C", ft_strlen(line)))
+	else if (ft_strnstr(line, "C ", 2))
 		i = ceiling_color_parse(line, parse);
 	else if (line[i] == '\n' || !ft_strnstr(line, "1", ft_strlen(line)))
 		return (1);
