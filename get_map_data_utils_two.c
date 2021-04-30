@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 18:13:16 by marvin            #+#    #+#             */
-/*   Updated: 2021/04/29 18:52:02 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/30 12:06:49 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ int	sprite_text_parse(char *line, t_parse *parse)
 	if (parse->s > 1)
 		ft_error("Error\nMore than one sprite texture", parse);
 	split = ft_split(line, ' ');
-	if (!split[1])
-		return (0);
-	parse->sprite_text = split[1];
 	free(split[0]);
+	if (!split[1] || split[2])
+		ft_error("Error\nSprite texture: too much parameters\n", parse);
+	parse->sprite_text = split[1];
 	free(split);
 	if (ft_strlen(parse->sprite_text) > 0)
 		return (1);
@@ -36,9 +36,28 @@ void	atoi_rgb_floor(t_parse *parse, char *split0, char *split1, char *split2)
 {
 	if (!split0 || !split1 || !split2)
 		ft_error("Error\nmalloc error\n", parse);
-	parse->floor_r = ft_atoi(split0);
-	parse->floor_g = ft_atoi(split1);
-	parse->floor_b = ft_atoi(split2);
+	if (ft_atoi(split0) <= 255 && ft_atoi(split1) <= 255 && ft_atoi(split2) <= 255)
+	{
+		parse->floor_r = ft_atoi(split0);
+		parse->floor_g = ft_atoi(split1);
+		parse->floor_b = ft_atoi(split2);
+	}
+	else
+		ft_error("Error\nRGB color must be >= 0 && <= 255", parse);
+}
+
+void	atoi_rgb_ceiling(t_parse *parse, char *split0, char *split1, char *split2)
+{
+	if (!split0 || !split1 || !split2)
+		ft_error("Error\nmalloc error\n", parse);
+	if (ft_atoi(split0) <= 255 && ft_atoi(split1) <= 255 && ft_atoi(split2) <= 255)
+	{
+		parse->ceil_r = ft_atoi(split0);
+		parse->ceil_g = ft_atoi(split1);
+		parse->ceil_b = ft_atoi(split2);
+	}
+	else
+		ft_error("Error\nRGB color must be >= 0 && <= 255\n", parse);
 }
 
 int	floor_color_parse(char *line, t_parse *parse)
@@ -52,15 +71,14 @@ int	floor_color_parse(char *line, t_parse *parse)
 	split2 = ft_split(line, ' ');
 	if (split2[1] && split2[2])
 		ft_error("Error\nFloor color split error\n", parse);
+	if (!split2[1])
+		ft_error("Error\ntest\n", parse);
 	free(split2[0]);
 	split = ft_split(split2[1], ',');
-	if (!(is_num_boucle(split[0])) || (!(is_num_boucle(split[1]))
+	free(split2[1]);
+	if (!split[0] || !split[1] || !split[2] || !(is_num_boucle(split[0])) || (!(is_num_boucle(split[1]))
 			|| (!(is_num_boucle(split[2])))))
-	{
-		free(split);
-		free(split2[1]);
-		ft_error("Error\nFloor color not numeric\n", parse);
-	}
+		ft_error("Error\nFloor color in .cub\n", parse);
 	atoi_rgb_floor(parse, split[0], split[1], split[2]);
 	free(split[0]);
 	free(split[1]);
@@ -80,14 +98,17 @@ int	ceiling_color_parse(char *line, t_parse *parse)
 	if (parse->c > 1)
 		ft_error("Error\nMore than one ceiling rgb\n", parse);
 	split2 = ft_split(line, ' ');
+	if (split2[1] && split2[2])
+		ft_error("Error\nCeiling color split error\n", parse);
+	if (!split2[1])
+		ft_error("Error\ntest\n", parse);
 	free(split2[0]);
 	split = ft_split(split2[1], ',');
 	free(split2[1]);
-	if (!split[0] || !split[1] || !split[2])
-		ft_error("Error\nCeiling color split error\n", parse);
-	parse->ceil_r = ft_atoi(split[0]);
-	parse->ceil_g = ft_atoi(split[1]);
-	parse->ceil_b = ft_atoi(split[2]);
+	if (!split[0] || !split[1] || !split[2] || !(is_num_boucle(split[0]))
+		|| (!(is_num_boucle(split[1])) || (!(is_num_boucle(split[2])))))
+		ft_error("Error\nCeiling color in .cub\n", parse);
+	atoi_rgb_ceiling(parse, split[0], split[1], split[2]);
 	free(split[0]);
 	free(split[1]);
 	free(split[2]);

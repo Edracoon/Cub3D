@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 12:47:22 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/29 18:37:38 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/30 12:28:22 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	check_char_zero(t_parse *p, int i, int j)
 	int	good;
 
 	good = 0;
+
+	if (p->map[i + 1][j] || p->map[i - 1])
 	if (p->map[i - 1][j] == '1' || p->map[i - 1][j] == '0'
 		|| is_dir(p->map[i - 1][j]) || p->map[i - 1][j] == '2')
 		good++;
@@ -38,7 +40,7 @@ void	check_char_zero(t_parse *p, int i, int j)
 		|| is_dir(p->map[i][j - 1]) || p->map[i][j - 1] == '2')
 		good++;
 	if (good != 4)
-		ft_error("Error\nMap invalid in .cub\n", p);
+		ft_error("Error\nMap invalid in .cub ('0' '1' '2')\n", p);
 }
 
 void	check_map_valid(t_parse *p)
@@ -53,13 +55,12 @@ void	check_map_valid(t_parse *p)
 	{
 		while (p->sizeline > j && p->map[i][j])
 		{
-			if (p->map[i][j] != ' ' && p->map[i][j] != '1' &&
-					p->map[i][j] != '0' && p->map[i][j] != '2' &&
+			if (p->map[i][j] != '1' && p->map[i][j] != '0' && p->map[i][j] != '2' &&
 					!(is_dir(p->map[i][j])))
 				ft_error("Error\nInvalid character in map.\n", p);
-			if (p->map[i][j] == '0')
+			else if (p->map[i][j] == '0' || p->map[i][j] == '2')
 				check_char_zero(p, i, j);
-			if (is_dir(p->map[i][j]))
+			else if (is_dir(p->map[i][j]))
 			{
 				check_char_zero(p, i, j);
 				p->nbplayer++;
