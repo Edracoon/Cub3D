@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 15:28:49 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/30 10:54:32 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/30 17:08:11 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,15 @@ void	stockage_map(char *cub, t_parse *p, int fd)
 		line = NULL;
 	}
 	i = -1;
-	while (gnl > 0)
+	while (gnl > 0 && i < p->sizecollum)
 	{
 		stockage_map2(p, ++i, line);
 		gnl = get_next_line(fd, &line);
+		printf("%s\n", line);
 	}
+	p->map[p->sizecollum] = (char *)malloc(sizeof(char) * (p->sizeline + 1));
+	ft_bzero(p->map[p->sizecollum], p->sizeline + 1);
+	printf("%s\n", p->map[p->sizecollum]);
 	parse_map(p);
 }
 

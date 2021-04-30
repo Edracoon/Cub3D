@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 11:17:17 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/30 10:56:23 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/04/30 13:53:10 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,6 @@ void	map_type_to_draw(t_parse *p, int i, int j, int x, int y)
 	if (p->map[i][j] == '1')
 		affiche_cube(p, x, y, 0x00117864);
 	if (p->map[i][j] == '0')
-		affiche_cube(p, x, y, 0x0048c9b0);
-	if (p->map[i][j] == ' ')
 		affiche_cube(p, x, y, 0x0048c9b0);
 	if (p->map[i][j] == '2')
 		affiche_cube(p, x, y, 0x00ff0000);
