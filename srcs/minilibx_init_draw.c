@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 13:08:40 by epfennig          #+#    #+#             */
-/*   Updated: 2021/05/03 11:30:18 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/05/03 17:07:00 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 int	ft_affiche_image(t_parse *p)
 {
 	raycasting_main(p);
-	sprite_casting(p);
+	//sprite_casting(p);
 	affiche_minimap(p);
 	ft_mouvement(p);
 	mlx_put_image_to_window(p->mlx, p->mlx_win, p->img, 0, 0);

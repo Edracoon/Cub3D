@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 16:13:11 by epfennig          #+#    #+#             */
-/*   Updated: 2021/05/03 15:02:48 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/05/03 17:03:59 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,6 @@ void	free_tab(char **tab)
 	i = 0;
 	while (tab[i])
 		free(tab[i++]);
+	free(tab[i]);
 	free(tab);
 }

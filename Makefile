@@ -26,8 +26,8 @@ OBJS = $(SRCS:.c=.o)
 all:		$(NAME)
 
 $(NAME):	$(OBJS)
-			#gcc $(CFLAGS) $(OBJS) -I $(LIB_DIR) -lmlx -framework OpenGL -framework Appkit -o $(NAME)
-			gcc $(CFLAGS) -Iminilibx_linux $(OBJS) -L minilibx-linux -lmlx -lm -lbsd -lX11 -lXext -o $(NAME)
+			gcc $(CFLAGS) $(OBJS) -I $(LIB_DIR) -lmlx -framework OpenGL -framework Appkit -o $(NAME)
+			#gcc $(CFLAGS) -Iminilibx_linux $(OBJS) -L minilibx-linux -lmlx -lm -lbsd -lX11 -lXext -o $(NAME)
 
 
 clean:

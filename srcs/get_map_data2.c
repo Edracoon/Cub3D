@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/28 18:18:39 by epfennig          #+#    #+#             */
-/*   Updated: 2021/05/03 11:30:00 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/05/03 17:38:43 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	size_map_malloc(char *line, t_parse *p, int fd, int gnl)
 		line = NULL;
 		gnl = get_next_line(fd, &line);
 	}
+	free(line);
 	printf("size collum = %i\n", p->sizecollum);
 	p->map = (char **)malloc(sizeof(char *) * (p->sizecollum));
 	if (!(p->map))

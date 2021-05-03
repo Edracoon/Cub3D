@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 15:28:49 by epfennig          #+#    #+#             */
-/*   Updated: 2021/05/03 15:06:31 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/05/03 17:42:10 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ void	stockage_map2(t_parse *p, int i, char *line)
 	j = 0;
 	p->map[i] = (char *)malloc(sizeof(char) * (p->sizeline + 1));
 	if (!(p->map[i]))
+	{
+		free(line);
 		ft_error("Error\nmap malloc error\n", p);
+	}
 	while (line[j] != '\0')
 	{
 		p->map[i][j] = line[j];
@@ -62,15 +65,12 @@ void	stockage_map(char *cub, t_parse *p, int fd)
 	i = 0;
 	while (gnl > 0)
 	{
-		printf("%s\n", line);
 		stockage_map2(p, i, line);
 		gnl = get_next_line(fd, &line);
 		i++;
 	}
 	stockage_map2(p, i, line);
 	i = -1;
-	//while (++i < p->sizecollum)
-	//	printf("%s\n", p->map[i]);
 	parse_map(p);
 }
 
@@ -125,6 +125,8 @@ void	get_map_parse(char *cub, t_parse *p)
 		free(line);
 		line = NULL;
 	}
+	if (retu == 0)
+		free(line);
 	if (gnl != 0 && retu != 2)
 		ft_error("Error\nParse in .cub is invalid\n", p);
 	if (check_last_time_cub(p) == 0)
