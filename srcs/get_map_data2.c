@@ -6,13 +6,13 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/28 18:18:39 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/30 17:01:23 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/05/03 11:30:00 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line/get_next_line.h"
-#include "cub3d.h"
-#include "libft/libft.h"
+#include "../get_next_line/get_next_line.h"
+#include "../includes/cub3d.h"
+#include "../libft/libft.h"
 
 int	go_to_map(char *line)
 {
@@ -66,7 +66,7 @@ void	size_map_malloc(char *line, t_parse *p, int fd, int gnl)
 		gnl = get_next_line(fd, &line);
 	}
 	printf("size collum = %i\n", p->sizecollum);
-	p->map = (char **)malloc(sizeof(char *) * (p->sizecollum + 1));
+	p->map = (char **)malloc(sizeof(char *) * (p->sizecollum));
 	if (!(p->map))
 		ft_error("Error\nmap malloc error\n", p);
 }

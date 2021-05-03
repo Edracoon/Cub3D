@@ -6,11 +6,13 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 14:03:46 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/28 12:57:42 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/05/03 11:30:39 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../get_next_line/get_next_line.h"
+#include "../includes/cub3d.h"
+#include "../libft/libft.h"
 
 void	sprite_casting(t_parse *p)
 {

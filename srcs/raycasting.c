@@ -6,13 +6,13 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 17:03:22 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/28 18:17:53 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/05/03 11:30:30 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line/get_next_line.h"
-#include "cub3d.h"
-#include "libft/libft.h"
+#include "../get_next_line/get_next_line.h"
+#include "../includes/cub3d.h"
+#include "../libft/libft.h"
 
 void	ft_hit_wall(t_parse *p)
 {

@@ -1,13 +1,13 @@
 NAME = cub3d
 
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror
 
 LIB_DIR = /usr/local/include
 
-SRCS =	main.c get_map_data.c get_map_data_utils.c get_map_data_utils_two.c \
-		parse_map.c minilibx_init_draw.c key_management.c raycasting.c sprites.c \
-		ft_mouvement.c ft_mouvement2.c raycasting2.c draw_ceil_floor.c get_map_data2.c \
-		minimap.c check_map_valid.c utils_random.c \
+SRCS =	srcs/main.c srcs/get_map_data.c srcs/get_map_data_utils.c srcs/get_map_data_utils_two.c \
+		srcs/parse_map.c srcs/minilibx_init_draw.c srcs/key_management.c srcs/raycasting.c srcs/sprites.c \
+		srcs/ft_mouvement.c srcs/ft_mouvement2.c srcs/raycasting2.c srcs/draw_ceil_floor.c srcs/get_map_data2.c \
+		srcs/minimap.c srcs/check_map_valid.c srcs/utils_random.c \
 		get_next_line/get_next_line.c get_next_line/get_next_line_utils.c \
 		libft/ft_atoi.c libft/ft_isalpha.c libft/ft_isascii.c libft/ft_isdigit.c \
 		libft/ft_isprint.c libft/ft_isalnum.c libft/ft_strchr.c libft/ft_strdup.c \

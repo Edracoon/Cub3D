@@ -6,12 +6,13 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 11:46:54 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/29 17:42:59 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/05/03 11:29:58 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
-#include "cub3d.h"
+#include "../get_next_line/get_next_line.h"
+#include "../includes/cub3d.h"
+#include "../libft/libft.h"
 
 int	check_map_name(char *av)
 {

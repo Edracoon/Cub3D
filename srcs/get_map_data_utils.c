@@ -6,13 +6,13 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 16:05:45 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/30 12:05:33 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/05/03 11:30:01 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line/get_next_line.h"
-#include "cub3d.h"
-#include "libft/libft.h"
+#include "../get_next_line/get_next_line.h"
+#include "../includes/cub3d.h"
+#include "../libft/libft.h"
 
 int	resolution_parse(char *line, t_parse *parse)
 {

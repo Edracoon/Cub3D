@@ -6,13 +6,13 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 18:13:16 by marvin            #+#    #+#             */
-/*   Updated: 2021/04/30 12:06:49 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/05/03 11:30:56 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line/get_next_line.h"
-#include "cub3d.h"
-#include "libft/libft.h"
+#include "../get_next_line/get_next_line.h"
+#include "../includes/cub3d.h"
+#include "../libft/libft.h"
 
 int	sprite_text_parse(char *line, t_parse *parse)
 {
@@ -76,8 +76,8 @@ int	floor_color_parse(char *line, t_parse *parse)
 	free(split2[0]);
 	split = ft_split(split2[1], ',');
 	free(split2[1]);
-	if (!split[0] || !split[1] || !split[2] || !(is_num_boucle(split[0])) || (!(is_num_boucle(split[1]))
-			|| (!(is_num_boucle(split[2])))))
+	if (!split[0] || !split[1] || !split[2] || !(is_num_boucle(split[0])) || !(is_num_boucle(split[1]))
+			|| (!(is_num_boucle(split[2]))) || split[3])
 		ft_error("Error\nFloor color in .cub\n", parse);
 	atoi_rgb_floor(parse, split[0], split[1], split[2]);
 	free(split[0]);
@@ -98,15 +98,15 @@ int	ceiling_color_parse(char *line, t_parse *parse)
 	if (parse->c > 1)
 		ft_error("Error\nMore than one ceiling rgb\n", parse);
 	split2 = ft_split(line, ' ');
+	if (!split2[1])
+		ft_error("Error\nCeiling error\n", parse);
 	if (split2[1] && split2[2])
 		ft_error("Error\nCeiling color split error\n", parse);
-	if (!split2[1])
-		ft_error("Error\ntest\n", parse);
 	free(split2[0]);
 	split = ft_split(split2[1], ',');
 	free(split2[1]);
 	if (!split[0] || !split[1] || !split[2] || !(is_num_boucle(split[0]))
-		|| (!(is_num_boucle(split[1])) || (!(is_num_boucle(split[2])))))
+		|| (!(is_num_boucle(split[1])) || (!(is_num_boucle(split[2]))) || split[3]))
 		ft_error("Error\nCeiling color in .cub\n", parse);
 	atoi_rgb_ceiling(parse, split[0], split[1], split[2]);
 	free(split[0]);

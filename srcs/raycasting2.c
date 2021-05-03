@@ -6,13 +6,13 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/28 18:11:17 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/28 18:16:44 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/05/03 11:30:34 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line/get_next_line.h"
-#include "cub3d.h"
-#include "libft/libft.h"
+#include "../get_next_line/get_next_line.h"
+#include "../includes/cub3d.h"
+#include "../libft/libft.h"
 
 void	draw_line2(t_parse *p)
 {

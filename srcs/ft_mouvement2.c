@@ -6,13 +6,13 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/28 13:15:56 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/29 13:31:16 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/05/03 11:30:02 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line/get_next_line.h"
-#include "cub3d.h"
-#include "libft/libft.h"
+#include "../get_next_line/get_next_line.h"
+#include "../includes/cub3d.h"
+#include "../libft/libft.h"
 
 void	ft_destroy_windows(t_parse *p)
 {

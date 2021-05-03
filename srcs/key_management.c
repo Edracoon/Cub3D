@@ -6,13 +6,13 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 15:48:47 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/26 12:05:41 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/05/03 11:29:59 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line/get_next_line.h"
-#include "cub3d.h"
-#include "libft/libft.h"
+#include "../get_next_line/get_next_line.h"
+#include "../includes/cub3d.h"
+#include "../libft/libft.h"
 
 int	key_pressed(int keycode, t_parse *p)
 {

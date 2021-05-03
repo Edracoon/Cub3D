@@ -6,13 +6,13 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 15:28:49 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/30 17:08:11 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/05/03 11:30:01 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line/get_next_line.h"
-#include "cub3d.h"
-#include "libft/libft.h"
+#include "../get_next_line/get_next_line.h"
+#include "../includes/cub3d.h"
+#include "../libft/libft.h"
 
 void	ft_error(char *str, t_parse *p)
 {
@@ -59,16 +59,18 @@ void	stockage_map(char *cub, t_parse *p, int fd)
 		free(line);
 		line = NULL;
 	}
-	i = -1;
-	while (gnl > 0 && i < p->sizecollum)
+	i = 0;
+	while (gnl > 0)
 	{
-		stockage_map2(p, ++i, line);
+		stockage_map2(p, i, line);
 		gnl = get_next_line(fd, &line);
-		printf("%s\n", line);
+		i++;
 	}
-	p->map[p->sizecollum] = (char *)malloc(sizeof(char) * (p->sizeline + 1));
-	ft_bzero(p->map[p->sizecollum], p->sizeline + 1);
-	printf("%s\n", p->map[p->sizecollum]);
+	stockage_map2(p, i, line);
+	printf("bonsoir\n");
+	i = -1;
+	while (++i < p->sizecollum)
+		printf("%s\n", p->map[i]);
 	parse_map(p);
 }
 
