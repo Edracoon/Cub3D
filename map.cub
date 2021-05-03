@@ -1,11 +1,10 @@
 R 800 600
 
 NO ./textures/stone.xpm
-
 SO ./textures/stonebrick_cracked.xpm
 WE ./textures/stonebrick_mossy.xpm
-S ./textures/zombie64x64.xpm
 EA ./textures/stonebrick.xpm
+S ./textures/zombie64x64.xpm
 
 F 14,180,15
 C 90,90,230

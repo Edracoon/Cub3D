@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/28 13:15:56 by epfennig          #+#    #+#             */
-/*   Updated: 2021/05/03 11:30:02 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/05/03 14:29:18 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,16 @@
 void	ft_destroy_windows(t_parse *p)
 {
 	mlx_destroy_window(p->mlx, p->mlx_win);
+	if (p->sprite)
+		free(p->sprite);
+	if (p->spr.spriteord)
+		free(p->spr.spriteord);
+	if (p->spr.spritedist)
+		free(p->spr.spritedist);
+	if (p->spr.zbuffer)
+		free(p->spr.zbuffer);
+	if (p)
+		free(p);
 	exit(1);
 }
 

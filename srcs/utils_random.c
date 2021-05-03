@@ -6,9 +6,13 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 16:13:11 by epfennig          #+#    #+#             */
-/*   Updated: 2021/05/03 11:30:44 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/05/03 15:02:48 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../get_next_line/get_next_line.h"
+#include "../includes/cub3d.h"
+#include "../libft/libft.h"
 
 int	is_num_boucle(char *str)
 {
@@ -16,9 +20,17 @@ int	is_num_boucle(char *str)
 
 	i = -1;
 	while (str[++i] != '\0')
-	{
 		if (!(str[i] >= '0' && str[i] <= '9'))
 			return (0);
-	}
 	return (1);
+}
+
+void	free_tab(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+		free(tab[i++]);
+	free(tab);
 }

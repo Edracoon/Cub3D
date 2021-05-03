@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 15:28:49 by epfennig          #+#    #+#             */
-/*   Updated: 2021/05/03 11:30:01 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/05/03 15:06:31 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,43 +62,46 @@ void	stockage_map(char *cub, t_parse *p, int fd)
 	i = 0;
 	while (gnl > 0)
 	{
+		printf("%s\n", line);
 		stockage_map2(p, i, line);
 		gnl = get_next_line(fd, &line);
 		i++;
 	}
 	stockage_map2(p, i, line);
-	printf("bonsoir\n");
 	i = -1;
-	while (++i < p->sizecollum)
-		printf("%s\n", p->map[i]);
+	//while (++i < p->sizecollum)
+	//	printf("%s\n", p->map[i]);
 	parse_map(p);
 }
 
 int	parse_line(char *line, t_parse *parse)
 {
 	int	i;
+	char	**split;
 
+	split = ft_split(line, ' ');
 	i = 0;
-	if (ft_strnstr(line, "R ", 2))
+	if (split[0] && !ft_strncmp(split[0], "R", 2))
 		i = resolution_parse(line, parse);
-	else if (ft_strnstr(line, "NO ", 3))
+	else if (split[0] && !ft_strncmp(split[0], "NO", 3))
 		i = north_text_parse(line, parse);
-	else if (ft_strnstr(line, "SO ", 3))
+	else if (split[0] && !ft_strncmp(split[0], "SO", 3))
 		i = south_text_parse(line, parse);
-	else if (ft_strnstr(line, "WE ", 3))
+	else if (split[0] && !ft_strncmp(split[0], "WE", 3))
 		i = west_text_parse(line, parse);
-	else if (ft_strnstr(line, "EA ", 3))
+	else if (split[0] && !ft_strncmp(split[0], "EA", 3))
 		i = east_text_parse(line, parse);
-	else if (ft_strnstr(line, "S ", 2))
+	else if (split[0] && !ft_strncmp(split[0], "S", 2))
 		i = sprite_text_parse(line, parse);
-	else if (ft_strnstr(line, "F ", 2))
-		i = floor_color_parse(line, parse);
-	else if (ft_strnstr(line, "C ", 2))
-		i = ceiling_color_parse(line, parse);
+	else if (split[0] && !ft_strncmp(split[0], "F", 2))
+		i = floor_color_parse(split[1], parse);
+	else if (split[0] && !ft_strncmp(split[0], "C", 2))
+		i = ceiling_color_parse(split[1], parse);
 	else if (line[i] == '\n' || !ft_strnstr(line, "1", ft_strlen(line)))
 		return (1);
 	else if (ft_strnstr(line, "1", ft_strlen(line)))
 		return (2);
+	free_tab(split);
 	return (i);
 }
 

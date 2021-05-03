@@ -6,14 +6,14 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 11:52:22 by epfennig          #+#    #+#             */
-/*   Updated: 2021/04/29 17:38:09 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/05/03 16:13:52 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include <mlx.h>
+# include "../minilibx-linux/mlx.h"
 # include <stdarg.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -210,5 +210,6 @@ int				check_last_time_cub(t_parse *parse);
 void			check_map_valid(t_parse *p);
 int				is_num_boucle(char *str);
 void			ft_error(char *str, t_parse *p);
+void			free_tab(char	**tab);
 
 #endif
