@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 13:08:40 by epfennig          #+#    #+#             */
-/*   Updated: 2021/05/03 17:07:00 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/05/04 12:36:24 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@
 int	ft_affiche_image(t_parse *p)
 {
 	raycasting_main(p);
-	//sprite_casting(p);
+	sprite_casting(p);
 	affiche_minimap(p);
+	if (p->arg_save == 1)
+		ft_save(p);
 	ft_mouvement(p);
 	mlx_put_image_to_window(p->mlx, p->mlx_win, p->img, 0, 0);
 	return (0);
@@ -93,8 +95,6 @@ int	mlx_main(t_parse *p)
 	p->img = mlx_new_image(p->mlx, p->win_x, p->win_y);
 	p->addr = mlx_get_data_addr(p->img, &p->bits_per_pixel,&p->line_length, &p->endian);
 	get_textu_data(p);
-	if (p->arg_save)
-		ft_affiche_image(p);
 	mlx_hook(p->mlx_win, 2, 1L << 0, key_pressed, p);
 	mlx_hook(p->mlx_win, 3, 1L << 1, key_released, p);
 	mlx_loop_hook(p->mlx, ft_affiche_image, p);

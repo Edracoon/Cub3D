@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 18:13:16 by marvin            #+#    #+#             */
-/*   Updated: 2021/05/03 16:50:56 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/05/04 10:25:25 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ int	floor_color_parse(char *line, t_parse *parse)
 	parse->f += 1;
 	if (parse->f > 1)
 		ft_error("Error\nmore than one floor rgb\n", parse);
+	if (!line)
+		ft_error("Error\nFloor color error\n", parse);
 	split = ft_split(line, ',');
 	if (!split[0] || !split[1] || !split[2] || !(is_num_boucle(split[0])) || !(is_num_boucle(split[1]))
 			|| (!(is_num_boucle(split[2]))) || split[3])
@@ -84,6 +86,8 @@ int	ceiling_color_parse(char *line, t_parse *parse)
 	parse->c += 1;
 	if (parse->c > 1)
 		ft_error("Error\nMore than one ceiling rgb\n", parse);
+	if (!line)
+		ft_error("Error\nCeiling color error\n", parse);
 	split = ft_split(line, ',');
 	if (!split[0] || !split[1] || !split[2] || !(is_num_boucle(split[0]))
 		|| (!(is_num_boucle(split[1])) || (!(is_num_boucle(split[2]))) || split[3]))

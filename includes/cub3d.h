@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 11:52:22 by epfennig          #+#    #+#             */
-/*   Updated: 2021/05/03 16:58:31 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/05/04 12:37:18 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,5 +211,7 @@ void			check_map_valid(t_parse *p);
 int				is_num_boucle(char *str);
 void			ft_error(char *str, t_parse *p);
 void			free_tab(char	**tab);
+int				check_retu(int retu);
+void			ft_save(t_parse *p);
 
 #endif

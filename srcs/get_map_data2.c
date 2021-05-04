@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/28 18:18:39 by epfennig          #+#    #+#             */
-/*   Updated: 2021/05/03 17:38:43 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/05/04 11:00:51 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	go_to_map(char *line)
 		return (1);
 	else if (ft_strnstr(line, "1", ft_strlen(line)))
 		return (2);
-	i = 1;
+	i = 3;
 	return (i);
 }
 
@@ -66,7 +66,7 @@ void	size_map_malloc(char *line, t_parse *p, int fd, int gnl)
 		gnl = get_next_line(fd, &line);
 	}
 	free(line);
-	printf("size collum = %i\n", p->sizecollum);
+	line = NULL;
 	p->map = (char **)malloc(sizeof(char *) * (p->sizecollum));
 	if (!(p->map))
 		ft_error("Error\nmap malloc error\n", p);
@@ -76,6 +76,9 @@ int	get_fd(char *cub, t_parse *p)
 {
 	int	fd;
 
+	fd = open(cub, O_DIRECTORY);
+	if (fd > 0)
+		ft_error("Error\nYou are trying to open a directory\n", p);
 	fd = open(cub, O_RDONLY);
 	if (fd == -1)
 		ft_error("Error\nCan not open file\n", p);

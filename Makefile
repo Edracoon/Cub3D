@@ -7,7 +7,7 @@ LIB_DIR = /usr/local/include
 SRCS =	srcs/main.c srcs/get_map_data.c srcs/get_map_data_utils.c srcs/get_map_data_utils_two.c \
 		srcs/parse_map.c srcs/minilibx_init_draw.c srcs/key_management.c srcs/raycasting.c srcs/sprites.c \
 		srcs/ft_mouvement.c srcs/ft_mouvement2.c srcs/raycasting2.c srcs/draw_ceil_floor.c srcs/get_map_data2.c \
-		srcs/minimap.c srcs/check_map_valid.c srcs/utils_random.c \
+		srcs/minimap.c srcs/check_map_valid.c srcs/utils_random.c srcs/ft_save.c \
 		get_next_line/get_next_line.c get_next_line/get_next_line_utils.c \
 		libft/ft_atoi.c libft/ft_isalpha.c libft/ft_isascii.c libft/ft_isdigit.c \
 		libft/ft_isprint.c libft/ft_isalnum.c libft/ft_strchr.c libft/ft_strdup.c \
@@ -22,13 +22,11 @@ SRCS =	srcs/main.c srcs/get_map_data.c srcs/get_map_data_utils.c srcs/get_map_da
 
 OBJS = $(SRCS:.c=.o)
 
-
 all:		$(NAME)
 
 $(NAME):	$(OBJS)
 			gcc $(CFLAGS) $(OBJS) -I $(LIB_DIR) -lmlx -framework OpenGL -framework Appkit -o $(NAME)
 			#gcc $(CFLAGS) -Iminilibx_linux $(OBJS) -L minilibx-linux -lmlx -lm -lbsd -lX11 -lXext -o $(NAME)
-
 
 clean:
 			rm -f $(OBJS)

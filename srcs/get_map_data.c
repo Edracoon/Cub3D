@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 15:28:49 by epfennig          #+#    #+#             */
-/*   Updated: 2021/05/03 17:42:10 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/05/04 10:40:55 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@ void	stockage_map(char *cub, t_parse *p, int fd)
 	{
 		gnl = get_next_line(fd, &line);
 		retu = go_to_map(line);
-		if (retu == 0)
-			break ;
 		if (retu == 2)
 			break ;
 		free(line);
@@ -97,10 +95,16 @@ int	parse_line(char *line, t_parse *parse)
 		i = floor_color_parse(split[1], parse);
 	else if (split[0] && !ft_strncmp(split[0], "C", 2))
 		i = ceiling_color_parse(split[1], parse);
-	else if (line[i] == '\n' || !ft_strnstr(line, "1", ft_strlen(line)))
+	else if (line[i] == '\0')
+	{
+		free_tab(split);
 		return (1);
+	}
 	else if (ft_strnstr(line, "1", ft_strlen(line)))
+	{
+		free_tab(split);
 		return (2);
+	}
 	free_tab(split);
 	return (i);
 }
@@ -118,9 +122,7 @@ void	get_map_parse(char *cub, t_parse *p)
 	{
 		gnl = get_next_line(fd, &line);
 		retu = parse_line(line, p);
-		if (retu == 0)
-			break ;
-		if (retu == 2)
+		if (check_retu(retu) == 1)
 			break ;
 		free(line);
 		line = NULL;
