@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 15:28:49 by epfennig          #+#    #+#             */
-/*   Updated: 2021/05/04 10:40:55 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/05/04 17:48:38 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,9 @@
 #include "../includes/cub3d.h"
 #include "../libft/libft.h"
 
-void	ft_error(char *str, t_parse *p)
-{
-	(void)p;
-	printf("%s", str);
-	exit(0);
-}
-
 void	stockage_map2(t_parse *p, int i, char *line)
 {
-	int		j;
+	int	j;
 
 	j = 0;
 	p->map[i] = (char *)malloc(sizeof(char) * (p->sizeline + 1));
@@ -42,10 +35,9 @@ void	stockage_map2(t_parse *p, int i, char *line)
 	line = NULL;
 }
 
-void	stockage_map(char *cub, t_parse *p, int fd)
+void	stockage_map(char *cub, t_parse *p, int fd, char *line)
 {
 	int		i;
-	char	*line;
 	int		gnl;
 	int		retu;
 
@@ -58,9 +50,10 @@ void	stockage_map(char *cub, t_parse *p, int fd)
 		if (retu == 2)
 			break ;
 		free(line);
-		line = NULL;
 	}
 	i = 0;
+	if (line == NULL)
+		ft_error("Error\nNo Map ? Ca essaye de me faire segfault ?\n", p);
 	while (gnl > 0)
 	{
 		stockage_map2(p, i, line);
@@ -68,23 +61,31 @@ void	stockage_map(char *cub, t_parse *p, int fd)
 		i++;
 	}
 	stockage_map2(p, i, line);
-	i = -1;
 	parse_map(p);
+}
+
+int	norme_parse_line(char *split, t_parse *parse, char *line)
+{
+	if (split && !ft_strncmp(split, "R", 2))
+		return (resolution_parse(line, parse));
+	else if (split && !ft_strncmp(split, "NO", 3))
+		return (north_text_parse(line, parse));
+	else if (split && !ft_strncmp(split, "SO", 3))
+		return (south_text_parse(line, parse));
+	return (0);
 }
 
 int	parse_line(char *line, t_parse *parse)
 {
-	int	i;
+	int		i;
 	char	**split;
 
 	split = ft_split(line, ' ');
 	i = 0;
-	if (split[0] && !ft_strncmp(split[0], "R", 2))
-		i = resolution_parse(line, parse);
-	else if (split[0] && !ft_strncmp(split[0], "NO", 3))
-		i = north_text_parse(line, parse);
-	else if (split[0] && !ft_strncmp(split[0], "SO", 3))
-		i = south_text_parse(line, parse);
+	if ((split[0] && !ft_strncmp(split[0], "R", 2))
+		|| (split[0] && !ft_strncmp(split[0], "NO", 3))
+		|| (split[0] && !ft_strncmp(split[0], "SO", 3)))
+		i = norme_parse_line(split[0], parse, line);
 	else if (split[0] && !ft_strncmp(split[0], "WE", 3))
 		i = west_text_parse(line, parse);
 	else if (split[0] && !ft_strncmp(split[0], "EA", 3))
@@ -96,15 +97,9 @@ int	parse_line(char *line, t_parse *parse)
 	else if (split[0] && !ft_strncmp(split[0], "C", 2))
 		i = ceiling_color_parse(split[1], parse);
 	else if (line[i] == '\0')
-	{
-		free_tab(split);
-		return (1);
-	}
+		i = 1;
 	else if (ft_strnstr(line, "1", ft_strlen(line)))
-	{
-		free_tab(split);
-		return (2);
-	}
+		i = 2;
 	free_tab(split);
 	return (i);
 }
@@ -134,6 +129,6 @@ void	get_map_parse(char *cub, t_parse *p)
 	if (check_last_time_cub(p) == 0)
 		ft_error("Error\nParse in .cub is invalid\n", p);
 	size_map_malloc(line, p, fd, gnl);
-	stockage_map(cub, p, fd);
+	stockage_map(cub, p, fd, NULL);
 	mlx_main(p);
 }

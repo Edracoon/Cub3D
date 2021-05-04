@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 18:13:16 by marvin            #+#    #+#             */
-/*   Updated: 2021/05/04 10:25:25 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/05/04 17:16:33 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ void	atoi_rgb_floor(t_parse *parse, char *split0, char *split1, char *split2)
 {
 	if (!split0 || !split1 || !split2)
 		ft_error("Error\nmalloc error\n", parse);
-	if (ft_atoi(split0) <= 255 && ft_atoi(split1) <= 255 && ft_atoi(split2) <= 255)
+	if (ft_atoi(split0) <= 255 && ft_atoi(split1)
+		<= 255 && ft_atoi(split2) <= 255)
 	{
 		parse->floor_r = ft_atoi(split0);
 		parse->floor_g = ft_atoi(split1);
@@ -45,11 +46,13 @@ void	atoi_rgb_floor(t_parse *parse, char *split0, char *split1, char *split2)
 		ft_error("Error\nRGB color must be >= 0 && <= 255", parse);
 }
 
-void	atoi_rgb_ceiling(t_parse *parse, char *split0, char *split1, char *split2)
+void	atoi_rgb_ceiling(t_parse *parse,
+	char *split0, char *split1, char *split2)
 {
 	if (!split0 || !split1 || !split2)
 		ft_error("Error\nmalloc error\n", parse);
-	if (ft_atoi(split0) <= 255 && ft_atoi(split1) <= 255 && ft_atoi(split2) <= 255)
+	if (ft_atoi(split0) <= 255 && ft_atoi(split1) <= 255
+		&& ft_atoi(split2) <= 255)
 	{
 		parse->ceil_r = ft_atoi(split0);
 		parse->ceil_g = ft_atoi(split1);
@@ -69,8 +72,9 @@ int	floor_color_parse(char *line, t_parse *parse)
 	if (!line)
 		ft_error("Error\nFloor color error\n", parse);
 	split = ft_split(line, ',');
-	if (!split[0] || !split[1] || !split[2] || !(is_num_boucle(split[0])) || !(is_num_boucle(split[1]))
-			|| (!(is_num_boucle(split[2]))) || split[3])
+	if (!split[0] || !split[1] || !split[2]
+		|| !(is_num_boucle(split[0])) || !(is_num_boucle(split[1]))
+		|| (!(is_num_boucle(split[2]))) || split[3])
 		ft_error("Error\nFloor color in .cub\n", parse);
 	atoi_rgb_floor(parse, split[0], split[1], split[2]);
 	free_tab(split);
@@ -89,8 +93,9 @@ int	ceiling_color_parse(char *line, t_parse *parse)
 	if (!line)
 		ft_error("Error\nCeiling color error\n", parse);
 	split = ft_split(line, ',');
-	if (!split[0] || !split[1] || !split[2] || !(is_num_boucle(split[0]))
-		|| (!(is_num_boucle(split[1])) || (!(is_num_boucle(split[2]))) || split[3]))
+	if (!split[0] || !split[1] || !split[2]
+		|| !(is_num_boucle(split[0])) || (!(is_num_boucle(split[1]))
+			|| (!(is_num_boucle(split[2]))) || split[3]))
 		ft_error("Error\nCeiling color in .cub\n", parse);
 	atoi_rgb_ceiling(parse, split[0], split[1], split[2]);
 	free_tab(split);

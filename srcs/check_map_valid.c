@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 12:47:22 by epfennig          #+#    #+#             */
-/*   Updated: 2021/05/03 11:31:24 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/05/04 13:51:13 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ void	check_char_zero(t_parse *p, int i, int j)
 	int	good;
 
 	good = 0;
-
-	if (i + 1 >= p->sizecollum || i - 1 < 0 || j - 1 < 0 || j + 1 >= p->sizeline)
-		ft_error("Error\nMap invalid .cub ('0' or '2' or player in border of map)\n", p);
+	if (i + 1 >= p->sizecollum || i - 1 < 0
+		|| j - 1 < 0 || j + 1 >= p->sizeline)
+		ft_error("Error\nMap invalid .cub (border of map)\n", p);
 	if (p->map[i - 1][j] == '1' || p->map[i - 1][j] == '0'
 		|| is_dir(p->map[i - 1][j]) || p->map[i - 1][j] == '2')
 		good++;
@@ -50,7 +50,8 @@ void	check_space(t_parse *p, int i, int j)
 	int	good;
 
 	good = 0;
-	if (i - 1 < 0 || i + 1 >= p->sizecollum || j - 1 < 0 || j + 1 >= p->sizeline)
+	if (i - 1 < 0 || i + 1 >= p->sizecollum
+		|| j - 1 < 0 || j + 1 >= p->sizeline)
 		return ;
 	if (p->map[i - 1][j] == '1' || p->map[i - 1][j] == ' ')
 		good++;
@@ -62,6 +63,23 @@ void	check_space(t_parse *p, int i, int j)
 		good++;
 	if (good != 4)
 		ft_error("Error\nMap invalid (space)\n", p);
+}
+
+void	what_is_current_char(t_parse *p, int i, int j)
+{
+	if (p->map[i][j] != '1' && p->map[i][j] != '0'
+		&& p->map[i][j] != '2' && !(is_dir(p->map[i][j]))
+		&& p->map[i][j] != ' ')
+		ft_error("Error\nInvalid character in map.\n", p);
+	else if (p->map[i][j] == '0' || p->map[i][j] == '2')
+		check_char_zero(p, i, j);
+	else if (is_dir(p->map[i][j]))
+	{
+		check_char_zero(p, i, j);
+		p->nbplayer++;
+	}
+	else if (p->map[i][j] == ' ')
+		check_space(p, i, j);
 }
 
 void	check_map_valid(t_parse *p)
@@ -76,18 +94,7 @@ void	check_map_valid(t_parse *p)
 	{
 		while (p->sizeline > j && p->map[i][j])
 		{
-			if (p->map[i][j] != '1' && p->map[i][j] != '0' && p->map[i][j] != '2' &&
-					!(is_dir(p->map[i][j])) && p->map[i][j] != ' ')
-				ft_error("Error\nInvalid character in map.\n", p);
-			else if (p->map[i][j] == '0' || p->map[i][j] == '2')
-				check_char_zero(p, i, j);
-			else if (is_dir(p->map[i][j]))
-			{
-				check_char_zero(p, i, j);
-				p->nbplayer++;
-			}
-			else if (p->map[i][j] == ' ')
-				check_space(p, i ,j);
+			what_is_current_char(p, i, j);
 			j++;
 		}
 		i++;

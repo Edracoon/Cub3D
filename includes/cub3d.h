@@ -6,20 +6,20 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 11:52:22 by epfennig          #+#    #+#             */
-/*   Updated: 2021/05/04 12:37:18 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/05/04 17:45:21 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include <mlx.h>
+# include "mlx.h"
 # include <stdarg.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
 # include <math.h>
-# define ROTSPEED 0.07
+# define ROTSPEED 0.1
 
 typedef struct s_sprite
 {
@@ -89,8 +89,6 @@ typedef struct s_parse
 	int			rot_right;
 	int			mine;
 
-	// wall textures
-
 	double		wallx;
 	double		step;
 	double		texpos;
@@ -100,29 +98,27 @@ typedef struct s_parse
 
 	double		ratio;
 	int			raycastx;
-	double		dirx; // position x du vecteur de direction  |
-	double		diry; // position y du vecteur de direction  |--> ce qui fait la direction initiale du vecteur
-	double		planex; // 2D raycaster version de la camera plane
+	double		dirx;
+	double		diry;
+	double		planex;
 	double		planey;
-	double		curfram;
-	double		oldfram;
 	double		camx;
 	double		raydirx;
 	double		raydiry;
-	int			mapx; // pos X du carré de la map ou le rayon actuel se trouve
-	int			mapy; // pos y du carré de la map ou le rayon actuel se trouve
-	double		sidedistx; // la distance que le rayon a à parcourir de sa position de depart jusqu'au premier x-side
-	double		sidedisty; // la distance que le rayon a à parcourir de sa position de depart jusqu'au premier y-side
-	double		deltadistx; // la distance que le rayon a à parcourir depuis un x-side jusqu'au x-side suivant
-	double		deltadisty; // la distance que le rayon a à parcourir depuis un y-side jusqu'au y-side suivant
-	double		walldist; // distance du mur / longueur du rayon
-	int			stepx; // soit 1 soit - 1 en fonction de la direction du rayon (-x ou +x)
-	int			stepy; // soit 1 soit - 1 en fonction de la direction du rayon (-x ou +x)
-	int			hit; // un mur a etait touché ? peut on finir la boucle ?
-	int			side; // si un x-side ou un y-side d'un carré est touché. si x, side = 0, si y, side = 1,
-	int			lineheight; // hauteur de la ligne qu'on va dessiner (ligne d'un pixel du mur)
-	int			drawstart; // pos y du haut de la colone du mur qu'on va dessiner
-	int			drawend; // pos y du bas de la colone du mur qu'on va dessiner
+	int			mapx;
+	int			mapy;
+	double		sidedistx;
+	double		sidedisty;
+	double		deltadistx;
+	double		deltadisty;
+	double		walldist;
+	int			stepx;
+	int			stepy;
+	int			hit;
+	int			side;
+	int			lineheight;
+	int			drawstart;
+	int			drawend;
 
 	char		*north_text;
 	char		*south_text;
@@ -200,8 +196,7 @@ void			draw_line2(t_parse *p);
 void			my_mlx_pixel_put(t_parse *data, int x, int y, int color);
 void			affiche_perso(t_parse *p, int x, int y, int couleur);
 void			affiche_cube(t_parse *p, int x, int y, int couleur);
-void			map_type_to_draw(t_parse *p, int i, int j, int x, int y);
-void			affiche_minimap(t_parse *p);
+void			affiche_minimap(t_parse *p, int x, int y, int i);
 
 int				go_to_map(char *line);
 void			size_map_malloc(char *line, t_parse *p, int fd, int gnl);
@@ -213,5 +208,6 @@ void			ft_error(char *str, t_parse *p);
 void			free_tab(char	**tab);
 int				check_retu(int retu);
 void			ft_save(t_parse *p);
+void			get_textu_addr(t_parse *p);
 
 #endif

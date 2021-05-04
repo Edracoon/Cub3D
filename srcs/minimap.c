@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 11:17:17 by epfennig          #+#    #+#             */
-/*   Updated: 2021/05/04 12:37:20 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/05/04 16:09:31 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,34 +61,24 @@ void	affiche_cube(t_parse *p, int x, int y, int couleur)
 	}
 }
 
-void	map_type_to_draw(t_parse *p, int i, int j, int x, int y)
+void	affiche_minimap(t_parse *p, int x, int y, int i)
 {
-	if (p->map[i][j] == '1')
-		affiche_cube(p, x, y, 0x00117864);
-	if (p->map[i][j] == '0')
-		affiche_cube(p, x, y, 0x0048c9b0);
-	if (p->map[i][j] == '2')
-		affiche_cube(p, x, y, 0x00ff0000);
-}
-
-void	affiche_minimap(t_parse *p)
-{
-	int	x;
-	int	y;
-	int	i;
 	int	j;
 
-	i = 0;
 	j = 0;
-	x = 0;
-	y = 0;
 	while (p->sizecollum > i && p->map[i][j])
 	{
 		x = 0;
 		while (p->sizeline > j && p->map[i][j])
 		{
-			map_type_to_draw(p, i, j, x, y);
-			affiche_perso(p, p->dper_x * p->minimap, p->dper_y * p->minimap + 1, 0x00ebfe00);
+			if (p->map[i][j] == '1')
+				affiche_cube(p, x, y, 0x00117864);
+			if (p->map[i][j] == '0')
+				affiche_cube(p, x, y, 0x0048c9b0);
+			if (p->map[i][j] == '2')
+				affiche_cube(p, x, y, 0x00ff0000);
+			affiche_perso(p, p->dper_x * p->minimap, \
+				p->dper_y * p->minimap + 1, 0x00ebfe00);
 			x += p->minimap;
 			j++;
 		}
