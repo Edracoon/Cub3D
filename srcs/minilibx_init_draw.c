@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 13:08:40 by epfennig          #+#    #+#             */
-/*   Updated: 2021/05/04 17:38:20 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/05/05 11:37:07 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ int	mlx_main(t_parse *p)
 	get_textu_data(p);
 	mlx_hook(p->mlx_win, 2, 1L << 0, key_pressed, p);
 	mlx_hook(p->mlx_win, 3, 1L << 1, key_released, p);
+	mlx_hook(p->mlx_win, 17, 0, ft_destroy_windows, p);
 	mlx_loop_hook(p->mlx, ft_affiche_image, p);
 	mlx_loop(p->mlx);
 	free(p);

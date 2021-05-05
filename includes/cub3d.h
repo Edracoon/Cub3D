@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 11:52:22 by epfennig          #+#    #+#             */
-/*   Updated: 2021/05/04 17:45:21 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/05/05 11:37:57 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,8 +164,8 @@ int				east_text_parse(char *line, t_parse *parse);
 int				west_text_parse(char *line, t_parse *parse);
 int				south_text_parse(char *line, t_parse *parse);
 int				sprite_text_parse(char *line, t_parse *parse);
-int				floor_color_parse(char *line, t_parse *parse);
-int				ceiling_color_parse(char *line, t_parse *parse);
+int				floor_color_parse(char **line, t_parse *parse);
+int				ceiling_color_parse(char **line, t_parse *parse);
 unsigned int	get_color_textu(t_parse *p, int x, int y, int nb);
 void			raycasting_main(t_parse *p);
 void			sprite_casting(t_parse *p);
@@ -180,7 +180,7 @@ int				key_released(int keycode, t_parse *p);
 int				ft_mouvement(t_parse *p);
 void			ft_backward(t_parse *p);
 void			ft_forward(t_parse *p);
-void			ft_destroy_windows(t_parse *p);
+int				ft_destroy_windows(t_parse *p);
 void			ft_rotleft(t_parse *p);
 void			ft_rotright(t_parse *p);
 void			ft_leftward(t_parse *p);

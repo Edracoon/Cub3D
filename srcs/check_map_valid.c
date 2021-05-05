@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 12:47:22 by epfennig          #+#    #+#             */
-/*   Updated: 2021/05/04 13:51:13 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/05/05 11:03:22 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,10 @@ void	check_char_zero(t_parse *p, int i, int j)
 	if (p->map[i][j - 1] == '1' || p->map[i][j - 1] == '0'
 		|| is_dir(p->map[i][j - 1]) || p->map[i][j - 1] == '2')
 		good++;
+	if (!(p->map[i - 1][j] > 0))
+		good--;
+	if (!(p->map[i + 1][j] > 0))
+		good--;
 	if (good != 4)
 		ft_error("Error\nMap invalid in .cub\n", p);
 }
@@ -50,12 +54,12 @@ void	check_space(t_parse *p, int i, int j)
 	int	good;
 
 	good = 0;
-	if (i - 1 < 0 || i + 1 >= p->sizecollum
-		|| j - 1 < 0 || j + 1 >= p->sizeline)
+	if (i - 1 < 0 || i + 1 >= p->sizecollum - 1
+		|| j - 1 < 0 || j + 1 >= p->sizeline || i + 2 >= p->sizecollum - 1)
 		return ;
 	if (p->map[i - 1][j] == '1' || p->map[i - 1][j] == ' ')
 		good++;
-	if (p->map[i + 1][j] == '1' || p->map[i + 1][j] == ' ')
+	if (p->map[i + 1][j] == '1' || p->map[i + 1][j] == ' ' || !(p->map[i + 1]))
 		good++;
 	if (p->map[i][j - 1] == '1' || p->map[i][j - 1] == ' ')
 		good++;
@@ -94,6 +98,8 @@ void	check_map_valid(t_parse *p)
 	{
 		while (p->sizeline > j && p->map[i][j])
 		{
+			if (p->map[i][0] == '\n')
+				i++;
 			what_is_current_char(p, i, j);
 			j++;
 		}

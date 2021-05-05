@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 11:46:54 by epfennig          #+#    #+#             */
-/*   Updated: 2021/05/04 17:36:58 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/05/05 11:30:28 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	main(int ac, char *av[])
 		ft_error("Error\ntoo few arguments\n", parse);
 	if (ac > 3)
 		ft_error("Error\ntoo many arguments\n", parse);
-	if (ac == 3 && ft_strncmp(av[2], "--save", ft_strlen(av[2])) == 0)
+	if (ac == 3 && ft_strncmp(av[2], "--save", 6) == 0)
 		parse->arg_save = 1;
 	else if (ac == 3 && av[2])
 		ft_error("Error\n-> arg[2] must be '--save'\n", parse);

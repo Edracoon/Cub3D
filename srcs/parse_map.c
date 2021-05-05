@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 11:48:08 by epfennig          #+#    #+#             */
-/*   Updated: 2021/05/04 10:36:26 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/05/05 11:34:21 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,6 @@ void	init_sprite(t_parse *p)
 
 int	parse_map(t_parse *p)
 {
-	int	i;
-
-	i = 0;
 	check_map_valid(p);
 	if (p->win_x > 1920)
 		p->win_x = 1920;
@@ -114,9 +111,7 @@ int	parse_map(t_parse *p)
 		p->win_x = 320;
 	if (p->win_y < 200)
 		p->win_y = 200;
-	while (p->map[0][i])
-		i++;
-	p->minimap = (p->win_x / 5) / i;
+	p->minimap = (p->win_x / 3) / p->sizeline;
 	find_player(p);
 	init_sprite(p);
 	sprite_handler(p);

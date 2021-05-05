@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 15:28:49 by epfennig          #+#    #+#             */
-/*   Updated: 2021/05/04 17:48:38 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/05/05 11:19:51 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	stockage_map2(t_parse *p, int i, char *line)
 		free(line);
 		ft_error("Error\nmap malloc error\n", p);
 	}
+	ft_bzero(p->map[i], p->sizeline + 1);
 	while (line[j] != '\0')
 	{
 		p->map[i][j] = line[j];
@@ -93,9 +94,9 @@ int	parse_line(char *line, t_parse *parse)
 	else if (split[0] && !ft_strncmp(split[0], "S", 2))
 		i = sprite_text_parse(line, parse);
 	else if (split[0] && !ft_strncmp(split[0], "F", 2))
-		i = floor_color_parse(split[1], parse);
+		i = floor_color_parse(split, parse);
 	else if (split[0] && !ft_strncmp(split[0], "C", 2))
-		i = ceiling_color_parse(split[1], parse);
+		i = ceiling_color_parse(split, parse);
 	else if (line[i] == '\0')
 		i = 1;
 	else if (ft_strnstr(line, "1", ft_strlen(line)))

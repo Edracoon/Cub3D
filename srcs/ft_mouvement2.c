@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/28 13:15:56 by epfennig          #+#    #+#             */
-/*   Updated: 2021/05/04 10:41:42 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/05/05 11:37:48 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../includes/cub3d.h"
 #include "../libft/libft.h"
 
-void	ft_destroy_windows(t_parse *p)
+int	ft_destroy_windows(t_parse *p)
 {
 	mlx_destroy_window(p->mlx, p->mlx_win);
 	if (p->sprite)
@@ -28,6 +28,7 @@ void	ft_destroy_windows(t_parse *p)
 	if (p)
 		free(p);
 	exit(1);
+	return (1);
 }
 
 void	ft_forward(t_parse *p)

@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 18:13:16 by marvin            #+#    #+#             */
-/*   Updated: 2021/05/04 17:16:33 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/05/05 11:23:58 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,16 +62,20 @@ void	atoi_rgb_ceiling(t_parse *parse,
 		ft_error("Error\nRGB color must be >= 0 && <= 255\n", parse);
 }
 
-int	floor_color_parse(char *line, t_parse *parse)
+int	floor_color_parse(char **line, t_parse *parse)
 {
 	char	**split;
 
+	if (!line[1])
+		ft_error("Error\nNo floor color\n", parse);
+	if (line[2])
+		ft_error("Error\nMore than 1 floor color\n", parse);
 	parse->f += 1;
 	if (parse->f > 1)
 		ft_error("Error\nmore than one floor rgb\n", parse);
 	if (!line)
 		ft_error("Error\nFloor color error\n", parse);
-	split = ft_split(line, ',');
+	split = ft_split(line[1], ',');
 	if (!split[0] || !split[1] || !split[2]
 		|| !(is_num_boucle(split[0])) || !(is_num_boucle(split[1]))
 		|| (!(is_num_boucle(split[2]))) || split[3])
@@ -83,16 +87,20 @@ int	floor_color_parse(char *line, t_parse *parse)
 	return (1);
 }
 
-int	ceiling_color_parse(char *line, t_parse *parse)
+int	ceiling_color_parse(char **line, t_parse *parse)
 {
 	char	**split;
 
+	if (!line[1])
+		ft_error("Error\nNo ceiling color\n", parse);
+	if (line[2])
+		ft_error("Error\nMore than 1 ceiling color\n", parse);
 	parse->c += 1;
 	if (parse->c > 1)
 		ft_error("Error\nMore than one ceiling rgb\n", parse);
 	if (!line)
 		ft_error("Error\nCeiling color error\n", parse);
-	split = ft_split(line, ',');
+	split = ft_split(line[1], ',');
 	if (!split[0] || !split[1] || !split[2]
 		|| !(is_num_boucle(split[0])) || (!(is_num_boucle(split[1]))
 			|| (!(is_num_boucle(split[2]))) || split[3]))
