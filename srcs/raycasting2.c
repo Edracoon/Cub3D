@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/28 18:11:17 by epfennig          #+#    #+#             */
-/*   Updated: 2021/05/04 14:14:03 by epfennig         ###   ########.fr       */
+/*   Updated: 2021/05/05 13:52:32 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,6 @@ void	draw_line(t_parse *p)
 		p->wallx = p->dper_x + p->walldist * p->raydirx;
 	p->wallx -= floor((p->wallx));
 	p->texx = (int)(p->wallx * (double)(64));
-	if (p->side == 0 && p->raydirx > 0)
-		p->texx = 64 - p->texx - 1;
-	if (p->side == 1 && p->raydiry < 0)
-		p->texx = 64 - p->texx -1;
 	p->step = 64.0 / p->lineheight;
 	p->texpos = (p->drawstart + p->lineheight / 2 - p->win_y / 2) * p->step;
 	draw_line2(p);
